@@ -1,0 +1,6 @@
+# pipeline/sar/inspect_pmtiles.py; Python 3.12.
+pmtiles==3.8.1
+mapbox-vector-tile==2.2.0
+protobuf==6.33.6
+shapely==2.2.0
+pyclipper==1.4.0

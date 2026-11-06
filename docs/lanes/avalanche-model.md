@@ -1,0 +1,40 @@
+# Lane notes: avalanche-model
+
+Owner paths: `pipeline/avalanche/`, `data/avalanche/`, `tests/pipeline/test_avalanche.py`,
+`docs/methods/avalanche-model.md` (full method, numbers, limitations). Work dir:
+`firstmate/data/colorado-ski-map-build/work/avalanche/`.
+
+## 1. Status log
+
+1. 2026-11-06T00:04Z: research. Repos cloned (shallow) into `work/avalanche/src/`: avaframe/AvaFrame 40a15f5, avaframe/FlowPy 27ad81d (archived), AutoATES/AutoATES-v2.0 3afcb49, AutoATES/autoATES-v3.0-issw 5558c16, AutoATES/issw2026-autoates-workshop fd50675, onXmaps/FlowPy 27ad81d (identical to avaframe/FlowPy HEAD). GitHub API: `avaframe/AvaFrame` answers 301 (moved; the autoATES README now calls it OpenNHM/AvaFrame). onX Zendesk help center: HTTP 403 to automated fetch; onX ATES feature page names autoATES (research lead only).
+2. 00:13Z: inputs snapshotted from the terrain lane (sha256 in `work/avalanche/inputs/inputs_manifest.json`); the terrain lane confirms these equal its final quantized files.
+3. 00:14Z: canopy. USFS NLCD TCC v2025-6 year 2025 read by HTTP range (HEAD: 200, `Accept-Ranges: bytes`, `Content-Length: 3598621213`, `Last-Modified: Thu, 30 Apr 2026 08:24:51 GMT`; range GET 206 `Content-Range: bytes 3598555677-3598621212/3598621213`; CORS header `Access-Control-Allow-Origin: https://www.fs.usda.gov`, so not browser-usable from our origin, pipeline only). Terms (product XML metadata): "These data were collected using funding from the U.S. Government and can be used without additional permissions or fees." Values 0-100 %, 254 non-processing, 255 background. MRLC WCS (`https://www.mrlc.gov/geoserver/mrlc_download/wcs`, 200, CORS `*`) only offers TCC up to 2021 (v2021-4), so not used.
+4. 00:17Z: PRA. Switched from the autoATES v3.0 `sen2cc` forest curve to the AutoATES v2.0 `pcc` curve after measuring that `sen2cc` let 97-99 % of 30-45 degree cells under 30-70 % NLCD canopy become release (sen2cc is a share of conifer-classified Sentinel-2 pixels, not modeled canopy percent).
+5. 00:22-00:29Z: Flow-Py benchmarks (Berthoud Pass windows). 2 x 2 km: numba 9.6 s, python 37.3 s, outputs bit-identical. 10 x 10 km: 200,394 release cells, 281 s numba.
+6. 00:30-00:39Z: primary run (pre-fix DEM, superseded by item 11), 2,093,427 release cells, 542 s wall, 5 cores.
+7. 00:52Z: lead message (DNS down since about 00:30Z; canopy CRS is Albers on WGS 84; terrain DEM and slope final). Checked: snapshots byte-identical to the final terrain files; canopy was reprojected from the file's own WKT (Albers, WGS 84 datum), never EPSG:5070; 254 and 255 are NoData. No network needed after 00:14Z except web research.
+8. 00:39-01:05Z: sensitivity runs (pre-fix DEM, superseded by item 11). Footprint 520.0 km2 (primary); alpha 23 +12.8 %, alpha 27 -13.4 %, PRA threshold 0.25 -9.7 %. alpha 23 paths reach 2,446 m, so the truncation band is the longest path of any run (2,500 m), not of the primary run.
+9. 01:05-01:12Z: seam test (3 km tiles / 1 km overlap identical to one tile; 500 m overlap shows seams, so the test can fail), resolution test (PRA Jaccard vs 10 m: 0.84 at 20 m, 0.76 at 30 m; runout footprint Jaccard 0.92 at 20 m), SAR descriptive overlap, products. Numeric product cut from 22.0 MB to 8.0 MB by dropping cellCounts and travel angle and using 0.01 / 1 m quanta.
+10. 01:15Z: 500 of 500 random points decoded exactly with `app/lib/terrain-math.js` in node 26.7.0. `pytest tests/pipeline/test_avalanche.py`: 10 passed (also passes with `-W error` and together with `test_terrain_core.py`).
+11. 01:31-02:20Z: RERUN on the terrain lane's grid-snap-fixed DEM (lead message: the pre-fix pilot DEM was displaced about 3.0 m east and 2.8 m south). Pre-fix results archived in `work/avalanche/prefix_archive/`. Re-copied DEM, buffered DEM and slope (byte-identical to `work/terrain/`, DEM md5 96649fba...); canopy unchanged (same sha256; the cached native clip is reused because GDAL's curl does not see the Python DNS shim). Reran PRA, the four Flow-Py runs, checks, products, engine identity, seam and resolution tests, node decoding and pytest. Old vs new: PRA 209.3 -> 209.7 km2 (cell Jaccard 0.914), footprint 520.0 -> 520.4 km2 (Jaccard 0.967), alpha 23/27 +12.8/-13.4 % -> +12.7/-13.4 %, threshold 0.25 -9.7 % -> -9.8 %, band 2,500 m unchanged, SAR higher-confidence share in footprint 77.5 % -> 76.6 %. The lead's numeric `label` fields are now written by `avy_products.py`.
+12. Lead decisions (2026-11-06): `avaframe==2.2b1` pin accepted; the project does not contact CAIC or CDOT (recorded as captain-level next steps in the methods doc, section 9).
+
+## 2. Decisions
+
+1. Runout engine: `avaframe==2.2b1` (pre-release) for the numba engine; equivalence to the python engine verified on a window (bit-identical).
+2. com4FlowPy `maxChunks` lowered from 500 to 10: the main process keeps every chunk's full-tile result arrays until merging (500 chunks x 11 arrays x 2.25 M cells x 4 B per 15 km tile). Results are chunk-invariant (checked: 500 vs 10 chunks identical).
+3. Forest friction in runout: off (com4FlowPy expects a 0-1 forest-structure index with friction parameters calibrated to it; none exists for NLCD in Colorado). Modeled runout into forest is therefore conservative (longer).
+4. Boundary: published extent = pilot; a 2,500 m inner band (longest modeled path of any run, rounded up; 329.8 km2) is marked "runout incomplete" in the coverage GeoJSON, meta files and numeric flag bit 6.
+5. PRA is delivered as a raster PMTiles, not polygons: a 10 m-simplified GeoJSON of the 10,327 release patches (pre-fix PRA) is 5.1 MB before properties. Tap values come from the numeric product instead. Add vector PMTiles if tippecanoe becomes available.
+6. Generic module names prefixed `avy_` (`avy_products.py`, `avy_checks.py`, `avy_tiles.py`) because `pipeline/terrain/products.py` exists and both test files put their folder on `sys.path`.
+7. Numeric product reuses the terrain lane's block encoding (`encode_block`, apronCells 0) so `decodeNumericTile` and `numericCellAt` in `app/lib/terrain-math.js` decode it unchanged; each variable lives at its own tile zoom (9 PRA, 10 flags, 11 zDelta).
+
+## 3. For the lead / app-core
+
+1. Layers: `data/avalanche/avalanche-pra-pilot.pmtiles` and `avalanche-runout-pilot.pmtiles` are raster PNG PMTiles (z9-z15, use `raster-resampling: nearest`); colours are baked in and listed in the meta `classes`. Draw `avalanche-coverage-pilot.geojson`: feature `pilot-extent` (outside = not modeled) and `truncation-band` (hatched or outlined, "runout incomplete").
+2. Inspector: `avalanche-numeric-pilot.pmtiles`, see its meta `numeric.variables`. Call `numericCellAt(lon, lat, {...numeric, tileZ: v.tileZ})` then `decodeNumericTile(bytes, numeric.blockCells)`; value = n / scale; `notReached` and `nodata` are distinct states (not reached by any modeled path vs outside the model).
+3. Label everything "Experimental terrain model"; never show these with forecast colours or as a rating.
+4. Contract: no change needed. `docs/ARCHITECTURE.md` 4.5 meta fields are present; `schemas/product-meta.schema.json` does not exist yet, so the meta files follow the terrain lane's field names, plus `tileType`, `minzoom`, `maxzoom`, `legend.items` as read by `app/layers/common.js` and `app/layers/avalanche-model.js`.
+5. `app/layers/avalanche-model.js` (app-core lane) describes PRA as using "slope, shape, roughness, forest"; this model uses slope, wind shelter and canopy cover (no roughness or shape). Its fallback colours (PRA cyan, runout magenta) are the reverse of the baked tile colours (PRA magenta, runout blue); the legend is correct as long as the meta `legend.items` are used.
+6. Manifest entries (lead): group `avalanche`; ids `avalanche-pra-pilot` (kind `avalanche-pra-display`), `avalanche-runout-pilot` (`avalanche-runout-display`), `avalanche-numeric-pilot` (`avalanche-numeric`, never a map source). The layer regexes `/pra|release/` and `/runout|flow/` match only the intended two.
+7. Resolved by the lead: pin accepted; CAIC/CDOT contact is a captain-level next step, not done by the project.

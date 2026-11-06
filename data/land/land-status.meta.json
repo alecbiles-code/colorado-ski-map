@@ -1,0 +1,63 @@
+{
+  "id": "land-status",
+  "title": "Colorado land manager (surface management agency), simplified",
+  "file": "land-status.geojson",
+  "format": "GeoJSON",
+  "bytes": 4536320,
+  "processedAt": "2026-11-06T00:42:23Z",
+  "crs": "EPSG:4326",
+  "coordinateOrder": "lon,lat",
+  "license": "Public domain (BLM SMA)",
+  "attribution": "Bureau of Land Management, Surface Management Agency (SMA)",
+  "sources": [
+    {
+      "name": "blm_sma",
+      "url": "https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer/1/query",
+      "license": "Public domain (BLM metadata othConsts)",
+      "attribution": "Bureau of Land Management, Surface Management Agency (SMA)",
+      "termsUrl": "https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer/1/metadata",
+      "retrievedAt": "2026-11-06T00:37:18Z",
+      "published": "2026-09-22 (metadata pubDate; metadata date 2026-09-25)"
+    }
+  ],
+  "processing": {
+    "script": "pipeline/routes/land.py",
+    "steps": [
+      "BLM SMA limited-scale layer queried for ADMIN_ST = CO, private and unknown excluded (no polygon means private or unknown), server-side generalisation at max_allowable_offset_deg.",
+      "ST_MakeValid repairs self-intersections introduced by generalisation (polygonal parts kept); coordinates rounded; one feature per managing agency."
+    ],
+    "parameters": {
+      "maxAllowableOffsetDeg": 0.0003,
+      "coordinateDecimals": 5
+    }
+  },
+  "coverage": {
+    "bbox": [
+      -109.06019,
+      36.99249,
+      -102.04178,
+      41.0034
+    ],
+    "area": "Colorado (state bounding box)"
+  },
+  "units": {},
+  "limitations": [
+    "Managing agency is not current access, legal parking, closure status or permission to cross. Private inholdings smaller than the generalisation tolerance are not visible; boundaries are approximate (about 30 m).",
+    "State land (ST) includes State Land Board trust land, much of which is closed to public recreation without a lease or permit.",
+    "SMA describes surface administrative jurisdiction, not ownership detail (per BLM)."
+  ],
+  "counts": {
+    "total": 10,
+    "byClass": {
+      "land_manager": 10
+    },
+    "bySource": {
+      "blm-sma": 10
+    },
+    "byRegionClass": {
+      "None": {
+        "land_manager": 10
+      }
+    }
+  }
+}

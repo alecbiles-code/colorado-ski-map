@@ -1,0 +1,36 @@
+# Colorado basemap: regional extracts of one Protomaps daily build (OpenStreetMap data, ODbL).
+# Cells keep every archive under 25 MB (GitHub web-upload limit). Sizes measured 2026-11-05 with --dry-run.
+source: https://build.protomaps.com/20261104.pmtiles
+build_date: "2026-11-04"
+osm_data_as_of: "2026-11-04T04:00:00Z"   # planetiler:osm:osmosisreplicationtime in the archive metadata
+pmtiles_bin: /Users/bci-spatialecon/firstmate/data/colorado-ski-map-build/work/basemap/bin/pmtiles
+work_dir: /Users/bci-spatialecon/firstmate/data/colorado-ski-map-build/work/basemap/out
+out_dir: data/basemap            # relative to the repo root
+url_prefix: data/basemap/        # how the app addresses the archives
+max_bytes: 26214400              # 25 MiB per file
+attribution: '<a href="https://www.openstreetmap.org/copyright">&copy; OpenStreetMap contributors</a>, <a href="https://protomaps.com">Protomaps</a>'
+license: ODbL-1.0 (OpenStreetMap data); Protomaps basemap tiles schema v4
+cells:   # name: [west, south, east, north, minzoom, maxzoom]
+  co-z0-10: [-109.06, 36.99, -102.04, 41.01, 0, 10]
+  co-z11:   [-109.06, 36.99, -102.04, 41.01, 11, 11]
+  w109-s37: [-109.06, 36.99, -108, 38, 12, 14]
+  w109-s38: [-109.06, 38, -108, 39, 12, 14]
+  w109-s39: [-109.06, 39, -108, 40, 12, 14]
+  w109-s40: [-109.06, 40, -108, 41.01, 12, 14]
+  w108-s37: [-108, 36.99, -107, 38, 12, 14]
+  w108-s38: [-108, 38, -107, 39, 12, 14]
+  w108-s39: [-108, 39, -107, 40, 12, 14]
+  w108-s40: [-108, 40, -107, 41.01, 12, 14]
+  w107-s37: [-107, 36.99, -106, 38, 12, 14]
+  w107-s38: [-107, 38, -106, 39, 12, 14]
+  w107-s39: [-107, 39, -106, 40, 12, 14]
+  w107-s40: [-107, 40, -106, 41.01, 12, 14]
+  w106-s37: [-106, 36.99, -105.05, 38, 12, 14]
+  w106-s38: [-106, 38, -105.05, 39, 12, 14]
+  w106-s39: [-106, 39, -105.05, 40, 12, 14]
+  w106-s40: [-106, 40, -105.05, 41.01, 12, 14]
+  w105-s37: [-105.05, 36.99, -104.85, 39, 12, 14]
+  w105-s39: [-105.05, 39, -104.85, 41.01, 12, 14]
+  w104-s37: [-104.85, 36.99, -103.5, 39, 12, 14]
+  w104-s39: [-104.85, 39, -103.5, 41.01, 12, 14]
+  w103-s37: [-103.5, 36.99, -102.04, 41.01, 12, 14]

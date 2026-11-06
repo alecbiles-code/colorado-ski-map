@@ -1,0 +1,208 @@
+{
+  "id": "places",
+  "title": "Colorado peaks, passes, trailheads, trailhead parking and huts",
+  "file": "places.geojson",
+  "format": "GeoJSON",
+  "bytes": 2510473,
+  "processedAt": "2026-11-06T00:54:03Z",
+  "crs": "EPSG:4326",
+  "coordinateOrder": "lon,lat",
+  "license": "ODbL-1.0 (derived database of OpenStreetMap; share-alike applies to the data)",
+  "attribution": "(c) OpenStreetMap contributors (ODbL); U.S. Geological Survey GNIS",
+  "sources": [
+    {
+      "name": "osm",
+      "url": "https://download.geofabrik.de/north-america/us/colorado-261103.osm.pbf",
+      "license": "ODbL-1.0",
+      "attribution": "(c) OpenStreetMap contributors, ODbL",
+      "termsUrl": "https://www.openstreetmap.org/copyright",
+      "retrievedAt": "2026-11-06T00:14:30Z",
+      "data_timestamp": "2026-11-03T21:24:23Z"
+    },
+    {
+      "name": "gnis",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/GeographicNames/DomesticNames/DomesticNames_CO_Text.zip",
+      "license": "Public domain (USGS); acknowledgment of USGS appreciated",
+      "attribution": "U.S. Geological Survey, Geographic Names Information System",
+      "termsUrl": null,
+      "retrievedAt": "2026-11-06T00:06:45Z",
+      "published": "2026-11-02"
+    },
+    {
+      "name": "dem",
+      "url": "https://tiles.mapterhorn.com/{z}/{x}/{y}.webp",
+      "license": "Terrain data: open-data sources listed at https://mapterhorn.com/attribution (USGS 3DEP public domain; Copernicus GLO-30 free and open licence)",
+      "attribution": "© Mapterhorn",
+      "termsUrl": "https://mapterhorn.com/attribution/",
+      "retrievedAt": null,
+      "upstream": "Mapterhorn build from USGS 3DEP 1 m where available, USGS 3DEP 1/3 arc-second and Copernicus GLO-30 (per-tile source not stated)"
+    }
+  ],
+  "processing": {
+    "script": "pipeline/routes/build.py",
+    "steps": [
+      "OSM nodes and way centroids: natural=peak, mountain_pass=yes or natural=saddle, highway=trailhead, tourism=alpine_hut or wilderness_hut or shelter_type=basic_hut, amenity=parking within the configured distance of a trailhead (access private/no/customers excluded).",
+      "Unnamed peaks and passes are skipped unless a GNIS Summit/Gap lies within the match radius, in which case the GNIS name is used (nameSource).",
+      "Each OSM peak and pass is matched to the nearest GNIS Summit or Gap within the match radius (gnisId, gnisName, gnisNameMatch, gnisDistanceM). GNIS Summits and Gaps with no OSM counterpart are added with elevationM null.",
+      "Huts inside lift-served context are excluded (they are on-mountain resort lodges tagged as huts).",
+      "Peaks with no source elevation get demElevationM, a bilinear Mapterhorn z13 sample at the point. elevationM stays the source value and stays null when the source has none."
+    ],
+    "parameters": {
+      "simplifyToleranceDeg": 3e-05,
+      "coordinateDecimals": 5,
+      "resortContext": {
+        "polygon_buffer_m": 500,
+        "point_buffer_m": 3000,
+        "point_statuses": [
+          "operating",
+          "proposed"
+        ],
+        "lift_buffer_m": 1000,
+        "lift_exclude_values": [
+          "pylon",
+          "station",
+          "goods",
+          "zip_line"
+        ]
+      },
+      "parkingMaxDistanceM": 250,
+      "gnisMatchRadiusM": 300,
+      "demSampleSpacingM": 7.5
+    }
+  },
+  "coverage": {
+    "bbox": [
+      -109.11887,
+      36.96076,
+      -102.18203,
+      41.00313
+    ],
+    "area": "Colorado (state bounding box)"
+  },
+  "units": {
+    "elevationM": "metres (source ele tag)",
+    "demElevationM": "metres (Mapterhorn z13 bilinear sample; NAVD88 where the source is USGS 3DEP)",
+    "gnisDistanceM": "metres"
+  },
+  "limitations": [
+    "elevationM is the source ele tag; values outside the plausible Colorado range are not converted and are kept only as eleRaw. The current GNIS Domestic Names release carries no elevations.",
+    "demElevationM (peaks without a source elevation only) is a terrain-model sample at the mapped point, not a surveyed summit height. It is usually a few metres low on sharp summits, and more where the point is misplaced.",
+    "Trailheads and parking are not winter-access claims: plowing, seasonal closures, fees and legal parking are unknown.",
+    "OSM parking mapped as multipolygon relations is not included."
+  ],
+  "counts": {
+    "total": 5392,
+    "byClass": {
+      "peak": 3867,
+      "pass": 380,
+      "trailhead": 563,
+      "parking": 515,
+      "hut": 67
+    },
+    "bySource": {
+      "usgs-gnis": 572,
+      "openstreetmap": 4820
+    },
+    "byRegionClass": {
+      "elk": {
+        "hut": 13,
+        "parking": 18,
+        "pass": 42,
+        "peak": 216,
+        "trailhead": 14
+      },
+      "front-range": {
+        "hut": 10,
+        "parking": 101,
+        "pass": 65,
+        "peak": 631,
+        "trailhead": 118
+      },
+      "grand-mesa": {
+        "hut": 1,
+        "parking": 5,
+        "peak": 74,
+        "trailhead": 2
+      },
+      "northern": {
+        "hut": 2,
+        "parking": 8,
+        "pass": 38,
+        "peak": 363,
+        "trailhead": 14
+      },
+      "other": {
+        "hut": 8,
+        "parking": 227,
+        "pass": 85,
+        "peak": 1287,
+        "trailhead": 229
+      },
+      "san-juans": {
+        "hut": 7,
+        "parking": 64,
+        "pass": 68,
+        "peak": 669,
+        "trailhead": 103
+      },
+      "sangre-de-cristo": {
+        "parking": 18,
+        "pass": 26,
+        "peak": 242,
+        "trailhead": 19
+      },
+      "sawatch": {
+        "hut": 5,
+        "parking": 35,
+        "pass": 23,
+        "peak": 144,
+        "trailhead": 21
+      },
+      "summit-tenmile": {
+        "hut": 9,
+        "parking": 33,
+        "pass": 15,
+        "peak": 123,
+        "trailhead": 32
+      },
+      "vail-eagle-gore": {
+        "hut": 12,
+        "parking": 6,
+        "pass": 18,
+        "peak": 118,
+        "trailhead": 11
+      }
+    }
+  },
+  "placeStats": {
+    "excluded:hut_in_lift_served_context": 5,
+    "excluded:unnamed_peak": 283,
+    "excluded:unnamed_pass": 16,
+    "added:gnis_only_pass": 174,
+    "added:gnis_only_peak": 398,
+    "parking_candidates_total": 37967,
+    "excluded:ski_area_without_stable_id": 31,
+    "dem": {
+      "peaksSampled": 503,
+      "tilesUsed": 458,
+      "tilesDownloadedThisRun": 442,
+      "sampledAt": "2026-11-06T00:54:03Z"
+    }
+  },
+  "dem": {
+    "name": "Mapterhorn terrain tiles (Terrarium-encoded WebP, 512 px), zoom 13",
+    "urlTemplate": "https://tiles.mapterhorn.com/{z}/{x}/{y}.webp",
+    "zoom": 13,
+    "tileSizePx": 512,
+    "upstream": "Mapterhorn build from USGS 3DEP 1 m where available, USGS 3DEP 1/3 arc-second and Copernicus GLO-30 (per-tile source not stated)",
+    "attribution": "© Mapterhorn",
+    "accuracy": "docs/sources/map-routes.md section 5.5: Mapterhorn minus current 3DEP RMSE 1.4 to 1.9 m near Berthoud Pass",
+    "pixelSizeMAt39N": 7.43,
+    "interpolation": "bilinear",
+    "aspectMethod": "Horn 3x3 on the Web Mercator tile grid with per-latitude pixel size; degrees clockwise from true north",
+    "peaksSampled": 503,
+    "tilesUsed": 458,
+    "tilesDownloadedThisRun": 442,
+    "sampledAt": "2026-11-06T00:54:03Z"
+  }
+}

@@ -1,0 +1,341 @@
+{
+ "id": "snodas-colorado",
+ "title": "SNODAS modeled snow depth and SWE, Colorado",
+ "analysisDate": "2026-11-05",
+ "validFrom": "2026-11-05T06:00:00Z",
+ "validTo": "2026-11-05T06:00:00Z",
+ "issuedAt": null,
+ "publishedAt": "2026-11-05T14:00:25Z",
+ "retrievedAt": "2026-11-06T00:09:21Z",
+ "processedAt": "2026-11-06T00:33:42Z",
+ "timeNote": "validFrom/validTo is the 06:00 UTC snapshot. publishedAt is the NSIDC HTTP Last-Modified of the archive. The source header creation time has no stated time zone and is kept as text.",
+ "layers": {
+  "snow_depth": {
+   "url": "snodas/2026-11-05/snow-depth.png",
+   "coordinates": [
+    [
+     -109.3,
+     41.25
+    ],
+    [
+     -101.8,
+     41.25
+    ],
+    [
+     -101.8,
+     36.75
+    ],
+    [
+     -109.3,
+     36.75
+    ]
+   ],
+   "width": 1800,
+   "height": 1391,
+   "legend": [
+    {
+     "state": "zero",
+     "label": "0 (no modeled snow)",
+     "color": null
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 0,
+     "maxMmInclusive": 50,
+     "color": "#dbe9f6"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 50,
+     "maxMmInclusive": 150,
+     "color": "#bad6eb"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 150,
+     "maxMmInclusive": 300,
+     "color": "#89bedc"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 300,
+     "maxMmInclusive": 500,
+     "color": "#539ecd"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 500,
+     "maxMmInclusive": 750,
+     "color": "#2b7bba"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 750,
+     "maxMmInclusive": 1000,
+     "color": "#0b559f"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 1000,
+     "maxMmInclusive": 1500,
+     "color": "#08306b"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 1500,
+     "maxMmInclusive": 2000,
+     "color": "#2d1e6b"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 2000,
+     "maxMmInclusive": 3000,
+     "color": "#54278f"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 3000,
+     "maxMmInclusive": null,
+     "color": "#7a0177"
+    },
+    {
+     "state": "nodata",
+     "label": "No data, or saturated value flagged by NSIDC",
+     "color": "#808080",
+     "alpha": 0.55
+    }
+   ]
+  },
+  "swe": {
+   "url": "snodas/2026-11-05/swe.png",
+   "coordinates": [
+    [
+     -109.3,
+     41.25
+    ],
+    [
+     -101.8,
+     41.25
+    ],
+    [
+     -101.8,
+     36.75
+    ],
+    [
+     -109.3,
+     36.75
+    ]
+   ],
+   "width": 1800,
+   "height": 1391,
+   "legend": [
+    {
+     "state": "zero",
+     "label": "0 (no modeled snow)",
+     "color": null
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 0,
+     "maxMmInclusive": 10,
+     "color": "#e0f3f0"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 10,
+     "maxMmInclusive": 25,
+     "color": "#c2e6df"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 25,
+     "maxMmInclusive": 50,
+     "color": "#94d3c7"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 50,
+     "maxMmInclusive": 100,
+     "color": "#5fbcab"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 100,
+     "maxMmInclusive": 200,
+     "color": "#35a08f"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 200,
+     "maxMmInclusive": 300,
+     "color": "#1b7f73"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 300,
+     "maxMmInclusive": 500,
+     "color": "#0d5f58"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 500,
+     "maxMmInclusive": 750,
+     "color": "#08433f"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 750,
+     "maxMmInclusive": 1000,
+     "color": "#14325c"
+    },
+    {
+     "state": "value",
+     "minMmExclusive": 1000,
+     "maxMmInclusive": null,
+     "color": "#2a1a5e"
+    },
+    {
+     "state": "nodata",
+     "label": "No data, or saturated value flagged by NSIDC",
+     "color": "#808080",
+     "alpha": 0.55
+    }
+   ]
+  }
+ },
+ "grid": {
+  "format": "int16 little-endian, 2 interleaved bands per cell, row-major from the NW corner",
+  "bands": [
+   "snow_depth_mm",
+   "swe_mm"
+  ],
+  "crs": "EPSG:4326",
+  "cellDeg": 0.008333333333333333,
+  "cellArcSec": 30.0,
+  "west": -109.3,
+  "north": 41.25,
+  "east": -101.8,
+  "south": 36.75,
+  "cols": 900,
+  "rows": 540,
+  "chunkCells": 64,
+  "chunkRows": 9,
+  "chunkCols": 15,
+  "chunkBytes": 16384,
+  "chunkUrl": "snodas/2026-11-05/grid/r{r}c{c}.bin",
+  "nodata": -9999,
+  "saturated": 32767
+ },
+ "units": {
+  "snow_depth_mm": "millimetres of snow depth (divide by 10 for cm)",
+  "swe_mm": "millimetres of water"
+ },
+ "coverage": {
+  "bbox": [
+   -109.3,
+   36.75,
+   -101.8,
+   41.25
+  ],
+  "polygon": {
+   "type": "Polygon",
+   "coordinates": [
+    [
+     [
+      -109.3,
+      36.75
+     ],
+     [
+      -101.8,
+      36.75
+     ],
+     [
+      -101.8,
+      41.25
+     ],
+     [
+      -109.3,
+      41.25
+     ],
+     [
+      -109.3,
+      36.75
+     ]
+    ]
+   ]
+  }
+ },
+ "crs": {
+  "image": "EPSG:3857 pixel grid, corners given in EPSG:4326 for a MapLibre image source",
+  "grid": "EPSG:4326 (SNODAS native WGS84 latitude/longitude)"
+ },
+ "resolution": {
+  "cellArcSec": 30.0,
+  "nominal": "1 km (user guide 1.7.3)"
+ },
+ "stats": {
+  "cells": 486000,
+  "nodataCells": 74,
+  "otherNegativeCells": 0,
+  "saturatedDepthCells": 0,
+  "saturatedSweCells": 0,
+  "zeroDepthCells": 351383,
+  "snowCells": 134543,
+  "maxDepthMm": 1373,
+  "maxSweMm": 377
+ },
+ "sources": [
+  {
+   "name": "NOHRSC Snow Data Assimilation System (SNODAS) Data Products at NSIDC, Version 1 (G02158), masked",
+   "url": "https://noaadata.apps.nsidc.org/NOAA/G02158/masked/2026/11_Nov/SNODAS_20261105.tar",
+   "landingPage": "https://nsidc.org/data/g02158/versions/1",
+   "userGuide": "https://nsidc.org/sites/default/files/g02158-v001-userguide_2_1.pdf",
+   "files": {
+    "snow_depth": {
+     "data": "us_ssmv11036tS__T0001TTNATS2026110505HP001.dat",
+     "header": "us_ssmv11036tS__T0001TTNATS2026110505HP001.txt",
+     "description": "Modeled snow layer thickness, total of snow layers",
+     "units": "Meters / 1000.000000",
+     "created": "2026-11-05 10:55:38"
+    },
+    "swe": {
+     "data": "us_ssmv11034tS__T0001TTNATS2026110505HP001.dat",
+     "header": "us_ssmv11034tS__T0001TTNATS2026110505HP001.txt",
+     "description": "Modeled snow water equivalent, total of snow layers",
+     "units": "Meters / 1000.000000",
+     "created": "2026-11-05 10:30:19"
+    }
+   },
+   "terms": "NSIDC: 'As a condition of using these data, you must cite the use of this data set.' No other license text is given on the landing page.",
+   "citation": "National Operational Hydrologic Remote Sensing Center. 2004. Snow Data Assimilation System (SNODAS) Data Products at NSIDC, Version 1. Colorado subset. Boulder, Colorado USA. NSIDC: National Snow and Ice Data Center. https://doi.org/10.7265/N5TB14TC. Date accessed 2026-11-06.",
+   "attribution": "SNODAS: NOAA NOHRSC, via NSIDC"
+  }
+ ],
+ "processing": {
+  "script": "pipeline/snow/snodas.py",
+  "config": "pipeline/snow/config.yaml",
+  "parameters": {
+   "bbox": {
+    "west": -109.3,
+    "east": -101.8,
+    "south": 36.75,
+    "north": 41.25
+   },
+   "pngPixelsPerCellX": 2,
+   "resampling": "nearest",
+   "chunkCells": 64
+  }
+ },
+ "limitations": [
+  "Modeled analysis, not a measurement: NOHRSC snow model with data assimilation, one value per 30 arc-second cell (about 0.7 km east-west by 0.9 km north-south in Colorado). It cannot resolve wind loading, cornices, gullies, aspect-scale differences or conditions on a ski line. Do not read ski-line-scale detail into the image.",
+  "Snapshot of the snowpack state at 06:00 UTC on the analysis date (11 PM MST the previous evening, or midnight MDT). It does not change during the day.",
+  "Snow depth and SWE are the whole snowpack. They are not new snow, snowfall or forecast snowfall.",
+  "NSIDC documents erroneously high SWE in some high-elevation regions; values at the int16 ceiling (32767) are flagged as saturated and drawn as no data. Zero is a valid modeled value (no snow) and is distinct from no data.",
+  "NSIDC lists G02158 at a 'Basic' level of service; days can be late or missing (see https://noaadata.apps.nsidc.org/NOAA/G02158/G02158_missing_files.txt).",
+  "The PNG is resampled (nearest neighbour) to Web Mercator for display only; read values from the numeric grid.",
+  "Not an avalanche, stability or travel product. Says nothing about avalanche danger."
+ ],
+ "byteSize": 2282661,
+ "fileCount": 137,
+ "processingNote": "Built offline from the tar downloaded at retrievedAt (snodas.py --tar); publishedAt is that download's HTTP Last-Modified."
+}

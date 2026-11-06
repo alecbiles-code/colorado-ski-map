@@ -1,0 +1,604 @@
+{
+ "generatedAt": "2026-11-06T03:03:17.634Z",
+ "note": "Index of static products. Regenerate when products change. Each entry points at its meta file.",
+ "products": [
+  {
+   "id": "avalanche-numeric-pilot",
+   "title": "Avalanche model values for tap inspection",
+   "group": "avalanche",
+   "kind": "avalanche-numeric",
+   "url": "data/avalanche/avalanche-numeric-pilot.pmtiles",
+   "meta": "data/avalanche/avalanche-numeric-pilot.meta.json",
+   "bytes": 8035403,
+   "bbox": [
+    -106.005031,
+    39.577291,
+    -105.616902,
+    39.922685
+   ],
+   "processedAt": "2026-11-06T02:11:52Z"
+  },
+  {
+   "id": "avalanche-pra-pilot",
+   "title": "Potential release areas (experimental model)",
+   "group": "avalanche",
+   "kind": "avalanche-pra-display",
+   "url": "data/avalanche/avalanche-pra-pilot.pmtiles",
+   "meta": "data/avalanche/avalanche-pra-pilot.meta.json",
+   "bytes": 4717962,
+   "bbox": [
+    -106.005031,
+    39.577291,
+    -105.616902,
+    39.922685
+   ],
+   "processedAt": "2026-11-06T02:11:18Z"
+  },
+  {
+   "id": "avalanche-runout-pilot",
+   "title": "Modeled avalanche runout (experimental, Flow-Py)",
+   "group": "avalanche",
+   "kind": "avalanche-runout-display",
+   "url": "data/avalanche/avalanche-runout-pilot.pmtiles",
+   "meta": "data/avalanche/avalanche-runout-pilot.meta.json",
+   "bytes": 4547413,
+   "bbox": [
+    -106.005031,
+    39.577291,
+    -105.616902,
+    39.922685
+   ],
+   "processedAt": "2026-11-06T02:11:36Z"
+  },
+  {
+   "id": "basemap-colorado",
+   "title": "Colorado basemap (OpenStreetMap via Protomaps)",
+   "group": "base",
+   "kind": "pmtiles-vector-multi",
+   "url": null,
+   "meta": "data/basemap/basemap.meta.json",
+   "bytes": 267006715,
+   "bbox": [
+    -109.06,
+    36.99,
+    -102.04,
+    41.01
+   ],
+   "processedAt": "2026-11-06T00:11:25+00:00"
+  },
+  {
+   "id": "regions",
+   "title": "App-defined Colorado reporting regions",
+   "group": "routes",
+   "kind": null,
+   "url": "data/coverage/regions.geojson",
+   "meta": "data/coverage/regions.meta.json",
+   "bytes": 6842,
+   "bbox": [
+    -109.0603,
+    36.9925,
+    -102.0415,
+    41.0034
+   ],
+   "processedAt": "2026-11-06T00:54:03Z"
+  },
+  {
+   "id": "incidents",
+   "title": "Avalanche incidents",
+   "group": "history",
+   "kind": null,
+   "url": "data/incidents/incidents.geojson",
+   "meta": "data/incidents/incidents.meta.json",
+   "bytes": 43,
+   "bbox": null,
+   "processedAt": "2026-11-06T00:29:14Z"
+  },
+  {
+   "id": "land-status",
+   "title": "Colorado land manager (surface management agency), simplified",
+   "group": "routes",
+   "kind": null,
+   "url": "data/land/land-status.geojson",
+   "meta": "data/land/land-status.meta.json",
+   "bytes": 4536320,
+   "bbox": [
+    -109.06019,
+    36.99249,
+    -102.04178,
+    41.0034
+   ],
+   "processedAt": "2026-11-06T00:42:23Z"
+  },
+  {
+   "id": "places",
+   "title": "Colorado peaks, passes, trailheads, trailhead parking and huts",
+   "group": "routes",
+   "kind": null,
+   "url": "data/places/places.geojson",
+   "meta": "data/places/places.meta.json",
+   "bytes": 2510473,
+   "bbox": [
+    -109.11887,
+    36.96076,
+    -102.18203,
+    41.00313
+   ],
+   "processedAt": "2026-11-06T00:54:03Z"
+  },
+  {
+   "id": "search",
+   "title": "Place and route search index",
+   "group": "routes",
+   "kind": null,
+   "url": "data/places/search.json",
+   "meta": "data/places/search.meta.json",
+   "bytes": 579999,
+   "bbox": [
+    -109.0603,
+    36.9925,
+    -102.0415,
+    41.0034
+   ],
+   "processedAt": "2026-11-06T00:54:03Z"
+  },
+  {
+   "id": "routes",
+   "title": "Colorado ski routes (descents, skin/tour routes, winter approaches, touring areas)",
+   "group": "routes",
+   "kind": null,
+   "url": "data/routes/routes.geojson",
+   "meta": "data/routes/routes.meta.json",
+   "bytes": 1354345,
+   "bbox": [
+    -108.31221,
+    37.07501,
+    -105.0392,
+    40.84546
+   ],
+   "processedAt": "2026-11-06T00:54:03Z"
+  },
+  {
+   "id": "ski-areas",
+   "title": "Colorado ski areas (lift-served and nordic, including abandoned)",
+   "group": "routes",
+   "kind": null,
+   "url": "data/routes/ski-areas.geojson",
+   "meta": "data/routes/ski-areas.meta.json",
+   "bytes": 114104,
+   "bbox": [
+    -108.31975,
+    37.00183,
+    -104.34267,
+    40.99183
+   ],
+   "processedAt": "2026-11-06T00:54:03Z"
+  },
+  {
+   "id": "sar-avalanche-inventory",
+   "title": "Experimental SAR avalanche candidates",
+   "group": "history",
+   "kind": null,
+   "url": null,
+   "meta": "data/sar/sar-inventory.meta.json",
+   "bytes": null,
+   "bbox": null,
+   "processedAt": null
+  },
+  {
+   "id": "snodas-colorado",
+   "title": "SNODAS modeled snow depth and SWE, Colorado",
+   "group": "snow",
+   "kind": null,
+   "url": null,
+   "meta": "data/snow/snodas.meta.json",
+   "bytes": null,
+   "bbox": [
+    -109.3,
+    36.75,
+    -101.8,
+    41.25
+   ],
+   "processedAt": "2026-11-06T00:33:42Z"
+  },
+  {
+   "id": "snotel-stations",
+   "title": "NRCS SNOTEL and SNOLITE stations, Colorado",
+   "group": "snow",
+   "kind": null,
+   "url": "data/snow/snotel-stations.geojson",
+   "meta": "data/snow/snotel-stations.meta.json",
+   "bytes": 142668,
+   "bbox": [
+    -108.38313,
+    37.01877,
+    -105.06766,
+    40.8879
+   ],
+   "processedAt": "2026-11-06T00:19:16Z"
+  },
+  {
+   "id": "terrain-numeric-n40w106-ne",
+   "title": "terrain-numeric-n40w106-ne",
+   "group": "terrain",
+   "kind": "terrain-numeric",
+   "url": "data/terrain/terrain-numeric-n40w106-ne.pmtiles",
+   "meta": "data/terrain/terrain-numeric-n40w106-ne.meta.json",
+   "bytes": 13569489,
+   "bbox": [
+    -105.5,
+    39.5,
+    -105,
+    40
+   ],
+   "processedAt": "2026-11-06T01:46:18Z"
+  },
+  {
+   "id": "terrain-numeric-n40w106-nw",
+   "title": "terrain-numeric-n40w106-nw",
+   "group": "terrain",
+   "kind": "terrain-numeric",
+   "url": "data/terrain/terrain-numeric-n40w106-nw.pmtiles",
+   "meta": "data/terrain/terrain-numeric-n40w106-nw.meta.json",
+   "bytes": 14522461,
+   "bbox": [
+    -106,
+    39.5,
+    -105.5,
+    40
+   ],
+   "processedAt": "2026-11-06T01:46:10Z"
+  },
+  {
+   "id": "terrain-numeric-n40w106-se",
+   "title": "terrain-numeric-n40w106-se",
+   "group": "terrain",
+   "kind": "terrain-numeric",
+   "url": "data/terrain/terrain-numeric-n40w106-se.pmtiles",
+   "meta": "data/terrain/terrain-numeric-n40w106-se.meta.json",
+   "bytes": 15682280,
+   "bbox": [
+    -105.5,
+    39,
+    -105,
+    39.5
+   ],
+   "processedAt": "2026-11-06T01:46:37Z"
+  },
+  {
+   "id": "terrain-numeric-n40w106-sw",
+   "title": "terrain-numeric-n40w106-sw",
+   "group": "terrain",
+   "kind": "terrain-numeric",
+   "url": "data/terrain/terrain-numeric-n40w106-sw.pmtiles",
+   "meta": "data/terrain/terrain-numeric-n40w106-sw.meta.json",
+   "bytes": 12006689,
+   "bbox": [
+    -106,
+    39,
+    -105.5,
+    39.5
+   ],
+   "processedAt": "2026-11-06T01:46:33Z"
+  },
+  {
+   "id": "terrain-numeric-n40w107-ne",
+   "title": "terrain-numeric-n40w107-ne",
+   "group": "terrain",
+   "kind": "terrain-numeric",
+   "url": "data/terrain/terrain-numeric-n40w107-ne.pmtiles",
+   "meta": "data/terrain/terrain-numeric-n40w107-ne.meta.json",
+   "bytes": 15925308,
+   "bbox": [
+    -106.5,
+    39.5,
+    -106,
+    40
+   ],
+   "processedAt": "2026-11-06T03:00:05Z"
+  },
+  {
+   "id": "terrain-numeric-n40w107-nw",
+   "title": "terrain-numeric-n40w107-nw",
+   "group": "terrain",
+   "kind": "terrain-numeric",
+   "url": "data/terrain/terrain-numeric-n40w107-nw.pmtiles",
+   "meta": "data/terrain/terrain-numeric-n40w107-nw.meta.json",
+   "bytes": 15923387,
+   "bbox": [
+    -107,
+    39.5,
+    -106.5,
+    40
+   ],
+   "processedAt": "2026-11-06T03:00:01Z"
+  },
+  {
+   "id": "terrain-numeric-n40w107-se",
+   "title": "terrain-numeric-n40w107-se",
+   "group": "terrain",
+   "kind": "terrain-numeric",
+   "url": "data/terrain/terrain-numeric-n40w107-se.pmtiles",
+   "meta": "data/terrain/terrain-numeric-n40w107-se.meta.json",
+   "bytes": 14843586,
+   "bbox": [
+    -106.5,
+    39,
+    -106,
+    39.5
+   ],
+   "processedAt": "2026-11-06T03:00:14Z"
+  },
+  {
+   "id": "terrain-numeric-n40w107-sw",
+   "title": "terrain-numeric-n40w107-sw",
+   "group": "terrain",
+   "kind": "terrain-numeric",
+   "url": "data/terrain/terrain-numeric-n40w107-sw.pmtiles",
+   "meta": "data/terrain/terrain-numeric-n40w107-sw.meta.json",
+   "bytes": 15914999,
+   "bbox": [
+    -107,
+    39,
+    -106.5,
+    39.5
+   ],
+   "processedAt": "2026-11-06T03:00:08Z"
+  },
+  {
+   "id": "terrain-numeric-pilot",
+   "title": "terrain-numeric-pilot",
+   "group": "terrain",
+   "kind": "terrain-numeric",
+   "url": "data/terrain/terrain-numeric-pilot.pmtiles",
+   "meta": "data/terrain/terrain-numeric-pilot.meta.json",
+   "bytes": 7699371,
+   "bbox": [
+    -106.005031,
+    39.577291,
+    -105.616902,
+    39.922685
+   ],
+   "processedAt": "2026-11-06T01:26:24Z"
+  },
+  {
+   "id": "terrain-slope-n38w105",
+   "title": "Slope angle classes (n38w105)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n38w105.pmtiles",
+   "meta": "data/terrain/terrain-slope-n38w105.meta.json",
+   "bytes": 4249440,
+   "bbox": [
+    -105,
+    37,
+    -104,
+    38
+   ],
+   "processedAt": "2026-11-06T02:35:06Z"
+  },
+  {
+   "id": "terrain-slope-n38w106",
+   "title": "Slope angle classes (n38w106)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n38w106.pmtiles",
+   "meta": "data/terrain/terrain-slope-n38w106.meta.json",
+   "bytes": 6518524,
+   "bbox": [
+    -106,
+    37,
+    -105,
+    38
+   ],
+   "processedAt": "2026-11-06T02:40:39Z"
+  },
+  {
+   "id": "terrain-slope-n38w107",
+   "title": "Slope angle classes (n38w107)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n38w107.pmtiles",
+   "meta": "data/terrain/terrain-slope-n38w107.meta.json",
+   "bytes": 10673783,
+   "bbox": [
+    -107,
+    37,
+    -106,
+    38
+   ],
+   "processedAt": "2026-11-06T02:46:29Z"
+  },
+  {
+   "id": "terrain-slope-n38w108",
+   "title": "Slope angle classes (n38w108)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n38w108.pmtiles",
+   "meta": "data/terrain/terrain-slope-n38w108.meta.json",
+   "bytes": 18469362,
+   "bbox": [
+    -108,
+    37,
+    -107,
+    38
+   ],
+   "processedAt": "2026-11-06T02:52:39Z"
+  },
+  {
+   "id": "terrain-slope-n38w109",
+   "title": "Slope angle classes (n38w109)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n38w109.pmtiles",
+   "meta": "data/terrain/terrain-slope-n38w109.meta.json",
+   "bytes": 10383570,
+   "bbox": [
+    -109,
+    37,
+    -108,
+    38
+   ],
+   "processedAt": "2026-11-06T02:58:54Z"
+  },
+  {
+   "id": "terrain-slope-n39w106",
+   "title": "Slope angle classes (n39w106)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n39w106.pmtiles",
+   "meta": "data/terrain/terrain-slope-n39w106.meta.json",
+   "bytes": 11333859,
+   "bbox": [
+    -106,
+    38,
+    -105,
+    39
+   ],
+   "processedAt": "2026-11-06T02:17:04Z"
+  },
+  {
+   "id": "terrain-slope-n39w107",
+   "title": "Slope angle classes (n39w107)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n39w107.pmtiles",
+   "meta": "data/terrain/terrain-slope-n39w107.meta.json",
+   "bytes": 10639979,
+   "bbox": [
+    -107,
+    38,
+    -106,
+    39
+   ],
+   "processedAt": "2026-11-06T02:23:26Z"
+  },
+  {
+   "id": "terrain-slope-n39w108",
+   "title": "Slope angle classes (n39w108)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n39w108.pmtiles",
+   "meta": "data/terrain/terrain-slope-n39w108.meta.json",
+   "bytes": 13585801,
+   "bbox": [
+    -108,
+    38,
+    -107,
+    39
+   ],
+   "processedAt": "2026-11-06T02:29:22Z"
+  },
+  {
+   "id": "terrain-slope-n40w106",
+   "title": "Slope angle classes (n40w106)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n40w106.pmtiles",
+   "meta": "data/terrain/terrain-slope-n40w106.meta.json",
+   "bytes": 11295859,
+   "bbox": [
+    -106,
+    39,
+    -105,
+    40
+   ],
+   "processedAt": "2026-11-06T01:45:48Z"
+  },
+  {
+   "id": "terrain-slope-n40w107",
+   "title": "Slope angle classes (n40w107)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n40w107.pmtiles",
+   "meta": "data/terrain/terrain-slope-n40w107.meta.json",
+   "bytes": 16321974,
+   "bbox": [
+    -107,
+    39,
+    -106,
+    40
+   ],
+   "processedAt": "2026-11-06T02:59:49Z"
+  },
+  {
+   "id": "terrain-slope-n40w108",
+   "title": "Slope angle classes (n40w108)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n40w108.pmtiles",
+   "meta": "data/terrain/terrain-slope-n40w108.meta.json",
+   "bytes": 15354704,
+   "bbox": [
+    -108,
+    39,
+    -107,
+    40
+   ],
+   "processedAt": "2026-11-06T02:10:05Z"
+  },
+  {
+   "id": "terrain-slope-n41w106",
+   "title": "Slope angle classes (n41w106)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n41w106.pmtiles",
+   "meta": "data/terrain/terrain-slope-n41w106.meta.json",
+   "bytes": 11516428,
+   "bbox": [
+    -106,
+    40,
+    -105,
+    41
+   ],
+   "processedAt": "2026-11-06T01:51:39Z"
+  },
+  {
+   "id": "terrain-slope-n41w107",
+   "title": "Slope angle classes (n41w107)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n41w107.pmtiles",
+   "meta": "data/terrain/terrain-slope-n41w107.meta.json",
+   "bytes": 6796016,
+   "bbox": [
+    -107,
+    40,
+    -106,
+    41
+   ],
+   "processedAt": "2026-11-06T01:57:36Z"
+  },
+  {
+   "id": "terrain-slope-n41w108",
+   "title": "Slope angle classes (n41w108)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-n41w108.pmtiles",
+   "meta": "data/terrain/terrain-slope-n41w108.meta.json",
+   "bytes": 7031462,
+   "bbox": [
+    -108,
+    40,
+    -107,
+    41
+   ],
+   "processedAt": "2026-11-06T02:04:00Z"
+  },
+  {
+   "id": "terrain-slope-pilot",
+   "title": "Slope angle classes (pilot)",
+   "group": "terrain",
+   "kind": "terrain-display",
+   "url": "data/terrain/terrain-slope-pilot.pmtiles",
+   "meta": "data/terrain/terrain-slope-pilot.meta.json",
+   "bytes": 5302719,
+   "bbox": [
+    -106.005031,
+    39.577291,
+    -105.616902,
+    39.922685
+   ],
+   "processedAt": "2026-11-06T01:26:22Z"
+  }
+ ]
+}

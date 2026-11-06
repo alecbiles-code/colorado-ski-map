@@ -1,0 +1,31 @@
+# Incident import configuration. Paths are relative to the repository root.
+# The importer only runs on a file you are authorized to republish; see README.md.
+
+schema: "schemas/incident.schema.json"
+out_geojson: "data/incidents/incidents.geojson"
+out_meta: "data/incidents/incidents.meta.json"
+# Colorado with a small margin, [west, south, east, north]; points outside are rejected (catches swapped lon/lat).
+bbox: [-109.10, 36.95, -102.00, 41.05]
+season_start_month: 10
+max_text: {place: 300, activity: 100, summary: 4000, fact: 500}
+
+# Column mappings. Keys are schema fields; values are column names in the input CSV (or GeoJSON properties).
+profiles:
+  # Columns named like the schema. Use this for a hand-checked file.
+  native:
+    columns: {upstream_id: source_event_id, date: date, place: place, state: state, lon: lon, lat: lat,
+              position_meaning: position_meaning, uncertainty_m: uncertainty_m, position_note: position_note,
+              activity: activity, caught: caught, buried: buried, injured: injured, killed: killed,
+              report_status: report_status, url: url, summary: summary, verified_facts: verified_facts}
+    defaults: {source: null}
+    zero_coordinates_are_missing: false
+  # CAIC "full US avalanche accident dataset" (Excel, Data sheet) saved as CSV. Column names as described on
+  # 2026-11-06 (read once by the research step, not stored); the importer fails on any missing column, so check the real file.
+  # The sheet has no event id, no report URL, no status and does not say what lat/lon marks.
+  caic_us_fatal_xlsx:
+    columns: {date_parts: [YYYY, MM, DD], place: Location, state: State, lon: lon, lat: lat,
+              activity: PrimaryActivity, killed: Killed, summary: Description}
+    defaults: {source: "CAIC", position_meaning: "unknown", report_status: "unknown",
+               position_note: "CAIC accident spreadsheet coordinates; CAIC does not state what the point marks or its precision."}
+    zero_coordinates_are_missing: true
+    keep_states: [CO]

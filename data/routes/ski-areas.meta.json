@@ -1,0 +1,115 @@
+{
+  "id": "ski-areas",
+  "title": "Colorado ski areas (lift-served and nordic, including abandoned)",
+  "file": "ski-areas.geojson",
+  "format": "GeoJSON",
+  "bytes": 114104,
+  "processedAt": "2026-11-06T00:54:03Z",
+  "crs": "EPSG:4326",
+  "coordinateOrder": "lon,lat",
+  "license": "ODbL-1.0 (derived database of OpenStreetMap; share-alike applies to the data)",
+  "attribution": "Data from OpenSkiData / OpenSkiMap.org, (c) OpenStreetMap contributors (ODbL), Skimap.org, Who's On First, (c) Mapterhorn",
+  "sources": [
+    {
+      "name": "openskidata",
+      "url": "https://tiles.openskimap.org/geojson/ski_areas.geojson",
+      "license": "ODbL-1.0",
+      "attribution": "Data from OpenSkiData / OpenSkiMap.org, (c) OpenStreetMap contributors (ODbL), Skimap.org, Who's On First, (c) Mapterhorn",
+      "termsUrl": "https://openskidata.org/",
+      "retrievedAt": "2026-11-06T00:05:25Z"
+    },
+    {
+      "name": "osm",
+      "url": "https://download.geofabrik.de/north-america/us/colorado-261103.osm.pbf",
+      "license": "ODbL-1.0",
+      "attribution": "(c) OpenStreetMap contributors, ODbL",
+      "termsUrl": "https://www.openstreetmap.org/copyright",
+      "retrievedAt": "2026-11-06T00:14:30Z",
+      "data_timestamp": "2026-11-03T21:24:23Z"
+    }
+  ],
+  "processing": {
+    "script": "pipeline/routes/build.py",
+    "steps": [
+      "OpenSkiData ski_areas export filtered to places iso3166_2 = US-CO.",
+      "Features without an OpenStreetMap or Skimap.org source id are skipped because OpenSkiData's own ids are content hashes that change daily."
+    ],
+    "parameters": {
+      "simplifyToleranceDeg": 3e-05,
+      "coordinateDecimals": 5,
+      "resortContext": {
+        "polygon_buffer_m": 500,
+        "point_buffer_m": 3000,
+        "point_statuses": [
+          "operating",
+          "proposed"
+        ],
+        "lift_buffer_m": 1000,
+        "lift_exclude_values": [
+          "pylon",
+          "station",
+          "goods",
+          "zip_line"
+        ]
+      },
+      "parkingMaxDistanceM": 250,
+      "gnisMatchRadiusM": 300,
+      "demSampleSpacingM": 7.5
+    }
+  },
+  "coverage": {
+    "bbox": [
+      -108.31975,
+      37.00183,
+      -104.34267,
+      40.99183
+    ],
+    "area": "Colorado (state bounding box)"
+  },
+  "units": {},
+  "limitations": [
+    "Polygons come from OSM landuse=winter_sports where mapped; many ski areas are points only. Boundaries are approximate and are not permit or closure boundaries.",
+    "status is OpenSkiData's (operating, abandoned, proposed, never_opened, disused); abandoned areas are former resorts and today are backcountry or private land."
+  ],
+  "counts": {
+    "total": 135,
+    "byClass": {
+      "ski_area": 135
+    },
+    "bySource": {
+      "openskidata": 135
+    },
+    "byRegionClass": {
+      "elk": {
+        "ski_area": 15
+      },
+      "front-range": {
+        "ski_area": 28
+      },
+      "grand-mesa": {
+        "ski_area": 3
+      },
+      "northern": {
+        "ski_area": 22
+      },
+      "other": {
+        "ski_area": 25
+      },
+      "san-juans": {
+        "ski_area": 19
+      },
+      "sangre-de-cristo": {
+        "ski_area": 5
+      },
+      "sawatch": {
+        "ski_area": 4
+      },
+      "summit-tenmile": {
+        "ski_area": 9
+      },
+      "vail-eagle-gore": {
+        "ski_area": 5
+      }
+    }
+  }
+}

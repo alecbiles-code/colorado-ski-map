@@ -1,0 +1,468 @@
+# Terrain pipeline configuration (Tier 2 analytical terrain). Read by every script in this folder.
+# Relative paths are relative to the repository root.
+
+work_dir: /Users/bci-spatialecon/firstmate/data/colorado-ski-map-build/work/terrain
+out_dir: data/terrain
+# pmtiles 4.5.0 (same pin as vendor/) installed with `npm install --prefix <work_dir>/node pmtiles@4.5.0`
+pmtiles_js: /Users/bci-spatialecon/firstmate/data/colorado-ski-map-build/work/terrain/node/node_modules/pmtiles/dist/esm/index.js
+
+# USGS 3DEP 1/3 arc-second DEM tiles (1x1 degree, named by NW corner). Dated "historical" URLs are
+# immutable; each one listed here was confirmed byte-identical (same ETag and x-amz-meta-md5chksum)
+# to the "current" object on 2026-11-06T00:06Z. Metadata from the TNM Access API products endpoint.
+source:
+  name: USGS 3D Elevation Program (3DEP) 1/3 arc-second DEM
+  landing_page: https://www.usgs.gov/3d-elevation-program
+  tnm_api: https://tnmaccess.nationalmap.gov/api/v1/products
+  license: Public domain (USGS-authored U.S. Government work); credit "U.S. Geological Survey"
+  crs: EPSG:4269
+  vertical_datum: NAVD88
+  vertical_units: m
+  nodata: -999999.0
+  pixels_per_degree: 10800  # 1/3 arc-second; tile pixel edges lie on multiples of 1/10800 degree
+  tiles:
+    n40w106:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w106/USGS_13_n40w106_20260630.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n40w106/USGS_13_n40w106.tif
+      publication_date: "2026-07-01"
+      tnm_last_updated: "2026-07-02T20:10:23.677-06:00"
+      bytes: 413480184
+      etag: ce18015337b5ec9a7b38ef347e338153-79
+    n40w107:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w107/USGS_13_n40w107_20260708.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n40w107/USGS_13_n40w107.tif
+      publication_date: "2026-07-08"
+      tnm_last_updated: "2026-07-08T20:10:32.769-06:00"
+      bytes: 425389234
+      etag: e2b354e2a9fe7f3f98375aa863dda0fb-82
+    # Neighbours of n40w107 (TNM query 2026-11-06T01:02:14Z; ETags equal to current at 01:02:20Z)
+    n39w106:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w106/USGS_13_n39w106_20260630.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n39w106/USGS_13_n39w106.tif
+      publication_date: "2026-07-01"
+      tnm_last_updated: "2026-07-02T20:10:26.783-06:00"
+      bytes: 406978824
+      etag: 4286b4af389aa8bd1f8662e056766bdc-78
+    n39w107:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w107/USGS_13_n39w107_20260630.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n39w107/USGS_13_n39w107.tif
+      publication_date: "2026-07-01"
+      tnm_last_updated: "2026-07-02T20:10:26.035-06:00"
+      bytes: 407666304
+      etag: c20268a52d5b1a40d52d2f1d0803686a-78
+    n39w108:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w108/USGS_13_n39w108_20260630.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n39w108/USGS_13_n39w108.tif
+      publication_date: "2026-07-01"
+      tnm_last_updated: "2026-07-02T20:10:25.756-06:00"
+      bytes: 415918909
+      etag: 9ebd8dcd2ae1bab10816cd7ccba1de6d-80
+    n40w108:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w108/USGS_13_n40w108_20260708.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n40w108/USGS_13_n40w108.tif
+      publication_date: "2026-07-08"
+      tnm_last_updated: "2026-07-08T20:10:32.320-06:00"
+      bytes: 428000704
+      etag: c5fee7595a804e46f79cd3fe19ebe175-82
+    n41w106:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w106/USGS_13_n41w106_20260708.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n41w106/USGS_13_n41w106.tif
+      publication_date: "2026-07-08"
+      tnm_last_updated: "2026-07-08T20:10:29.971-06:00"
+      bytes: 409771361
+      etag: f07fdb31e02fefa7abc755056aba45d7-79
+    n41w107:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w107/USGS_13_n41w107_20260708.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n41w107/USGS_13_n41w107.tif
+      publication_date: "2026-07-08"
+      tnm_last_updated: "2026-07-08T20:10:29.389-06:00"
+      bytes: 390363196
+      etag: 9d7aa066b02e8391b897079f6432bf0e-75
+    n41w108:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w108/USGS_13_n41w108_20260708.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n41w108/USGS_13_n41w108.tif
+      publication_date: "2026-07-08"
+      tnm_last_updated: "2026-07-08T20:10:29.085-06:00"
+      bytes: 407925713
+      etag: 8db9edd7515ad4e45812b333d010facc-78
+
+    # Statewide tiles: TNM query 2026-11-06T01:37:24Z; HEAD checks 2026-11-06T01:37:42+00:00
+    n37w104:                # current equals the 20210623 release, not the later-named 20210630 one
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n37w104/USGS_13_n37w104_20210623.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n37w104/USGS_13_n37w104.tif
+      publication_date: "2021-11-16"
+      tnm_last_updated: "2026-06-08T20:23:43.862-06:00"
+      bytes: 357257554
+      etag: 9c857ae5ae9ac086d990c3381e0ef0ad-69
+    n37w105:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n37w105/USGS_13_n37w105_20250311.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n37w105/USGS_13_n37w105.tif
+      publication_date: "2025-03-11"
+      tnm_last_updated: "2026-09-24T20:14:09.272-06:00"
+      bytes: 368354059
+      etag: 43e58e2bf8292140b67bb30cb0e76a0b-71
+    n37w106:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n37w106/USGS_13_n37w106_20250311.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n37w106/USGS_13_n37w106.tif
+      publication_date: "2025-03-11"
+      tnm_last_updated: "2026-09-24T20:14:08.935-06:00"
+      bytes: 393327841
+      etag: d09c3353eb8f3ad39967dfaffe0a6e01-76
+    n37w107:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n37w107/USGS_13_n37w107_20220801.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n37w107/USGS_13_n37w107.tif
+      publication_date: "2022-08-01"
+      tnm_last_updated: "2026-09-24T20:11:44.667-06:00"
+      bytes: 408707327
+      etag: 8996ab4adfc0ddd86bd316ef9e747393-78
+    n37w108:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n37w108/USGS_13_n37w108_20220801.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n37w108/USGS_13_n37w108.tif
+      publication_date: "2022-08-01"
+      tnm_last_updated: "2026-09-24T20:11:44.149-06:00"
+      bytes: 396873309
+      etag: d3717f54b5a4258dc1a6a073dd9aec45-76
+    n37w109:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n37w109/USGS_13_n37w109_20220720.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n37w109/USGS_13_n37w109.tif
+      publication_date: "2022-07-20"
+      tnm_last_updated: "2026-09-24T20:11:35.221-06:00"
+      bytes: 387594171
+      etag: 9d032a55b33672732d1690eaaee2971c-74
+    n37w110:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n37w110/USGS_13_n37w110_20260514.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n37w110/USGS_13_n37w110.tif
+      publication_date: "2026-05-14"
+      tnm_last_updated: "2026-09-24T20:16:16.848-06:00"
+      bytes: 403904756
+      etag: 6c1cd404f5bff1eb9e08b16eda493646-78
+    n38w104:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n38w104/USGS_13_n38w104_20230602.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n38w104/USGS_13_n38w104.tif
+      publication_date: "2023-06-02"
+      tnm_last_updated: "2026-09-24T20:12:15.126-06:00"
+      bytes: 367266230
+      etag: 7d565bd19ad04ad619fd8814b8003e0a-71
+    n38w105:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n38w105/USGS_13_n38w105_20230602.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n38w105/USGS_13_n38w105.tif
+      publication_date: "2023-06-02"
+      tnm_last_updated: "2026-09-24T20:12:14.878-06:00"
+      bytes: 377931351
+      etag: 826c940644a3db5626b7fcc5659cda62-73
+    n38w106:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n38w106/USGS_13_n38w106_20260528.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n38w106/USGS_13_n38w106.tif
+      publication_date: "2026-05-28"
+      tnm_last_updated: "2026-09-24T20:16:29.310-06:00"
+      bytes: 359888362
+      etag: 89f592e121ded4139869d40ab08718b6-69
+    n38w107:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n38w107/USGS_13_n38w107_20220720.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n38w107/USGS_13_n38w107.tif
+      publication_date: "2022-07-20"
+      tnm_last_updated: "2026-09-24T20:11:35.001-06:00"
+      bytes: 387344950
+      etag: fcf596becfe06185dcee0120909074a5-74
+    n38w108:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n38w108/USGS_13_n38w108_20260630.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n38w108/USGS_13_n38w108.tif
+      publication_date: "2026-07-01"
+      tnm_last_updated: "2026-07-02T20:10:28.013-06:00"
+      bytes: 429963163
+      etag: 41f91a8f325d53f55f40e5d68a3411f3-83
+    n38w109:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n38w109/USGS_13_n38w109_20260630.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n38w109/USGS_13_n38w109.tif
+      publication_date: "2026-07-01"
+      tnm_last_updated: "2026-07-02T20:10:27.443-06:00"
+      bytes: 409366671
+      etag: 441b2de0ca9fcaac4caee5f6dda3436a-79
+    n38w110:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n38w110/USGS_13_n38w110_20260630.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n38w110/USGS_13_n38w110.tif
+      publication_date: "2026-07-01"
+      tnm_last_updated: "2026-07-02T20:10:27.355-06:00"
+      bytes: 421008125
+      etag: 2d27765d18d367ec2c6a503815da4e50-81
+    n39w104:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w104/USGS_13_n39w104_20230602.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n39w104/USGS_13_n39w104.tif
+      publication_date: "2023-06-02"
+      tnm_last_updated: "2026-09-24T20:12:14.261-06:00"
+      bytes: 323172740
+      etag: a5f53670e49fd95e55fbfd4ec06c1ce3-62
+    n39w105:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w105/USGS_13_n39w105_20260528.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n39w105/USGS_13_n39w105.tif
+      publication_date: "2026-05-28"
+      tnm_last_updated: "2026-09-24T20:16:29.072-06:00"
+      bytes: 359836135
+      etag: 1585ef6d6125137062b6cce7eb4d2772-69
+    n39w109:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w109/USGS_13_n39w109_20260630.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n39w109/USGS_13_n39w109.tif
+      publication_date: "2026-07-01"
+      tnm_last_updated: "2026-07-02T20:10:25.143-06:00"
+      bytes: 416676333
+      etag: 28b7e16267e33dfc90e47348cfdd2c8e-80
+    n39w110:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w110/USGS_13_n39w110_20260630.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n39w110/USGS_13_n39w110.tif
+      publication_date: "2026-07-01"
+      tnm_last_updated: "2026-07-02T20:10:25.056-06:00"
+      bytes: 431583064
+      etag: e4066ee0910e8acc07fdf3a18735f16b-83
+    n40w105:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w105/USGS_13_n40w105_20260323.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n40w105/USGS_13_n40w105.tif
+      publication_date: "2026-03-23"
+      tnm_last_updated: "2026-09-24T20:15:32.348-06:00"
+      bytes: 374609383
+      etag: b92768030f3ed798b66e27c010b78f57-72
+    n40w109:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w109/USGS_13_n40w109_20260708.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n40w109/USGS_13_n40w109.tif
+      publication_date: "2026-07-08"
+      tnm_last_updated: "2026-07-08T20:10:31.659-06:00"
+      bytes: 442036967
+      etag: 8b57950658b4860473f41e4ca3dbd08f-85
+    n41w105:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w105/USGS_13_n41w105_20260708.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n41w105/USGS_13_n41w105.tif
+      publication_date: "2026-07-08"
+      tnm_last_updated: "2026-07-08T20:10:30.601-06:00"
+      bytes: 345375597
+      etag: 7536995f62f5d4e26518fe51ff1e9572-66
+    n41w109:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w109/USGS_13_n41w109_20260708.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n41w109/USGS_13_n41w109.tif
+      publication_date: "2026-07-08"
+      tnm_last_updated: "2026-07-08T20:10:28.317-06:00"
+      bytes: 420590968
+      etag: 1f7c402c200c2a1c46fb990c02505862-81
+    n42w105:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n42w105/USGS_13_n42w105_20260604.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n42w105/USGS_13_n42w105.tif
+      publication_date: "2026-06-04"
+      tnm_last_updated: "2026-06-08T20:10:19.794-06:00"
+      bytes: 362620985
+      etag: 066afe18f7a231939ff4423b4d1b4c4e-70
+    n42w106:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n42w106/USGS_13_n42w106_20260708.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n42w106/USGS_13_n42w106.tif
+      publication_date: "2026-07-08"
+      tnm_last_updated: "2026-07-08T20:10:27.385-06:00"
+      bytes: 358435469
+      etag: 095d9d34a3d079de706211fc9df0819b-69
+    n42w107:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n42w107/USGS_13_n42w107_20260708.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n42w107/USGS_13_n42w107.tif
+      publication_date: "2026-07-08"
+      tnm_last_updated: "2026-07-08T20:10:26.972-06:00"
+      bytes: 368615011
+      etag: 35c3255a734b6d9b04988e79249e92ab-71
+    n42w108:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n42w108/USGS_13_n42w108_20260708.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n42w108/USGS_13_n42w108.tif
+      publication_date: "2026-07-08"
+      tnm_last_updated: "2026-07-08T20:10:26.184-06:00"
+      bytes: 365891111
+      etag: 3e359b40779ed434102a6789e682c36d-70
+    n42w109:
+      url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n42w109/USGS_13_n42w109_20260708.tif
+      current_url: https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n42w109/USGS_13_n42w109.tif
+      publication_date: "2026-07-08"
+      tnm_last_updated: "2026-07-08T20:10:25.317-06:00"
+      bytes: 355566340
+      etag: 709d6a709689679fb18c395de4bc63d3-68
+
+# Analysis grids. All are EPSG:26913 (NAD83 / UTM 13N), 10 m cells, edges on multiples of 10 m.
+regions:
+  pilot:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [414110, 4381320, 447020, 4419360]  # xmin, ymin, xmax, ymax (contract, docs/ARCHITECTURE.md 3.4)
+    tiles: [n40w106, n40w107]
+  n40w107:                  # 1x1 degree proof cell: UTM rectangle enclosing the cell, snapped outward to 10 m
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [326800, 4317250, 414640, 4429680]
+    cell: [-107, 39, -106, 40]          # west, south, east, north; display drawn only inside
+    display_max_zoom: 14                # z10-z15 measured 33.7 MB (over 25 MB); z10-z14 fits in one file
+    tiles: [n39w106, n39w107, n39w108, n40w106, n40w107, n40w108, n41w106, n41w107, n41w108]
+  # Statewide mountain cells (lead decision 2026-11-06): display z10-z14 for all; numeric for n40w106 only.
+  n38w105:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [499990, 4094870, 588980, 4206290]
+    cell: [-105, 37, -104, 38]
+    display_max_zoom: 14
+    tiles: [n37w104, n37w105, n37w106, n38w104, n38w105, n38w106, n39w104, n39w105, n39w106]
+  n38w106:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [411020, 4094870, 500000, 4206290]
+    cell: [-106, 37, -105, 38]
+    display_max_zoom: 14
+    tiles: [n37w105, n37w106, n37w107, n38w105, n38w106, n38w107, n39w105, n39w106, n39w107]
+  n38w107:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [322030, 4095330, 412210, 4207710]
+    cell: [-107, 37, -106, 38]
+    display_max_zoom: 14
+    tiles: [n37w106, n37w107, n37w108, n38w106, n38w107, n38w108, n39w106, n39w107, n39w108]
+  n38w108:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [233030, 4096740, 324400, 4210070]
+    cell: [-108, 37, -107, 38]
+    display_max_zoom: 14
+    tiles: [n37w107, n37w108, n37w109, n38w107, n38w108, n38w109, n39w107, n39w108, n39w109]
+  n38w109:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [144010, 4099080, 236580, 4213380]
+    cell: [-109, 37, -108, 38]
+    display_max_zoom: 14
+    tiles: [n37w108, n37w109, n37w110, n38w108, n38w109, n38w110, n39w108, n39w109, n39w110]
+  n39w106:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [412200, 4205810, 500000, 4317260]
+    cell: [-106, 38, -105, 39]
+    display_max_zoom: 14
+    tiles: [n38w105, n38w106, n38w107, n39w105, n39w106, n39w107, n40w105, n40w106, n40w107]
+  n39w107:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [324390, 4206280, 413410, 4318680]
+    cell: [-107, 38, -106, 39]
+    display_max_zoom: 14
+    tiles: [n38w106, n38w107, n38w108, n39w106, n39w107, n39w108, n40w106, n40w107, n40w108]
+  n39w108:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [236570, 4207700, 326810, 4321060]
+    cell: [-108, 38, -107, 39]
+    display_max_zoom: 14
+    tiles: [n38w107, n38w108, n38w109, n39w107, n39w108, n39w109, n40w107, n40w108, n40w109]
+  n40w106:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [413400, 4316770, 500000, 4428240]
+    cell: [-106, 39, -105, 40]
+    display_max_zoom: 14
+    tiles: [n39w105, n39w106, n39w107, n40w105, n40w106, n40w107, n41w105, n41w106, n41w107]
+  n40w108:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [240190, 4318670, 329280, 4432070]
+    cell: [-108, 39, -107, 40]
+    display_max_zoom: 14
+    tiles: [n39w107, n39w108, n39w109, n40w107, n40w108, n40w109, n41w107, n41w108, n41w109]
+  n41w106:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [414630, 4427750, 500000, 4539240]
+    cell: [-106, 40, -105, 41]
+    display_max_zoom: 14
+    tiles: [n40w105, n40w106, n40w107, n41w105, n41w106, n41w107, n42w105, n42w106, n42w107]
+  n41w107:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [329270, 4428230, 415900, 4540690]
+    cell: [-107, 40, -106, 41]
+    display_max_zoom: 14
+    tiles: [n40w106, n40w107, n40w108, n41w106, n41w107, n41w108, n42w106, n42w107, n42w108]
+  n41w108:
+    crs: EPSG:26913
+    res_m: 10
+    bounds: [243900, 4429670, 331800, 4543100]
+    cell: [-108, 40, -107, 41]
+    display_max_zoom: 14
+    tiles: [n40w107, n40w108, n40w109, n41w107, n41w108, n41w109, n42w107, n42w108, n42w109]
+
+processing:
+  buffer_cells: 16          # extra cells on every side; computed then cropped so edge cells are valid
+  resampling: bilinear      # 3DEP geographic -> analysis grid
+  nodata_out: -9999.0
+  dem_scale: 10             # DEM is quantized to round(z * dem_scale) / dem_scale (0.1 m) BEFORE slope/aspect,
+                            # so the browser can rebuild identical slope/aspect from the numeric tiles
+  flat_threshold_deg: 1.0   # slope below this: aspect = -1 (flat)
+  strip_rows: 1024          # slope/aspect computed in row strips (memory bound for 1x1 degree cells)
+  geo_margin_deg: 0.002     # extra source margin around the buffered grid footprint
+
+# Display tiles: classified slope, Web Mercator 256 px PNG (palette), nearest-neighbour from the
+# analysis grid, slopes under 25 degrees and no data transparent, empty tiles omitted.
+display:
+  min_zoom: 10
+  max_zoom: 15
+  tile_size: 256
+
+# Numeric inspection tiles (docs/methods/terrain.md section 7). NOT Web Mercator: tile (x, y) at
+# zoom tile_z is the block of block_cells x block_cells analysis cells whose top-left corner is
+# (origin_e + x * block_cells * res, origin_n - y * block_cells * res) in EPSG:26913.
+numeric:
+  utm_zone: 13
+  origin_e: 0
+  origin_n: 4700000
+  block_cells: 256
+  apron_cells: 1            # one extra cell on every side so a single tile holds every 3x3 window
+  tile_z: 9                 # PMTiles key space only (x, y < 512 covers Colorado)
+  nodata: -1000000          # integer code for no data
+  zlib_level: 9
+  split_deg: 0.5            # 1x1 degree cells are written as four 0.5 degree archives (25 MB file limit)
+
+# Tier 1 comparison (tier1_compare.py): Terrarium tiles per provider, slope computed with
+# app/lib/terrain-math.js. Mapterhorn is the contract provider, AWS Terrain Tiles the fallback.
+tier1:
+  user_agent: skintrack-co-terrain-pipeline/0.1 (personal non-commercial research)
+  margin_tiles: 1           # extra ring of tiles so mosaic edges never touch the pilot
+  workers: 4
+  providers:
+    mapterhorn:
+      url_template: https://tiles.mapterhorn.com/{z}/{x}/{y}.webp
+      terms: https://mapterhorn.com/attribution/
+      attribution: "© Mapterhorn"
+      tile_size: 512
+      zooms: [12, 13, 14]
+    aws:
+      url_template: https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png
+      terms: https://raw.githubusercontent.com/tilezen/joerd/master/docs/attribution.md
+      attribution: 3DEP (formerly NED) terrain data courtesy of the U.S. Geological Survey
+      tile_size: 256
+      zooms: [12, 13, 14]
+  # Source-vintage check (tier1_vintage.py): older 3DEP releases of one tile over a sub-area.
+  vintage:
+    utm_box: [425000, 4390000, 440000, 4410000]   # xmin, ymin, xmax, ymax inside the pilot
+    versions:
+      "2011-06-01": https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w106/USGS_13_n40w106_20110601.tif
+      "2022-02-16": https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w106/USGS_13_n40w106_20220216.tif
+
+verify:
+  points: 1000              # random points checked against the source rasters
+  seed: 20261106
+
+# Statewide cost estimate (estimate_statewide.py). Mountain cells: 1x1 degree 3DEP cells, named by NW
+# corner, covering the Colorado ranges with ski terrain (San Juans, Sangre de Cristo, Spanish Peaks,
+# Sawatch, Elk, Gore, Tenmile, Mosquito, Front Range, Park, Never Summer, Flat Tops edge).
+statewide:
+  cells: [n38w105, n38w106, n38w107, n38w108, n38w109, n39w106, n39w107, n39w108,
+          n40w106, n40w107, n40w108, n41w106, n41w107, n41w108]
+  measured: [pilot, n40w107]  # regions whose measured rates drive the estimate
+  candidate_max_zooms: [13, 14, 15]
+  pages_site_limit_bytes: 1000000000   # "Published GitHub Pages sites may be no larger than 1 GB"
+  file_limit_bytes: 25000000           # project rule: every committed file at most 25 MB
+  tile_bytes_typical: 420000000        # 3DEP 1/3 arc-second 1x1 degree COG, n40w106/n40w107 measured
+
+# Slope classes, degrees, lower bound inclusive (contract 3.3). Colors run yellow -> purple with CIELAB
+# L* 84.9, 72.2, 60.1, 44.3, 21.9 (adjacent steps >= 12), so classes stay ordered and distinguishable
+# by lightness alone for every color-vision type (checked in tests/pipeline/test_terrain_core.py).
+slope_classes:
+  - {id: lt25,  min: 0,  max: 25,   label: "<25",   color: null}
+  - {id: s25,   min: 25, max: 30,   label: "25-30", color: "#F7D13D"}
+  - {id: s30,   min: 30, max: 35,   label: "30-35", color: "#FB9B06"}
+  - {id: s35,   min: 35, max: 40,   label: "35-40", color: "#ED6925"}
+  - {id: s40,   min: 40, max: 45,   label: "40-45", color: "#BC3754"}
+  - {id: s45,   min: 45, max: null, label: ">=45",  color: "#56106E"}

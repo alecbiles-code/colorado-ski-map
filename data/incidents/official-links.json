@@ -1,0 +1,29 @@
+{
+ "id": "incident-official-links",
+ "title": "Official avalanche accident records",
+ "verifiedAt": "2026-11-06",
+ "note": "Links only. The app does not copy accident records: CAIC's terms prohibit robots and data mining and require prior written permission to reproduce its materials. These pages are the authoritative source; show them from any place, route or incident view.",
+ "links": [
+  {"id": "caic-accidents-colorado", "url": "https://avalanche.state.co.us/accidents/colorado", "title": "CAIC: Colorado avalanche accidents",
+   "contains": "Table of Colorado accidents (date, location name, level of involvement, severity, caught, buried, injured, killed, description) with a link to each report. URL filters work, for example ?from=2024-10-01&to=2026-09-30&fatal=1. No map, no coordinates, no export. Coverage statements conflict: the page says 1949-1950 to the current avalanche year, the help page says 2019-2020 onward; records from 1951 are returned.",
+   "fatalFilterExample": "https://avalanche.state.co.us/accidents/colorado?from=2024-10-01&to=2026-09-30&fatal=1"},
+  {"id": "caic-accidents-us", "url": "https://avalanche.state.co.us/accidents/us", "title": "CAIC: US fatal avalanche accidents",
+   "contains": "Table of fatal avalanche accidents in the United States, compiled by CAIC."},
+  {"id": "caic-statistics", "url": "https://avalanche.state.co.us/accidents/statistics-and-reporting", "title": "CAIC: accident statistics and reporting",
+   "contains": "US and Colorado fatality tables by season, state, month and activity (1950-51 to 2025-26), and a link to the full US fatal accident dataset as an Excel file (CAIC asks to be cited)."},
+  {"id": "caic-accidents-help", "url": "https://avalanche.state.co.us/accidents/help", "title": "CAIC: accident table help",
+   "contains": "Definitions of the accident table fields and categories."},
+  {"id": "caic-historic-fatalities-map", "url": "https://avalanche.state.co.us/experimental-products/historic-accidents", "title": "CAIC experimental product: Colorado avalanche fatalities since 1861",
+   "contains": "County-level choropleth map of fatalities, avalanche years 1861 to 2025 (embeds accidents.avalanche.state.co.us/historic-fatalities/). Counties, not points; no download."},
+  {"id": "caic-report-pattern", "url": "https://avalanche.state.co.us/reports/canonical/931cc4ad-f8a5-410c-83e2-bea2e907452b", "title": "CAIC accident report (example: Resolution Creek, 2026-03-07)",
+   "contains": "Individual report pages follow https://avalanche.state.co.us/reports/canonical/{uuid}: status (Preliminary Information or Final Report), published date, narrative, avalanche coding, photos, a map with Lat/Lon to 3 decimals. The page does not say what the point marks or how precise it is."},
+  {"id": "caic-avalanche-explorer", "url": "https://avalanche.state.co.us/avalanche-explorer", "title": "CAIC Avalanche Explorer",
+   "contains": "Interactive map of avalanche observations (not an accident layer). It did not initialise in a headless browser test on 2026-11-06, so its contents are unverified."},
+  {"id": "avalanche-org-accidents", "url": "https://avalanche.org/avalanche-accidents/", "title": "Avalanche.org: US avalanche accidents",
+   "contains": "US fatal accidents from 2009-2010 onward (date, state, location, summary, fatalities), compiled by CAIC and the National Avalanche Center from the CAIC database. Rejects plain curl requests (HTTP 403); loads in a browser."},
+  {"id": "caic-terms", "url": "https://avalanche.state.co.us/terms-use", "title": "CAIC terms of use",
+   "contains": "Robots and data-mining prohibition; reproduction requires CAIC's prior written permission."},
+  {"id": "caic-contact", "url": "https://avalanche.state.co.us/contact", "title": "CAIC contact, data and API access requests",
+   "contains": "Request for API Access form for apps built on CAIC data, a Request for Data form, caic@state.co.us."}
+ ]
+}

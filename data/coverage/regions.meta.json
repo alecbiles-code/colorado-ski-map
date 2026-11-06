@@ -1,0 +1,49 @@
+{
+  "id": "regions",
+  "title": "App-defined Colorado reporting regions",
+  "file": "regions.geojson",
+  "format": "GeoJSON",
+  "bytes": 6842,
+  "processedAt": "2026-11-06T00:54:03Z",
+  "crs": "EPSG:4326",
+  "coordinateOrder": "lon,lat",
+  "license": "Project-authored polygons; no third-party data",
+  "attribution": "Skintrack CO",
+  "sources": [],
+  "processing": {
+    "script": "pipeline/routes/build.py",
+    "steps": [
+      "Hand-drawn approximate polygons from named landmarks (config.yaml), applied in priority order; each published polygon is its configured polygon minus higher-priority regions, clipped to the Colorado bounding box. 'other' is the remainder."
+    ],
+    "parameters": {}
+  },
+  "coverage": {
+    "bbox": [
+      -109.0603,
+      36.9925,
+      -102.0415,
+      41.0034
+    ],
+    "area": "Colorado (state bounding box)"
+  },
+  "units": {},
+  "limitations": [
+    "These are app-defined approximations for reporting and filtering only. They are not official, land-management or CAIC forecast-zone boundaries, and must not be used to choose a forecast.",
+    "The Colorado outline is approximated by its bounding box."
+  ],
+  "regionIds": [
+    "front-range",
+    "summit-tenmile",
+    "vail-eagle-gore",
+    "sawatch",
+    "elk",
+    "san-juans",
+    "northern",
+    "sangre-de-cristo",
+    "grand-mesa",
+    "other"
+  ],
+  "counts": {
+    "total": 10
+  }
+}

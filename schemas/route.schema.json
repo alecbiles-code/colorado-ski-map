@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "route.schema.json",
+  "title": "Skintrack CO route FeatureCollection (data/routes/routes.geojson)",
+  "description": "Source-backed ski routes. Coordinates are WGS84 [lon, lat]. Units are SI. Unknown values are null; optional properties that are not applicable are omitted. Fields prefixed dem are derived from the DEM named in the meta file; source* fields are copied from the source.",
+  "type": "object",
+  "required": ["type", "features"],
+  "properties": {
+    "type": {"const": "FeatureCollection"},
+    "features": {"type": "array", "items": {"$ref": "#/$defs/feature"}}
+  },
+  "$defs": {
+    "position": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "number", "minimum": -109.2, "maximum": -101.9},
+        {"type": "number", "minimum": 36.8, "maximum": 41.2}
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "line": {"type": "array", "items": {"$ref": "#/$defs/position"}, "minItems": 2},
+    "ring": {"type": "array", "items": {"$ref": "#/$defs/position"}, "minItems": 4},
+    "geometry": {
+      "oneOf": [
+        {"type": "object", "required": ["type", "coordinates"], "properties": {"type": {"const": "Point"}, "coordinates": {"$ref": "#/$defs/position"}}},
+        {"type": "object", "required": ["type", "coordinates"], "properties": {"type": {"const": "LineString"}, "coordinates": {"$ref": "#/$defs/line"}}},
+        {"type": "object", "required": ["type", "coordinates"], "properties": {"type": {"const": "MultiLineString"}, "coordinates": {"type": "array", "items": {"$ref": "#/$defs/line"}, "minItems": 1}}},
+        {"type": "object", "required": ["type", "coordinates"], "properties": {"type": {"const": "Polygon"}, "coordinates": {"type": "array", "items": {"$ref": "#/$defs/ring"}, "minItems": 1}}}
+      ]
+    },
+    "nullableNumber": {"type": ["number", "null"]},
+    "feature": {
+      "type": "object",
+      "required": ["type", "id", "geometry", "properties"],
+      "properties": {
+        "type": {"const": "Feature"},
+        "id": {"type": "string"},
+        "geometry": {"$ref": "#/$defs/geometry"},
+        "properties": {
+          "type": "object",
+          "required": ["id", "class", "name", "upstreamId", "source", "sourceUrl", "region", "classBasis"],
+          "properties": {
+            "id": {"type": "string", "pattern": "^(osm-(way|node)-[0-9]+|usfs-[0-9A-Za-z.]+-[0-9.]+-[0-9.]+)$", "description": "Stable internal id built from the upstream id."},
+            "class": {"enum": ["ski_descent", "ascent_skin", "approach", "touring_area"]},
+            "name": {"type": ["string", "null"]},
+            "upstreamId": {"type": "string", "description": "OSM element (way/123) or USFS trail_cn:bmp-emp."},
+            "source": {"enum": ["openstreetmap", "usfs-trailnfs"]},
+            "sourceUrl": {"type": "string", "format": "uri"},
+            "region": {"type": "string", "description": "App-defined reporting region id (data/coverage/regions.geojson)."},
+            "classBasis": {"type": "string", "description": "The tag rule that assigned the class."},
+            "pisteType": {"type": "string", "description": "Source piste:type value."},
+            "sourceDifficulty": {"type": "string", "description": "Source piste:difficulty value, not an app rating."},
+            "sourceGrooming": {"type": "string"},
+            "description": {"type": "string"},
+            "winterAccess": {"type": "object", "additionalProperties": {"type": "string"}, "description": "Source ski / ski:nordic / snowshoe / snowmobile tags."},
+            "osmRelationId": {"type": "integer"},
+            "usfsTrailNo": {"type": "string"},
+            "usfsAllowedSnowUse": {"type": "array", "items": {"enum": ["snowshoe", "xc_ski", "snowmobile"]}},
+            "usfsSnowMotorized": {"type": "string"},
+            "usfsXcSkiManaged": {"type": "string", "description": "Managed season MM/DD-MM/DD or N/A, as published."},
+            "usfsSnowshoeManaged": {"type": "string"},
+            "lengthM": {"$ref": "#/$defs/nullableNumber", "description": "Geodesic length of the unsimplified source geometry (lines only)."},
+            "demGainM": {"$ref": "#/$defs/nullableNumber"},
+            "demLossM": {"$ref": "#/$defs/nullableNumber"},
+            "demMinElevM": {"$ref": "#/$defs/nullableNumber"},
+            "demMaxElevM": {"$ref": "#/$defs/nullableNumber"},
+            "demMeanAspectDeg": {"type": ["number", "null"], "minimum": 0, "exclusiveMaximum": 360, "description": "ski_descent only: circular mean downslope aspect, degrees clockwise from north."},
+            "demAspectResultant": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
+          }
+        }
+      }
+    }
+  }
+}

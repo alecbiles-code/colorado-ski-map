@@ -1,0 +1,222 @@
+{
+  "id": "terrain-numeric-n40w107-ne",
+  "kind": "terrain-numeric",
+  "tier": 2,
+  "region": "n40w107",
+  "url": "./data/terrain/terrain-numeric-n40w107-ne.pmtiles",
+  "bytes": 15925308,
+  "sha256": "a527b4112fb1761e2740d0e381519b948e339217db63f1f141f0fa9683ece692",
+  "processedAt": "2026-11-06T03:00:05Z",
+  "sources": [
+    {
+      "name": "USGS 3D Elevation Program (3DEP) 1/3 arc-second DEM tile n39w106",
+      "tile": "n39w106",
+      "role": "edge buffer",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w106/USGS_13_n39w106_20260630.tif",
+      "landingPage": "https://www.usgs.gov/3d-elevation-program",
+      "publicationDate": "2026-07-01",
+      "etag": "4286b4af389aa8bd1f8662e056766bdc-78",
+      "license": "Public domain (USGS-authored U.S. Government work); credit \"U.S. Geological Survey\"",
+      "attribution": "U.S. Geological Survey, 3D Elevation Program"
+    },
+    {
+      "name": "USGS 3D Elevation Program (3DEP) 1/3 arc-second DEM tile n39w107",
+      "tile": "n39w107",
+      "role": "edge buffer",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w107/USGS_13_n39w107_20260630.tif",
+      "landingPage": "https://www.usgs.gov/3d-elevation-program",
+      "publicationDate": "2026-07-01",
+      "etag": "c20268a52d5b1a40d52d2f1d0803686a-78",
+      "license": "Public domain (USGS-authored U.S. Government work); credit \"U.S. Geological Survey\"",
+      "attribution": "U.S. Geological Survey, 3D Elevation Program"
+    },
+    {
+      "name": "USGS 3D Elevation Program (3DEP) 1/3 arc-second DEM tile n39w108",
+      "tile": "n39w108",
+      "role": "edge buffer",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n39w108/USGS_13_n39w108_20260630.tif",
+      "landingPage": "https://www.usgs.gov/3d-elevation-program",
+      "publicationDate": "2026-07-01",
+      "etag": "9ebd8dcd2ae1bab10816cd7ccba1de6d-80",
+      "license": "Public domain (USGS-authored U.S. Government work); credit \"U.S. Geological Survey\"",
+      "attribution": "U.S. Geological Survey, 3D Elevation Program"
+    },
+    {
+      "name": "USGS 3D Elevation Program (3DEP) 1/3 arc-second DEM tile n40w106",
+      "tile": "n40w106",
+      "role": "edge buffer",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w106/USGS_13_n40w106_20260630.tif",
+      "landingPage": "https://www.usgs.gov/3d-elevation-program",
+      "publicationDate": "2026-07-01",
+      "etag": "ce18015337b5ec9a7b38ef347e338153-79",
+      "license": "Public domain (USGS-authored U.S. Government work); credit \"U.S. Geological Survey\"",
+      "attribution": "U.S. Geological Survey, 3D Elevation Program"
+    },
+    {
+      "name": "USGS 3D Elevation Program (3DEP) 1/3 arc-second DEM tile n40w107",
+      "tile": "n40w107",
+      "role": "cell",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w107/USGS_13_n40w107_20260708.tif",
+      "landingPage": "https://www.usgs.gov/3d-elevation-program",
+      "publicationDate": "2026-07-08",
+      "etag": "e2b354e2a9fe7f3f98375aa863dda0fb-82",
+      "license": "Public domain (USGS-authored U.S. Government work); credit \"U.S. Geological Survey\"",
+      "attribution": "U.S. Geological Survey, 3D Elevation Program"
+    },
+    {
+      "name": "USGS 3D Elevation Program (3DEP) 1/3 arc-second DEM tile n40w108",
+      "tile": "n40w108",
+      "role": "edge buffer",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w108/USGS_13_n40w108_20260708.tif",
+      "landingPage": "https://www.usgs.gov/3d-elevation-program",
+      "publicationDate": "2026-07-08",
+      "etag": "c5fee7595a804e46f79cd3fe19ebe175-82",
+      "license": "Public domain (USGS-authored U.S. Government work); credit \"U.S. Geological Survey\"",
+      "attribution": "U.S. Geological Survey, 3D Elevation Program"
+    },
+    {
+      "name": "USGS 3D Elevation Program (3DEP) 1/3 arc-second DEM tile n41w106",
+      "tile": "n41w106",
+      "role": "edge buffer",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w106/USGS_13_n41w106_20260708.tif",
+      "landingPage": "https://www.usgs.gov/3d-elevation-program",
+      "publicationDate": "2026-07-08",
+      "etag": "f07fdb31e02fefa7abc755056aba45d7-79",
+      "license": "Public domain (USGS-authored U.S. Government work); credit \"U.S. Geological Survey\"",
+      "attribution": "U.S. Geological Survey, 3D Elevation Program"
+    },
+    {
+      "name": "USGS 3D Elevation Program (3DEP) 1/3 arc-second DEM tile n41w107",
+      "tile": "n41w107",
+      "role": "edge buffer",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w107/USGS_13_n41w107_20260708.tif",
+      "landingPage": "https://www.usgs.gov/3d-elevation-program",
+      "publicationDate": "2026-07-08",
+      "etag": "9d7aa066b02e8391b897079f6432bf0e-75",
+      "license": "Public domain (USGS-authored U.S. Government work); credit \"U.S. Geological Survey\"",
+      "attribution": "U.S. Geological Survey, 3D Elevation Program"
+    },
+    {
+      "name": "USGS 3D Elevation Program (3DEP) 1/3 arc-second DEM tile n41w108",
+      "tile": "n41w108",
+      "role": "edge buffer",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n41w108/USGS_13_n41w108_20260708.tif",
+      "landingPage": "https://www.usgs.gov/3d-elevation-program",
+      "publicationDate": "2026-07-08",
+      "etag": "8db9edd7515ad4e45812b333d010facc-78",
+      "license": "Public domain (USGS-authored U.S. Government work); credit \"U.S. Geological Survey\"",
+      "attribution": "U.S. Geological Survey, 3D Elevation Program"
+    }
+  ],
+  "processing": {
+    "script": "pipeline/terrain/numeric_tiles.py",
+    "config": "pipeline/terrain/config.yaml",
+    "buffer_cells": 16,
+    "resampling": "bilinear",
+    "nodata_out": -9999.0,
+    "dem_scale": 10,
+    "flat_threshold_deg": 1.0,
+    "strip_rows": 1024,
+    "slopeMethod": "Horn (1981) 3x3, degrees",
+    "aspectConvention": "degrees clockwise from true north (UTM grid aspect plus meridian convergence at the cell centre); -1 flat"
+  },
+  "analysisGrid": {
+    "crs": "EPSG:26913",
+    "resM": 10,
+    "bounds": [
+      326800,
+      4317250,
+      414640,
+      4429680
+    ]
+  },
+  "verticalDatum": "NAVD88",
+  "units": {
+    "elevation": "m",
+    "slope": "degrees",
+    "aspect": "degrees"
+  },
+  "bbox": [
+    -106.5,
+    39.5,
+    -106,
+    40
+  ],
+  "coverage": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -106.5,
+          39.5
+        ],
+        [
+          -106,
+          39.5
+        ],
+        [
+          -106,
+          40
+        ],
+        [
+          -106.5,
+          40
+        ],
+        [
+          -106.5,
+          39.5
+        ]
+      ]
+    ]
+  },
+  "limitations": [
+    "Slope classes describe steepness only. They are not a hazard rating and do not say whether any slope is safe to ski.",
+    "Computed from a 10 m grid resampled from the USGS 3DEP 1/3 arc-second DEM. Features smaller than about 20-30 m (cliff bands, gullies, cornices, rollovers) are smoothed or missing; short steep pitches can be steeper than shown.",
+    "Snow depth, wind loading and cornices change the real surface; this is bare-earth terrain.",
+    "Aspect is degrees clockwise from true north: computed on the UTM 13N grid, then corrected by the meridian convergence at each cell (0.39-0.65 degrees in the pilot)."
+  ],
+  "methods": "docs/methods/terrain.md",
+  "numeric": {
+    "tileScheme": "utm-block (NOT Web Mercator; never add as a map source)",
+    "crs": "EPSG:26913",
+    "utmZone": 13,
+    "resM": 10,
+    "gridBounds": [
+      326800,
+      4317250,
+      414640,
+      4429680
+    ],
+    "originE": 0,
+    "originN": 4700000,
+    "blockCells": 256,
+    "apronCells": 1,
+    "tileZ": 9,
+    "elevScale": 10,
+    "nodata": -1000000,
+    "flatThresholdDeg": 1.0,
+    "aspect": "degrees clockwise from true north; the decoder adds the meridian convergence at the cell centre (utmConvergenceDeg)",
+    "encoding": "zlib(byte planes 0..3 of uint32 LE zigzag(2-D difference residuals of int elevation)); elevation_m = n / elevScale"
+  },
+  "tileCount": 414,
+  "processingSeconds": 3.8,
+  "part": "ne",
+  "verification": {
+    "points": 1004,
+    "elevation_equal_float32": 1004,
+    "slope_max_abs_diff_vs_float64_recompute": 7.105427357601002e-15,
+    "slope_max_abs_diff_vs_geotiff": 1.860993421587409e-06,
+    "slope_equal_float32": 1004,
+    "slope_class_equal": 1004,
+    "aspect_max_abs_diff_vs_float64_recompute": 1.1368683772161603e-13,
+    "aspect_equal_float32": 1004,
+    "aspect_flat_equal": 1004,
+    "verifiedAt": "2026-11-06T03:00:25+00:00",
+    "pointsPerArchive": {
+      "terrain-numeric-n40w107-sw": 239,
+      "terrain-numeric-n40w107-nw": 267,
+      "terrain-numeric-n40w107-se": 257,
+      "terrain-numeric-n40w107-ne": 241
+    }
+  }
+}

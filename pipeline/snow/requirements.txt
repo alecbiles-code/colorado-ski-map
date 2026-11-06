@@ -1,0 +1,4 @@
+# pipeline/snow (snodas.py, snotel_stations.py); Python 3.12. Tests also need pytest and jsonschema.
+numpy==2.5.4
+pillow==13.0.0
+pyyaml==6.0.3

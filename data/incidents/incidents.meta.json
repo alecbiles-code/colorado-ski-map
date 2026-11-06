@@ -1,0 +1,20 @@
+{
+ "id": "incidents",
+ "title": "Avalanche incidents",
+ "status": "empty",
+ "reason": "No source with terms that clearly permit republishing incident locations was found (2026-11-06). CAIC terms prohibit robots and data mining and reserve reproduction to prior written permission; avalanche.org asks API users to seek permission. See official-links.json and docs/methods/snow-sar-incidents.md.",
+ "source": null,
+ "authorization": null,
+ "featureCount": 0,
+ "locatedCount": 0,
+ "processedAt": "2026-11-06T00:29:14Z",
+ "crs": "EPSG:4326",
+ "schema": "schemas/incident.schema.json",
+ "limitations": [
+  "Reported accidents only. Missing incidents never imply low risk, and the map never shows a hazard rating.",
+  "A point is shown only where the source published coordinates; position.meaning says what it marks (often unknown).",
+  "Preliminary reports can change; the official report page is authoritative."
+ ],
+ "byteSize": 43,
+ "officialLinks": "./data/incidents/official-links.json"
+}

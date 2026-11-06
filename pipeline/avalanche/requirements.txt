@@ -1,0 +1,14 @@
+# Python 3.12.14 (uv venv). Install: uv venv --python 3.12 .venv && VIRTUAL_ENV=.venv uv pip install -r requirements.txt
+# avaframe 2.2b1 is a PyPI pre-release; it is the first release with the com4FlowPy numba engine.
+avaframe==2.2b1
+numba==0.68.1
+numpy==1.26.4
+scipy==1.17.1
+rasterio==1.4.4
+pyproj==3.8.0
+pyogrio==0.13.0
+geopandas==1.1.4
+pmtiles==3.8.1
+pillow==13.0.0
+PyYAML==6.0.3
+pytest==9.2.0

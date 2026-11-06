@@ -1,0 +1,83 @@
+{
+  "id": "search",
+  "title": "Place and route search index",
+  "file": "search.json",
+  "format": "JSON (columnar fields + rows)",
+  "bytes": 579999,
+  "processedAt": "2026-11-06T00:54:03Z",
+  "crs": "EPSG:4326",
+  "coordinateOrder": "lon,lat",
+  "license": "ODbL-1.0 (derived database of OpenStreetMap; share-alike applies to the data)",
+  "attribution": "(c) OpenStreetMap contributors (ODbL); OpenSkiData / OpenSkiMap.org, Skimap.org; USDA Forest Service; U.S. Geological Survey GNIS",
+  "sources": [
+    {
+      "name": "osm",
+      "url": "https://download.geofabrik.de/north-america/us/colorado-261103.osm.pbf",
+      "license": "ODbL-1.0",
+      "attribution": "(c) OpenStreetMap contributors, ODbL",
+      "termsUrl": "https://www.openstreetmap.org/copyright",
+      "retrievedAt": "2026-11-06T00:14:30Z",
+      "data_timestamp": "2026-11-03T21:24:23Z"
+    },
+    {
+      "name": "gnis",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/GeographicNames/DomesticNames/DomesticNames_CO_Text.zip",
+      "license": "Public domain (USGS); acknowledgment of USGS appreciated",
+      "attribution": "U.S. Geological Survey, Geographic Names Information System",
+      "termsUrl": null,
+      "retrievedAt": "2026-11-06T00:06:45Z",
+      "published": "2026-11-02"
+    },
+    {
+      "name": "openskidata",
+      "url": "https://tiles.openskimap.org/geojson/ski_areas.geojson",
+      "license": "ODbL-1.0",
+      "attribution": "Data from OpenSkiData / OpenSkiMap.org, (c) OpenStreetMap contributors (ODbL), Skimap.org, Who's On First, (c) Mapterhorn",
+      "termsUrl": "https://openskidata.org/",
+      "retrievedAt": "2026-11-06T00:05:25Z"
+    },
+    {
+      "name": "usfs_trails",
+      "url": "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_TrailNFSPublish_01/MapServer/0/query",
+      "license": "Public domain (U.S. federal government work)",
+      "attribution": "USDA Forest Service, EDW TrailNFS_Publish",
+      "termsUrl": "https://data.fs.usda.gov/geodata/edw/edw_resources/meta/S_USA.TrailNFS_Publish.xml",
+      "retrievedAt": "2026-11-06T00:14:11Z"
+    }
+  ],
+  "processing": {
+    "script": "pipeline/routes/build.py",
+    "steps": [
+      "Every named feature from places, ski-areas and routes; lon/lat is the label point (point on surface for lines and polygons)."
+    ],
+    "parameters": {}
+  },
+  "coverage": {
+    "bbox": [
+      -109.0603,
+      36.9925,
+      -102.0415,
+      41.0034
+    ],
+    "area": "Colorado (state bounding box)"
+  },
+  "units": {},
+  "limitations": [
+    "Names are as published by each source; duplicates across sources (for example an OSM trail and the USFS segment of the same trail) are not merged."
+  ],
+  "counts": {
+    "total": 5708,
+    "byClass": {
+      "peak": 3867,
+      "approach": 638,
+      "trailhead": 477,
+      "hut": 54,
+      "parking": 125,
+      "ski_area": 135,
+      "pass": 380,
+      "ascent_skin": 23,
+      "touring_area": 1,
+      "ski_descent": 8
+    }
+  }
+}

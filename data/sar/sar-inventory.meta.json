@@ -1,0 +1,361 @@
+{
+ "id": "sar-avalanche-inventory",
+ "title": "Experimental SAR avalanche candidates",
+ "persistentLabel": "Experimental SAR avalanche candidates",
+ "productClass": "experimental_sar_candidate",
+ "summary": "Sentinel-1 C-band backscatter change detection over part of the Colorado Front Range and Summit County, winters 2022, 2023 and 2024 (January 1 to April 30 scenes), 20 m. Polygons are unvalidated candidates for avalanche debris, not observed avalanches, not incidents, not a hazard map and not a forecast.",
+ "upstream": {
+  "repo": "https://github.com/alecbiles-code/avalanche-inventory",
+  "inspectedCommit": "d69692a",
+  "audit": "/Users/bci-spatialecon/avy/avalanche-audit-2026-10-28.md (local, not published)",
+  "updateReport": "/Users/bci-spatialecon/avy/avalanche-site-update-2026-11-05/REPORT.md (local branch fm/avalanche-audit-implement, not pushed)",
+  "archivesUnchangedByUpdate": true
+ },
+ "method": {
+  "sensor": "Sentinel-1 IW GRD, descending orbit only, VV and VH",
+  "resolutionM": 20,
+  "baseline": "Per-pixel summer (July 1 to September 30) median and MAD of the preceding summer",
+  "score": "Robust z = (winter - summer median) / MAD per channel; v2 takes the per-pixel maximum over the winter stack per channel, then combined z = 0.45 VV + 0.35 VH + 0.20 ratio (scripts/gee_processing.py)",
+  "winterWindows": {
+   "2021-2022": "2022-01-01 to 2022-04-30",
+   "2022-2023": "2023-01-01 to 2023-04-30",
+   "2023-2024": "2024-01-01 to 2024-04-30"
+  },
+  "thresholdingAndPolygons": "Manual step in ArcGIS Pro (threshold, slope 20 to 70 degrees, JRC water < 50 %, polygon editing, confidence class). Not reproducible from the repository.",
+  "hotspotDefinition": "Thresholded MEAN combined z across the three winters (mean_combined_z_cross_season_hotspot). It is not a count of winters with a detection."
+ },
+ "dates": {
+  "available": "season only (for example '2021-2022'); hotspots carry no season",
+  "notAvailable": "No acquisition date, event date or peak day. A candidate cannot be tied to a storm or to an observed avalanche date."
+ },
+ "coverage": {
+  "polygonUrl": "./data/sar/coverage.geojson",
+  "studyBbox": [
+   -106.43,
+   39.41,
+   -105.34,
+   39.95
+  ],
+  "dataExtent": [
+   -106.429933,
+   39.410095,
+   -105.469544,
+   39.94989
+  ],
+  "statement": "Covers only the study box (Front Range near the Continental Divide, Summit County, Clear Creek). Everything else in Colorado was not analysed: show it as no data, never as no avalanches."
+ },
+ "archives": [
+  {
+   "id": "seasonal",
+   "file": "all_seasons.pmtiles",
+   "url": "https://alecbiles-code.github.io/avalanche-inventory/all_seasons.pmtiles",
+   "bytes": 67200745,
+   "sourceLayer": "avalanches",
+   "pmtilesVersion": 3,
+   "tileType": "TileType.MVT",
+   "tileCompression": "Compression.GZIP",
+   "minzoom": 5,
+   "maxzoom": 14,
+   "bounds": [
+    -106.429933,
+    39.410095,
+    -105.469544,
+    39.94989
+   ],
+   "tileCount": 1154,
+   "featureCount": 506224,
+   "featureCountsBySeasonConfidence": {
+    "2021-2022|higher confidence": 49034,
+    "2021-2022|lower confidence": 102422,
+    "2022-2023|higher confidence": 59726,
+    "2022-2023|lower confidence": 125328,
+    "2023-2024|higher confidence": 57249,
+    "2023-2024|lower confidence": 112465
+   },
+   "areaM2": {
+    "min": 400.171013678,
+    "max": 3976851.09613
+   },
+   "featuresSplitAcrossTiles": 59220,
+   "tileBytesByZoom": {
+    "5": {
+     "tiles": 1,
+     "maxBytes": 153004,
+     "meanBytes": 153004
+    },
+    "6": {
+     "tiles": 1,
+     "maxBytes": 486294,
+     "meanBytes": 486294
+    },
+    "7": {
+     "tiles": 1,
+     "maxBytes": 434394,
+     "meanBytes": 434394
+    },
+    "8": {
+     "tiles": 3,
+     "maxBytes": 417594,
+     "meanBytes": 141510
+    },
+    "9": {
+     "tiles": 4,
+     "maxBytes": 465965,
+     "meanBytes": 151371
+    },
+    "10": {
+     "tiles": 9,
+     "maxBytes": 436006,
+     "meanBytes": 207882
+    },
+    "11": {
+     "tiles": 28,
+     "maxBytes": 442349,
+     "meanBytes": 127418
+    },
+    "12": {
+     "tiles": 82,
+     "maxBytes": 468940,
+     "meanBytes": 117951
+    },
+    "13": {
+     "tiles": 240,
+     "maxBytes": 394637,
+     "meanBytes": 101336
+    },
+    "14": {
+     "tiles": 785,
+     "maxBytes": 134822,
+     "meanBytes": 32687
+    }
+   },
+   "generator": "tippecanoe v2.80.0",
+   "generatorOptions": "tippecanoe -o /mnt/c/Users/User/Desktop/avalanche_project/tiles/all_seasons.pmtiles -Z5 -z14 --drop-densest-as-needed --extend-zooms-if-still-dropping '--simplification=1' -l avalanches --force /mnt/c/Users/User/Desktop/avalanche_project/data/processed/all_seasons.geojson",
+   "recommendedMinzoom": 11,
+   "meaning": "Per-winter candidates: one polygon per thresholded anomaly in one winter.",
+   "fields": {
+    "event_id": "String. Prefix plus a running index assigned per input file by scripts/vectorize.py (AVA_<season>_<n> or AVA_hotspot_<n>). Unique within each archive; NOT stable across rebuilds. A polygon cut by tile edges appears in several tiles with the same event_id: de-duplicate by event_id when counting or selecting.",
+    "confidence": "String, 'higher confidence' or 'lower confidence'. Assigned by hand in ArcGIS Pro before vectorize.py (the manual step); the README rule is peak combined z-score > 6.0 = higher, 3.0 to 6.0 = lower, not confirmed for v2 [ALEC TO CONFIRM in the avalanche-inventory report, open item 5.1]. A detection-strength class, not a probability, not validated.",
+    "Area_m2": "Number, polygon area in square metres carried from the ArcGIS shapefile (UTM 13N). Minimum 400 m2 = one 20 m pixel.",
+    "centroid_lat": "Number, centroid latitude computed by geopandas in EPSG:4326 (geographic centroid, approximate).",
+    "centroid_lon": "Number, centroid longitude, as above.",
+    "type": "String, constant per archive: 'seasonal_candidate' or 'cross_season_hotspot'.",
+    "season": "String, '2021-2022', '2022-2023' or '2023-2024': the winter whose January to April scenes produced the anomaly."
+   }
+  },
+  {
+   "id": "hotspots",
+   "file": "cross_season_hotspot.pmtiles",
+   "url": "https://alecbiles-code.github.io/avalanche-inventory/cross_season_hotspot.pmtiles",
+   "bytes": 73770573,
+   "sourceLayer": "hotspots",
+   "pmtilesVersion": 3,
+   "tileType": "TileType.MVT",
+   "tileCompression": "Compression.NONE",
+   "minzoom": 5,
+   "maxzoom": 14,
+   "bounds": [
+    -106.429933,
+    39.410095,
+    -105.4718819,
+    39.94989
+   ],
+   "tileCount": 1114,
+   "featureCount": 105568,
+   "featureCountsBySeasonConfidence": {
+    "None|higher confidence": 36681,
+    "None|lower confidence": 68887
+   },
+   "areaM2": {
+    "min": 400.171013915,
+    "max": 2096717.52042
+   },
+   "featuresSplitAcrossTiles": 13267,
+   "tileBytesByZoom": {
+    "5": {
+     "tiles": 1,
+     "maxBytes": 118698,
+     "meanBytes": 118698
+    },
+    "6": {
+     "tiles": 1,
+     "maxBytes": 416772,
+     "meanBytes": 416772
+    },
+    "7": {
+     "tiles": 1,
+     "maxBytes": 1293614,
+     "meanBytes": 1293614
+    },
+    "8": {
+     "tiles": 3,
+     "maxBytes": 3445552,
+     "meanBytes": 1167598
+    },
+    "9": {
+     "tiles": 4,
+     "maxBytes": 5482559,
+     "meanBytes": 1970982
+    },
+    "10": {
+     "tiles": 9,
+     "maxBytes": 2700258,
+     "meanBytes": 1350236
+    },
+    "11": {
+     "tiles": 28,
+     "maxBytes": 1955074,
+     "meanBytes": 424337
+    },
+    "12": {
+     "tiles": 81,
+     "maxBytes": 741262,
+     "meanBytes": 146654
+    },
+    "13": {
+     "tiles": 234,
+     "maxBytes": 221402,
+     "meanBytes": 51662
+    },
+    "14": {
+     "tiles": 752,
+     "maxBytes": 79875,
+     "meanBytes": 16685
+    }
+   },
+   "generator": "tippecanoe v2.80.0",
+   "generatorOptions": "tippecanoe -o /mnt/c/Users/User/Desktop/avalanche_project/tiles/cross_season_hotspot.pmtiles -Z5 -z14 --no-feature-limit --no-tile-size-limit --no-tile-compression -l hotspots --force /mnt/c/Users/User/Desktop/avalanche_project/data/processed/mean_combined_z_cross_season_hotspot.geojson",
+   "recommendedMinzoom": 12,
+   "meaning": "Cross-season persistence: polygons where the mean combined z over three winters passed the threshold.",
+   "fields": {
+    "event_id": "String. Prefix plus a running index assigned per input file by scripts/vectorize.py (AVA_<season>_<n> or AVA_hotspot_<n>). Unique within each archive; NOT stable across rebuilds. A polygon cut by tile edges appears in several tiles with the same event_id: de-duplicate by event_id when counting or selecting.",
+    "confidence": "String, 'higher confidence' or 'lower confidence'. Assigned by hand in ArcGIS Pro before vectorize.py (the manual step); the README rule is peak combined z-score > 6.0 = higher, 3.0 to 6.0 = lower, not confirmed for v2 [ALEC TO CONFIRM in the avalanche-inventory report, open item 5.1]. A detection-strength class, not a probability, not validated.",
+    "Area_m2": "Number, polygon area in square metres carried from the ArcGIS shapefile (UTM 13N). Minimum 400 m2 = one 20 m pixel.",
+    "centroid_lat": "Number, centroid latitude computed by geopandas in EPSG:4326 (geographic centroid, approximate).",
+    "centroid_lon": "Number, centroid longitude, as above.",
+    "type": "String, constant per archive: 'seasonal_candidate' or 'cross_season_hotspot'."
+   }
+  }
+ ],
+ "rangeRequestTest": {
+  "testedAt": "2026-11-06T00:20:42Z",
+  "origin": "Origin: https://alecbiles-code.github.io (curl)",
+  "results": [
+   {
+    "url": "https://alecbiles-code.github.io/avalanche-inventory/all_seasons.pmtiles",
+    "request": "Range: bytes=0-126",
+    "status": 206,
+    "contentRange": "bytes 0-126/67200745",
+    "accessControlAllowOrigin": "*",
+    "cacheControl": "max-age=600",
+    "contentType": "application/octet-stream"
+   },
+   {
+    "url": "https://alecbiles-code.github.io/avalanche-inventory/all_seasons.pmtiles",
+    "request": "Range: bytes=3000000-3016383",
+    "status": 206,
+    "contentRange": "bytes 3000000-3016383/67200745"
+   },
+   {
+    "url": "https://alecbiles-code.github.io/avalanche-inventory/cross_season_hotspot.pmtiles",
+    "request": "Range: bytes=0-126",
+    "status": 206,
+    "contentRange": "bytes 0-126/73770573",
+    "accessControlAllowOrigin": "*",
+    "cacheControl": "max-age=600",
+    "contentType": "application/octet-stream"
+   },
+   {
+    "url": "https://alecbiles-code.github.io/avalanche-inventory/cross_season_hotspot.pmtiles",
+    "request": "Range: bytes=3000000-3016383",
+    "status": 206,
+    "contentRange": "bytes 3000000-3016383/73770573"
+   }
+  ],
+  "headerMatchesLocalCommit": "First 6503 bytes (header, root directory, metadata) of each published archive are byte-identical to the local d69692a files (SHA-256 compared)."
+ },
+ "recommendedStyle": {
+  "note": "Final colours belong to the app-core lane under ARCHITECTURE 4.6: SAR candidates must not share a colour family, layer or legend with incidents, modelled terrain or forecasts. Avoid the danger-scale colours (green, yellow, orange, red, black) and the slope-class ramp.",
+  "hotspots": {
+   "line": "#22d3ee",
+   "fillOpacityByConfidence": {
+    "higher confidence": 0.45,
+    "lower confidence": 0.12
+   }
+  },
+  "seasonal": {
+   "line": "#c4b5fd",
+   "fillOpacityByConfidence": {
+    "higher confidence": 0.45,
+    "lower confidence": 0.12
+   },
+   "defaultVisible": false
+  },
+  "lineWidth": [
+   "interpolate",
+   [
+    "linear"
+   ],
+   [
+    "zoom"
+   ],
+   11,
+   0.4,
+   14,
+   1.2
+  ],
+  "filters": {
+   "confidence": [
+    "in",
+    [
+     "get",
+     "confidence"
+    ],
+    [
+     "literal",
+     [
+      "higher confidence",
+      "lower confidence"
+     ]
+    ]
+   ],
+   "season": [
+    "in",
+    [
+     "get",
+     "season"
+    ],
+    [
+     "literal",
+     [
+      "2021-2022",
+      "2022-2023",
+      "2023-2024"
+     ]
+    ]
+   ]
+  },
+  "minzoomReason": "Hotspot tiles are stored uncompressed: z8 up to 3.4 MB and z9 up to 5.4 MB per tile, z11 up to 1.9 MB, z12 up to 0.7 MB. Seasonal tiles are gzip, up to 0.47 MB at z6 to z12. Use a layer minzoom (11 seasonal, 12 hotspots) so a phone never fetches the heavy low-zoom tiles; show the coverage outline at lower zooms instead.",
+  "popupText": "Experimental SAR avalanche candidate. Unvalidated satellite backscatter change from the winter of <season>, not a confirmed avalanche and not a hazard rating."
+ },
+ "limitations": [
+  "Unvalidated: nothing has been compared with observed avalanches (CAIC observations). Accuracy, detection rate and false-alarm rate are unknown.",
+  "v2 uses the per-pixel maximum z over the winter stack, so one noisy or wet-snow scene can create a candidate (audit 2.3). The persistence-gated v3 detector exists in code but has not been run.",
+  "Summer (snow-free) baseline: the anomaly also contains seasonal snow and vegetation change, not only debris (audit 2.2).",
+  "Constant incidence angle and look azimuth in terrain flattening; no layover/shadow mask; no forest mask in v2 (audit 2.4 to 2.6). Expect false positives on steep slopes, in forest and on sun-exposed aspects.",
+  "Manual ArcGIS step for thresholds, polygons and confidence: not reproducible, settings not confirmed.",
+  "Season only, no dates. Descending orbit only, 12-day revisit; December scenes are not included.",
+  "The density (about 506 thousand per-winter and 106 thousand persistence polygons in a study box of about 93 x 60 km) points to a large false-positive load.",
+  "Recurrence or anomaly strength is not a hazard forecast, not a calibrated probability and not a confirmed avalanche history.",
+  "Max zoom 14: polygons are simplified at z14 and overzoomed beyond; 20 m pixels were the analysis unit."
+ ],
+ "role": "Displayed as an experimental reference layer only. Not used to tune or validate the avalanche terrain model in this app. If it is ever used for tuning, the same polygons must not also be used as independent validation.",
+ "license": "Personal project of the app owner (alecbiles-code). Derived from Copernicus Sentinel-1 data (contains modified Copernicus Sentinel data 2021 to 2024) processed in Google Earth Engine.",
+ "attribution": "SAR avalanche inventory (alecbiles-code); contains modified Copernicus Sentinel data 2021-2024",
+ "processing": {
+  "inspectionScript": "pipeline/sar/inspect_pmtiles.py",
+  "inspectedAt": "2026-11-06T00:20:00Z"
+ },
+ "byteSize": 140971318,
+ "copiedIntoThisRepo": false
+}

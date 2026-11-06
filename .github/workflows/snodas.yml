@@ -1,0 +1,48 @@
+name: Refresh SNODAS snow product
+# Once a day: the newest NSIDC SNODAS day (NSIDC posts it around 14:00 UTC) as data/snow/snodas.meta.json
+# plus data/snow/snodas/<date>/ on the "data" branch. The branch is rebuilt as one commit each run, so the
+# repository history does not grow; the two newest dates are kept. The app reads it from
+# raw.githubusercontent.com/<owner>/<repo>/data/ when served from github.io, and falls back to the dated
+# snapshot committed under ./data/ on main. No secrets; the job only needs to push to its own repository.
+# Needs Settings > Actions > General > Workflow permissions set to "Read and write". Not enabled or run by the build.
+# Every workflow that writes the data branch must use the concurrency group "data-branch" and start from the
+# last published tree, or it will delete the other workflows' files.
+on:
+  schedule:
+    - cron: '35 16 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: data-branch
+  cancel-in-progress: false
+jobs:
+  snodas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v6.3.0
+        with:
+          python-version: '3.12'
+      - name: Install pinned dependencies
+        run: pip install --quiet -r pipeline/snow/requirements.txt pytest==9.2.0
+      - name: Self-test the decoder
+        run: python -m pytest -q -p no:cacheprovider tests/pipeline/test_snodas.py
+      - name: Start from the last published data
+        run: |
+          mkdir -p out
+          if git fetch --depth 1 origin data; then git --work-tree=out checkout origin/data -- . ; fi
+          sha256sum out/data/snow/snodas.meta.json 2>/dev/null > "$RUNNER_TEMP/before.sha" || true
+      - name: Build the newest SNODAS day (no change if already current)
+        run: python pipeline/snow/snodas.py --root out --work "$RUNNER_TEMP"
+      - name: Publish to the data branch when the product changed
+        run: |
+          if sha256sum --status -c "$RUNNER_TEMP/before.sha" 2>/dev/null; then echo "SNODAS unchanged; nothing to publish"; exit 0; fi
+          cd out
+          git init --quiet --initial-branch=data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit --quiet -m "Data $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push --force --quiet "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" data

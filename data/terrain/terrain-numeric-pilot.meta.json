@@ -1,0 +1,681 @@
+{
+  "id": "terrain-numeric-pilot",
+  "kind": "terrain-numeric",
+  "tier": 2,
+  "region": "pilot",
+  "url": "./data/terrain/terrain-numeric-pilot.pmtiles",
+  "bytes": 7699371,
+  "sha256": "6f136fc670740b2d65a09ed272b3b7fdf128a6d0a952318ad57b3ee66a081148",
+  "processedAt": "2026-11-06T01:26:24Z",
+  "sources": [
+    {
+      "name": "USGS 3D Elevation Program (3DEP) 1/3 arc-second DEM tile n40w106",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w106/USGS_13_n40w106_20260630.tif",
+      "landingPage": "https://www.usgs.gov/3d-elevation-program",
+      "publicationDate": "2026-07-01",
+      "etag": "ce18015337b5ec9a7b38ef347e338153-79",
+      "license": "Public domain (USGS-authored U.S. Government work); credit \"U.S. Geological Survey\"",
+      "attribution": "U.S. Geological Survey, 3D Elevation Program"
+    },
+    {
+      "name": "USGS 3D Elevation Program (3DEP) 1/3 arc-second DEM tile n40w107",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/historical/n40w107/USGS_13_n40w107_20260708.tif",
+      "landingPage": "https://www.usgs.gov/3d-elevation-program",
+      "publicationDate": "2026-07-08",
+      "etag": "e2b354e2a9fe7f3f98375aa863dda0fb-82",
+      "license": "Public domain (USGS-authored U.S. Government work); credit \"U.S. Geological Survey\"",
+      "attribution": "U.S. Geological Survey, 3D Elevation Program"
+    }
+  ],
+  "processing": {
+    "script": "pipeline/terrain/numeric_tiles.py",
+    "config": "pipeline/terrain/config.yaml",
+    "buffer_cells": 16,
+    "resampling": "bilinear",
+    "nodata_out": -9999.0,
+    "dem_scale": 10,
+    "flat_threshold_deg": 1.0,
+    "strip_rows": 1024,
+    "slopeMethod": "Horn (1981) 3x3, degrees",
+    "aspectConvention": "degrees clockwise from true north (UTM grid aspect plus meridian convergence at the cell centre); -1 flat"
+  },
+  "analysisGrid": {
+    "crs": "EPSG:26913",
+    "resM": 10,
+    "bounds": [
+      414110,
+      4381320,
+      447020,
+      4419360
+    ]
+  },
+  "verticalDatum": "NAVD88",
+  "units": {
+    "elevation": "m",
+    "slope": "degrees",
+    "aspect": "degrees"
+  },
+  "bbox": [
+    -106.005031,
+    39.577291,
+    -105.616902,
+    39.922685
+  ],
+  "coverage": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -106.000064,
+          39.577291
+        ],
+        [
+          -105.988091,
+          39.577394
+        ],
+        [
+          -105.976118,
+          39.577495
+        ],
+        [
+          -105.964145,
+          39.577595
+        ],
+        [
+          -105.952171,
+          39.577694
+        ],
+        [
+          -105.940198,
+          39.577791
+        ],
+        [
+          -105.928225,
+          39.577887
+        ],
+        [
+          -105.916252,
+          39.577982
+        ],
+        [
+          -105.904278,
+          39.578076
+        ],
+        [
+          -105.892305,
+          39.578169
+        ],
+        [
+          -105.880331,
+          39.57826
+        ],
+        [
+          -105.868358,
+          39.57835
+        ],
+        [
+          -105.856384,
+          39.578439
+        ],
+        [
+          -105.84441,
+          39.578527
+        ],
+        [
+          -105.832437,
+          39.578613
+        ],
+        [
+          -105.820463,
+          39.578698
+        ],
+        [
+          -105.808489,
+          39.578782
+        ],
+        [
+          -105.796515,
+          39.578865
+        ],
+        [
+          -105.784541,
+          39.578946
+        ],
+        [
+          -105.772567,
+          39.579027
+        ],
+        [
+          -105.760593,
+          39.579106
+        ],
+        [
+          -105.748619,
+          39.579183
+        ],
+        [
+          -105.736645,
+          39.57926
+        ],
+        [
+          -105.724671,
+          39.579335
+        ],
+        [
+          -105.712697,
+          39.579409
+        ],
+        [
+          -105.700723,
+          39.579482
+        ],
+        [
+          -105.688749,
+          39.579554
+        ],
+        [
+          -105.676774,
+          39.579624
+        ],
+        [
+          -105.6648,
+          39.579693
+        ],
+        [
+          -105.652825,
+          39.579761
+        ],
+        [
+          -105.640851,
+          39.579828
+        ],
+        [
+          -105.628877,
+          39.579893
+        ],
+        [
+          -105.616902,
+          39.579957
+        ],
+        [
+          -105.616982,
+          39.588977
+        ],
+        [
+          -105.617062,
+          39.597996
+        ],
+        [
+          -105.617142,
+          39.607015
+        ],
+        [
+          -105.617222,
+          39.616035
+        ],
+        [
+          -105.617302,
+          39.625054
+        ],
+        [
+          -105.617382,
+          39.634073
+        ],
+        [
+          -105.617463,
+          39.643093
+        ],
+        [
+          -105.617543,
+          39.652112
+        ],
+        [
+          -105.617623,
+          39.661131
+        ],
+        [
+          -105.617703,
+          39.670151
+        ],
+        [
+          -105.617784,
+          39.67917
+        ],
+        [
+          -105.617864,
+          39.688189
+        ],
+        [
+          -105.617945,
+          39.697208
+        ],
+        [
+          -105.618025,
+          39.706228
+        ],
+        [
+          -105.618106,
+          39.715247
+        ],
+        [
+          -105.618186,
+          39.724266
+        ],
+        [
+          -105.618267,
+          39.733285
+        ],
+        [
+          -105.618347,
+          39.742304
+        ],
+        [
+          -105.618428,
+          39.751324
+        ],
+        [
+          -105.618509,
+          39.760343
+        ],
+        [
+          -105.618589,
+          39.769362
+        ],
+        [
+          -105.61867,
+          39.778381
+        ],
+        [
+          -105.618751,
+          39.7874
+        ],
+        [
+          -105.618832,
+          39.796419
+        ],
+        [
+          -105.618912,
+          39.805438
+        ],
+        [
+          -105.618993,
+          39.814457
+        ],
+        [
+          -105.619074,
+          39.823476
+        ],
+        [
+          -105.619155,
+          39.832495
+        ],
+        [
+          -105.619236,
+          39.841514
+        ],
+        [
+          -105.619317,
+          39.850533
+        ],
+        [
+          -105.619398,
+          39.859552
+        ],
+        [
+          -105.619479,
+          39.868571
+        ],
+        [
+          -105.619561,
+          39.87759
+        ],
+        [
+          -105.619642,
+          39.886609
+        ],
+        [
+          -105.619723,
+          39.895628
+        ],
+        [
+          -105.619804,
+          39.904647
+        ],
+        [
+          -105.619885,
+          39.913666
+        ],
+        [
+          -105.619967,
+          39.922685
+        ],
+        [
+          -105.632001,
+          39.92262
+        ],
+        [
+          -105.644035,
+          39.922554
+        ],
+        [
+          -105.656069,
+          39.922486
+        ],
+        [
+          -105.668103,
+          39.922417
+        ],
+        [
+          -105.680136,
+          39.922347
+        ],
+        [
+          -105.69217,
+          39.922276
+        ],
+        [
+          -105.704204,
+          39.922204
+        ],
+        [
+          -105.716238,
+          39.92213
+        ],
+        [
+          -105.728271,
+          39.922055
+        ],
+        [
+          -105.740305,
+          39.921979
+        ],
+        [
+          -105.752338,
+          39.921901
+        ],
+        [
+          -105.764372,
+          39.921823
+        ],
+        [
+          -105.776405,
+          39.921743
+        ],
+        [
+          -105.788439,
+          39.921662
+        ],
+        [
+          -105.800472,
+          39.921579
+        ],
+        [
+          -105.812506,
+          39.921495
+        ],
+        [
+          -105.824539,
+          39.921411
+        ],
+        [
+          -105.836572,
+          39.921324
+        ],
+        [
+          -105.848605,
+          39.921237
+        ],
+        [
+          -105.860638,
+          39.921148
+        ],
+        [
+          -105.872671,
+          39.921058
+        ],
+        [
+          -105.884704,
+          39.920967
+        ],
+        [
+          -105.896737,
+          39.920875
+        ],
+        [
+          -105.90877,
+          39.920781
+        ],
+        [
+          -105.920803,
+          39.920686
+        ],
+        [
+          -105.932836,
+          39.92059
+        ],
+        [
+          -105.944869,
+          39.920492
+        ],
+        [
+          -105.956901,
+          39.920394
+        ],
+        [
+          -105.968934,
+          39.920294
+        ],
+        [
+          -105.980966,
+          39.920193
+        ],
+        [
+          -105.992999,
+          39.92009
+        ],
+        [
+          -106.005031,
+          39.919987
+        ],
+        [
+          -106.004899,
+          39.910968
+        ],
+        [
+          -106.004768,
+          39.90195
+        ],
+        [
+          -106.004636,
+          39.892932
+        ],
+        [
+          -106.004504,
+          39.883914
+        ],
+        [
+          -106.004373,
+          39.874896
+        ],
+        [
+          -106.004241,
+          39.865878
+        ],
+        [
+          -106.00411,
+          39.85686
+        ],
+        [
+          -106.003978,
+          39.847842
+        ],
+        [
+          -106.003847,
+          39.838824
+        ],
+        [
+          -106.003716,
+          39.829806
+        ],
+        [
+          -106.003584,
+          39.820787
+        ],
+        [
+          -106.003453,
+          39.811769
+        ],
+        [
+          -106.003322,
+          39.802751
+        ],
+        [
+          -106.003191,
+          39.793733
+        ],
+        [
+          -106.00306,
+          39.784715
+        ],
+        [
+          -106.002929,
+          39.775696
+        ],
+        [
+          -106.002798,
+          39.766678
+        ],
+        [
+          -106.002668,
+          39.75766
+        ],
+        [
+          -106.002537,
+          39.748642
+        ],
+        [
+          -106.002406,
+          39.739623
+        ],
+        [
+          -106.002275,
+          39.730605
+        ],
+        [
+          -106.002145,
+          39.721587
+        ],
+        [
+          -106.002014,
+          39.712568
+        ],
+        [
+          -106.001884,
+          39.70355
+        ],
+        [
+          -106.001754,
+          39.694531
+        ],
+        [
+          -106.001623,
+          39.685513
+        ],
+        [
+          -106.001493,
+          39.676495
+        ],
+        [
+          -106.001363,
+          39.667476
+        ],
+        [
+          -106.001232,
+          39.658458
+        ],
+        [
+          -106.001102,
+          39.649439
+        ],
+        [
+          -106.000972,
+          39.640421
+        ],
+        [
+          -106.000842,
+          39.631402
+        ],
+        [
+          -106.000712,
+          39.622384
+        ],
+        [
+          -106.000583,
+          39.613365
+        ],
+        [
+          -106.000453,
+          39.604347
+        ],
+        [
+          -106.000323,
+          39.595328
+        ],
+        [
+          -106.000193,
+          39.58631
+        ],
+        [
+          -106.000064,
+          39.577291
+        ]
+      ]
+    ]
+  },
+  "limitations": [
+    "Slope classes describe steepness only. They are not a hazard rating and do not say whether any slope is safe to ski.",
+    "Computed from a 10 m grid resampled from the USGS 3DEP 1/3 arc-second DEM. Features smaller than about 20-30 m (cliff bands, gullies, cornices, rollovers) are smoothed or missing; short steep pitches can be steeper than shown.",
+    "Snow depth, wind loading and cornices change the real surface; this is bare-earth terrain.",
+    "Aspect is degrees clockwise from true north: computed on the UTM 13N grid, then corrected by the meridian convergence at each cell (0.39-0.65 degrees in the pilot)."
+  ],
+  "methods": "docs/methods/terrain.md",
+  "numeric": {
+    "tileScheme": "utm-block (NOT Web Mercator; never add as a map source)",
+    "crs": "EPSG:26913",
+    "utmZone": 13,
+    "resM": 10,
+    "gridBounds": [
+      414110,
+      4381320,
+      447020,
+      4419360
+    ],
+    "originE": 0,
+    "originN": 4700000,
+    "blockCells": 256,
+    "apronCells": 1,
+    "tileZ": 9,
+    "elevScale": 10,
+    "nodata": -1000000,
+    "flatThresholdDeg": 1.0,
+    "aspect": "degrees clockwise from true north; the decoder adds the meridian convergence at the cell centre (utmConvergenceDeg)",
+    "encoding": "zlib(byte planes 0..3 of uint32 LE zigzag(2-D difference residuals of int elevation)); elevation_m = n / elevScale"
+  },
+  "tileCount": 224,
+  "processingSeconds": 1.4,
+  "verification": {
+    "points": 1004,
+    "elevation_equal_float32": 1004,
+    "slope_max_abs_diff_vs_float64_recompute": 7.105427357601002e-15,
+    "slope_max_abs_diff_vs_geotiff": 1.9059464761994604e-06,
+    "slope_equal_float32": 1004,
+    "slope_class_equal": 1004,
+    "aspect_max_abs_diff_vs_float64_recompute": 1.1368683772161603e-13,
+    "aspect_equal_float32": 1004,
+    "aspect_flat_equal": 1004,
+    "verifiedAt": "2026-11-06T01:26:26+00:00",
+    "pointsPerArchive": {
+      "terrain-numeric-pilot": 1004
+    }
+  }
+}

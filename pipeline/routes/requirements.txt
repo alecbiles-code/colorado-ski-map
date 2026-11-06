@@ -1,0 +1,8 @@
+# Python 3.12. DuckDB spatial extension (a3dbcd1781 for duckdb 2.0.0) is
+# installed at run time into <work_dir>/duckdb_ext, not globally.
+duckdb==2.0.0
+pyyaml==6.0.3
+numpy==2.5.4
+pillow==13.0.0
+jsonschema==4.26.0
+pytest==9.2.0

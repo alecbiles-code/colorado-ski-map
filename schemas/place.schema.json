@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "place.schema.json",
+  "title": "Skintrack CO place FeatureCollection (data/places/places.geojson and data/routes/ski-areas.geojson)",
+  "description": "Peaks, passes, trailheads, trailhead parking, huts and ski areas. Coordinates are WGS84 [lon, lat]; elevations are metres. Unknown values are null; optional properties that are not applicable are omitted.",
+  "type": "object",
+  "required": ["type", "features"],
+  "properties": {
+    "type": {"const": "FeatureCollection"},
+    "features": {"type": "array", "items": {"$ref": "#/$defs/feature"}}
+  },
+  "$defs": {
+    "position": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "number", "minimum": -109.6, "maximum": -101.5},
+        {"type": "number", "minimum": 36.5, "maximum": 41.5}
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "ring": {"type": "array", "items": {"$ref": "#/$defs/position"}, "minItems": 4},
+    "polygon": {"type": "array", "items": {"$ref": "#/$defs/ring"}, "minItems": 1},
+    "geometry": {
+      "oneOf": [
+        {"type": "object", "required": ["type", "coordinates"], "properties": {"type": {"const": "Point"}, "coordinates": {"$ref": "#/$defs/position"}}},
+        {"type": "object", "required": ["type", "coordinates"], "properties": {"type": {"const": "Polygon"}, "coordinates": {"$ref": "#/$defs/polygon"}}},
+        {"type": "object", "required": ["type", "coordinates"], "properties": {"type": {"const": "MultiPolygon"}, "coordinates": {"type": "array", "items": {"$ref": "#/$defs/polygon"}, "minItems": 1}}}
+      ]
+    },
+    "feature": {
+      "type": "object",
+      "required": ["type", "id", "geometry", "properties"],
+      "properties": {
+        "type": {"const": "Feature"},
+        "id": {"type": "string"},
+        "geometry": {"$ref": "#/$defs/geometry"},
+        "properties": {
+          "type": "object",
+          "required": ["id", "class", "name", "upstreamId", "source", "sourceUrl", "region"],
+          "properties": {
+            "id": {"type": "string", "pattern": "^(osm-(node|way)-[0-9]+|gnis-[0-9]+|osd-(osm-(way|relation|node)-[0-9]+|skimap-[0-9]+))$"},
+            "class": {"enum": ["peak", "pass", "trailhead", "parking", "hut", "ski_area"]},
+            "name": {"type": ["string", "null"]},
+            "nameSource": {"enum": ["openstreetmap", "usgs-gnis"]},
+            "upstreamId": {"type": "string"},
+            "source": {"enum": ["openstreetmap", "usgs-gnis", "openskidata"]},
+            "sourceUrl": {"type": "string", "format": "uri"},
+            "region": {"type": "string"},
+            "elevationM": {"type": ["number", "null"], "minimum": 1000, "maximum": 4410, "description": "Source elevation (OSM ele) in metres; null when absent or implausible."},
+            "elevationSource": {"type": ["string", "null"]},
+            "demElevationM": {"type": "number", "minimum": 1000, "maximum": 4410, "description": "Peaks without a source elevation only: Mapterhorn z13 bilinear sample at the point, metres. Derived, not surveyed; never copied into elevationM."},
+            "eleRaw": {"type": "string", "description": "Source ele value that could not be accepted as metres in the plausible range."},
+            "geometrySource": {"type": "string"},
+            "operator": {"type": "string"},
+            "access": {"type": "string"},
+            "gnisId": {"type": "string"},
+            "gnisName": {"type": "string"},
+            "gnisDistanceM": {"type": "number", "minimum": 0},
+            "gnisNameMatch": {"type": "boolean"},
+            "status": {"enum": ["operating", "abandoned", "proposed", "never_opened", "disused", "unknown"]},
+            "activities": {"type": "array", "items": {"type": "string"}},
+            "liftServed": {"type": "boolean", "description": "ski_area only: operating and has downhill activity."},
+            "website": {"type": "string"},
+            "osdId": {"type": "string", "description": "OpenSkiData content hash; changes between daily builds, not a join key."}
+          }
+        }
+      }
+    }
+  }
+}

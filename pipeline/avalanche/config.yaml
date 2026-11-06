@@ -1,0 +1,89 @@
+# Avalanche terrain model pilot (experimental): potential release area (PRA) + Flow-Py runout.
+# Read by every script in this folder. Relative paths are relative to the repository root.
+# Method and parameter rationale: docs/methods/avalanche-model.md.
+
+work_dir: /Users/bci-spatialecon/firstmate/data/colorado-ski-map-build/work/avalanche
+out_dir: data/avalanche
+
+# Shared pilot grid (docs/ARCHITECTURE.md 3.4). Inputs must match it exactly.
+grid:
+  crs: EPSG:26913
+  res_m: 10
+  bounds: [414110, 4381320, 447020, 4419360]   # xmin, ymin, xmax, ymax
+  shape: [3804, 3291]                          # rows, cols
+
+inputs:
+  # Produced by the terrain lane (pipeline/terrain). Snapshotted into work_dir/inputs with sha256.
+  dem: /Users/bci-spatialecon/firstmate/data/colorado-ski-map-build/work/terrain/pilot_dem_26913_10m.tif
+  dem_buffered: /Users/bci-spatialecon/firstmate/data/colorado-ski-map-build/work/terrain/pilot_dem_buffered_26913_10m.tif
+  slope: /Users/bci-spatialecon/firstmate/data/colorado-ski-map-build/work/terrain/pilot_slope_26913_10m.tif
+  dem_source: USGS 3DEP 1/3 arc-second DEM (n40w106 20260630, n40w107 20260708), bilinear to the pilot grid by pipeline/terrain
+  canopy:
+    name: USFS NLCD Percent Tree Canopy CONUS v2025-6, year 2025
+    citation: "USDA Forest Service. 2026. USFS NLCD Percent Tree Canopy CONUS v2025-6. Salt Lake City, UT."
+    landing_page: https://data.fs.usda.gov/geodata/rastergateway/treecanopycover/
+    url: https://data.fs.usda.gov/geodata/rastergateway/treecanopycover/docs/v2025-6/nlcd_tcc_conus_2025_v2025-6_wgs84.zip
+    member: nlcd_tcc_conus_wgs84_v2025-6_20250101_20251231.tif
+    license: Public domain ("can be used without additional permissions or fees", product metadata)
+    valid_max: 100          # 0-100 percent canopy cover
+    nodata_values: [254, 255]   # 254 non-processing area, 255 background (product metadata)
+    clip_margin_m: 300      # source window margin around the pilot footprint
+    resampling: nearest     # 30 m -> 10 m: each 10 m cell takes the 30 m cell under its centre
+    nodata_out: 255
+
+# PRA: AutoATES v2.0 fuzzy-logic method (Toft et al. 2024; memberships after Veitinger et al. 2016
+# and Sharp 2018), as in PRA/PRA_AutoATES-v2.0.py at AutoATES/AutoATES-v2.0@3afcb49, forest_type
+# "pcc" (percent canopy cover). Defaults from two western Canada test areas, NOT Colorado-calibrated.
+# The autoATES v3.0 "sen2cc" forest curve is not used: it expects the share of conifer-classified
+# 10 m Sentinel-2 pixels in a 3x3 window, a different quantity from NLCD modelled canopy percent.
+pra:
+  wind_radius_m: 60
+  wind_direction_deg: 0
+  wind_tolerance_deg: 180   # 180 = omnidirectional
+  wind_probability: 0.5     # quantile of the sector elevation-angle distribution
+  slope_cauchy: [11, 4, 43]       # a, b, c; membership 0.5 at 32 and 54 degrees
+  wind_cauchy: [3, 10, 3]         # wind shelter in radians; 0.5 at 0 (planar terrain)
+  forest_cauchy: [40, 3.5, -15]   # canopy percent 0-100; 0.5 at 25 %, < 0.1 above 40 %
+  threshold: 0.15                 # binary PRA = continuous >= threshold (AutoATES v2.0 default)
+  sieve_min_cells: 4              # drop release patches smaller than this (v2.0: sf=3 -> 4 cells)
+  sieve_connectivity: 8
+  sensitivity_threshold: 0.25     # one PRA threshold change (autoATES v3.0 "typical" threshold)
+
+# Runout: AvaFrame com4FlowPy (Flow-Py). Values below override com4FlowPyCfg.ini [GENERAL].
+runout:
+  avaframe_version: "2.2b1"
+  engine: numba
+  alpha_deg: 25           # Flow-Py v1.0 paper regional snow-avalanche case and com4FlowPy default
+  exponent: 8
+  flux_threshold: 0.0003
+  max_z_m: 270            # com4FlowPy cfg comment: avalanche ~270 m (~72 m/s energy-line cap)
+  forest: false           # see methods: forest interaction parameters need FSI semantics
+  output_files: zDelta|cellCounts|travelLengthMax|fpTravelAngleMax|flux
+  tile_size_m: 15000
+  tile_overlap_m: 5000
+  # com4FlowPy keeps every chunk's full-tile result arrays in memory until merging; the package
+  # default (500 chunks) would need ~137 GB virtual for a 25 x 25 km tile. 2 chunks per core.
+  max_chunks: 10
+  sensitivity_alpha_deg: [23, 27]
+
+# Descriptive comparison only (never validation, never used for tuning): experimental SAR
+# cross-season hotspots from the captain's avalanche-inventory (commit d69692a), read locally.
+reference:
+  sar_hotspots: /Users/bci-spatialecon/firstmate/projects/avalanche-inventory/cross_season_hotspot.pmtiles
+  sar_layer: hotspots
+  sar_slope_window_deg: [20, 70]   # the SAR candidates were restricted to this slope range
+
+products:
+  minzoom: 9
+  maxzoom: 15        # 3.7 m pixels at 39.75 N: each 10 m cell spans about 2.7 pixels
+  # Colour families differ from slope shading (yellow-red-purple) and from SAR/incident layers.
+  # Classes: lower bound inclusive, upper exclusive; higher code = higher value (pyramid uses max).
+  pra_classes:       # continuous PRA of primary release cells (binary PRA = 1)
+    - {code: 1, min: 0.15, max: 0.30, label: "PRA 0.15-0.30", color: "#f4a6d7"}
+    - {code: 2, min: 0.30, max: 0.50, label: "PRA 0.30-0.50", color: "#d6589f"}
+    - {code: 3, min: 0.50, max: null, label: "PRA >= 0.50",   color: "#8e0f6b"}
+  runout_classes:    # zDelta (m) of primary-run cells reached by any path
+    - {code: 1, min: 0,  max: 5,    label: "zDelta < 5 m",    color: "#c6dbef"}
+    - {code: 2, min: 5,  max: 20,   label: "zDelta 5-20 m",   color: "#6baed6"}
+    - {code: 3, min: 20, max: 50,   label: "zDelta 20-50 m",  color: "#2171b5"}
+    - {code: 4, min: 50, max: null, label: "zDelta >= 50 m",  color: "#08306b"}

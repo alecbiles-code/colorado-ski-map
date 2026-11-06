@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "station.schema.json",
+  "title": "Observation station (GeoJSON Feature)",
+  "description": "One NRCS AWDB station in data/snow/snotel-stations.geojson. Built by pipeline/snow/snotel_stations.py. Observations are fetched at runtime; see docs/methods/snow-sar-incidents.md.",
+  "type": "object",
+  "required": ["type", "id", "geometry", "properties"],
+  "properties": {
+    "type": {"const": "Feature"},
+    "id": {"type": "string"},
+    "geometry": {
+      "type": "object",
+      "required": ["type", "coordinates"],
+      "properties": {
+        "type": {"const": "Point"},
+        "coordinates": {
+          "type": "array",
+          "description": "[lon, lat], WGS84.",
+          "prefixItems": [
+            {"type": "number", "minimum": -180, "maximum": 180},
+            {"type": "number", "minimum": -90, "maximum": 90}
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "properties": {
+      "type": "object",
+      "required": ["id", "upstreamId", "source", "sourceUrl", "name", "network", "stationId", "elevationM",
+                   "elevationSource", "dataTimeZoneOffsetHours", "elements"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^nrcs-awdb:[0-9A-Za-z]+:[A-Z]{2}:[A-Z]+$", "description": "Stable internal id: nrcs-awdb:<triplet>."},
+        "upstreamId": {"type": "string", "pattern": "^[0-9A-Za-z]+:[A-Z]{2}:[A-Z]+$", "description": "AWDB station triplet stationId:state:network."},
+        "source": {"const": "NRCS AWDB"},
+        "sourceUrl": {"type": "string", "format": "uri"},
+        "name": {"type": "string", "minLength": 1},
+        "network": {"type": "string", "description": "AWDB network code, e.g. SNTL (SNOTEL) or SNTLT (SNOLITE)."},
+        "networkName": {"type": ["string", "null"]},
+        "stationId": {"type": "string"},
+        "stateCode": {"type": "string"},
+        "county": {"type": ["string", "null"]},
+        "huc": {"type": ["string", "null"]},
+        "shefId": {"type": ["string", "null"]},
+        "elevationM": {"type": "number", "minimum": 0, "maximum": 5000, "description": "Metres, converted from the source feet."},
+        "elevationSource": {
+          "type": "object",
+          "required": ["value", "unit"],
+          "properties": {"value": {"type": "number"}, "unit": {"const": "ft"}}
+        },
+        "dataTimeZoneOffsetHours": {"type": ["number", "null"], "description": "Fixed UTC offset of the station's hourly timestamps (no daylight time). -8 for all Colorado stations as of 2026-11."},
+        "beginDate": {"type": ["string", "null"], "format": "date"},
+        "elements": {
+          "type": "object",
+          "description": "Element code -> stored unit and begin date per duration (ordinal 1 sensors only).",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["unit"],
+            "properties": {
+              "unit": {"type": "string"},
+              "dailyBegin": {"type": "string", "format": "date"},
+              "hourlyBegin": {"type": "string", "format": "date"}
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  }
+}

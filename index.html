@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#11151b">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Skintrack">
+  <meta name="description" content="Personal Colorado backcountry ski map: terrain, slope angle, avalanche terrain models, forecasts and snow data.">
+  <title>Skintrack CO</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" href="./assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="./vendor/maplibre-gl-5.24.0/maplibre-gl.css">
+  <link rel="stylesheet" href="./app/ui/app.css">
+  <link rel="stylesheet" href="./app/ui/conditions.css">
+  <script src="./vendor/maplibre-gl-5.24.0/maplibre-gl.js"></script>
+  <script src="./vendor/pmtiles-4.5.0/pmtiles.js"></script>
+  <script src="./vendor/maplibre-contour-0.1.1/maplibre-contour.min.js"></script>
+  <script type="module" src="./app/main.js"></script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3 2 8.5l10 5.5 10-5.5L12 3Zm-7.6 9.6L2 14l10 5.5L22 14l-2.4-1.4-7.6 4.2-7.6-4.2Z" fill="currentColor"/></symbol>
+    <symbol id="i-locate" viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm9 3h-2.1A7 7 0 0 0 13 5.1V3h-2v2.1A7 7 0 0 0 5.1 11H3v2h2.1a7 7 0 0 0 5.9 5.9V21h2v-2.1a7 7 0 0 0 5.9-5.9H21v-2Zm-9 6a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z" fill="currentColor"/></symbol>
+    <symbol id="i-north" viewBox="0 0 24 24"><path d="M12 2 6 20l6-4 6 4-6-18Z" fill="currentColor"/></symbol>
+    <symbol id="i-3d" viewBox="0 0 24 24"><path d="M3 18 9 7l4 6 2-3 6 8H3Z" fill="currentColor"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><path d="M10 3a7 7 0 0 1 5.6 11.2l5.1 5.1-1.4 1.4-5.1-5.1A7 7 0 1 1 10 3Zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z" fill="currentColor"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="m9 4 6 2 6-2v16l-6 2-6-2-6 2V6l6-2Zm1 2.4v11.3l4 1.3V7.7l-4-1.3Z" fill="currentColor"/></symbol>
+    <symbol id="i-cond" viewBox="0 0 24 24"><path d="M12 2 3 21h18L12 2Zm0 5 5.6 12H6.4L12 7Zm-1 4v4h2v-4h-2Zm0 5v2h2v-2h-2Z" fill="currentColor"/></symbol>
+    <symbol id="i-explore" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm3.5 6.5-2 5-5 2 2-5 5-2Z" fill="currentColor"/></symbol>
+    <symbol id="i-saved" viewBox="0 0 24 24"><path d="M6 2h12v20l-6-4-6 4V2Z" fill="currentColor"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5Z" fill="currentColor"/></symbol>
+  </svg>
+
+  <div id="map" aria-label="Map. Tap a point to inspect terrain and features."></div>
+
+  <header class="topbar">
+    <form id="search-form" class="search" role="search" autocomplete="off">
+      <label class="visually-hidden" for="search-input">Search places or coordinates</label>
+      <svg class="search-icon" aria-hidden="true"><use href="#i-search"/></svg>
+      <input id="search-input" type="search" inputmode="search" enterkeyhint="search" placeholder="Search peaks, passes, trailheads, or lat, lon"
+             aria-controls="search-results" aria-expanded="false" spellcheck="false">
+      <button type="button" id="search-clear" class="icon-btn small" aria-label="Clear search" hidden><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    </form>
+    <ul id="search-results" class="search-results" role="listbox" aria-label="Search results" hidden></ul>
+    <div id="chips" class="chips" aria-live="polite"></div>
+  </header>
+
+  <div class="map-controls" role="toolbar" aria-label="Map controls">
+    <button type="button" class="ctl" id="btn-layers" aria-label="Layers"><svg aria-hidden="true"><use href="#i-layers"/></svg><span>Layers</span></button>
+    <button type="button" class="ctl" id="btn-locate" aria-label="Show my location"><svg aria-hidden="true"><use href="#i-locate"/></svg><span>Locate</span></button>
+    <button type="button" class="ctl" id="btn-north" aria-label="Reset north and tilt"><svg aria-hidden="true" id="north-icon"><use href="#i-north"/></svg><span>North</span></button>
+    <button type="button" class="ctl" id="btn-3d" aria-label="3D terrain" aria-pressed="false"><svg aria-hidden="true"><use href="#i-3d"/></svg><span>3D</span></button>
+  </div>
+
+  <div class="map-foot">
+    <button type="button" id="coords" class="coords" aria-label="Map center coordinates. Activate to copy."></button>
+    <div id="locstatus" class="locstatus" aria-live="polite" hidden></div>
+  </div>
+
+  <section id="sheet" class="sheet" data-snap="closed" aria-labelledby="sheet-title" aria-hidden="true">
+    <div class="sheet-head">
+      <button type="button" id="sheet-handle" class="sheet-handle" aria-label="Resize panel. Use arrow keys to expand or shrink."><span></span></button>
+      <h2 id="sheet-title" class="sheet-title"></h2>
+      <button type="button" id="sheet-close" class="icon-btn" aria-label="Close panel"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    </div>
+    <div id="sheet-body" class="sheet-body" tabindex="-1"></div>
+  </section>
+
+  <nav class="tabbar" aria-label="Views">
+    <button type="button" class="tab" data-view="map" aria-current="page"><svg aria-hidden="true"><use href="#i-map"/></svg><span>Map</span></button>
+    <button type="button" class="tab" data-view="conditions"><svg aria-hidden="true"><use href="#i-cond"/></svg><span>Conditions</span></button>
+    <button type="button" class="tab" data-view="explore"><svg aria-hidden="true"><use href="#i-explore"/></svg><span>Explore</span></button>
+    <button type="button" class="tab" data-view="saved"><svg aria-hidden="true"><use href="#i-saved"/></svg><span>Saved</span></button>
+  </nav>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <noscript><p class="noscript">Skintrack CO needs JavaScript to draw the map.</p></noscript>
+</body>
+</html>

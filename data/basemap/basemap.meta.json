@@ -1,0 +1,335 @@
+{
+ "id": "basemap-colorado",
+ "title": "Colorado basemap (OpenStreetMap via Protomaps)",
+ "kind": "pmtiles-vector-multi",
+ "schema": "Protomaps basemap v4",
+ "bbox": [
+  -109.06,
+  36.99,
+  -102.04,
+  41.01
+ ],
+ "minzoom": 0,
+ "maxzoom": 14,
+ "archives": [
+  {
+   "id": "co-z0-10",
+   "url": "data/basemap/co-z0-10.pmtiles",
+   "bounds": [
+    -109.06,
+    36.99,
+    -102.04,
+    41.01
+   ],
+   "minzoom": 0,
+   "maxzoom": 10,
+   "bytes": 13542111
+  },
+  {
+   "id": "co-z11",
+   "url": "data/basemap/co-z11.pmtiles",
+   "bounds": [
+    -109.06,
+    36.99,
+    -102.04,
+    41.01
+   ],
+   "minzoom": 11,
+   "maxzoom": 11,
+   "bytes": 12535142
+  },
+  {
+   "id": "w109-s37",
+   "url": "data/basemap/w109-s37.pmtiles",
+   "bounds": [
+    -109.06,
+    36.99,
+    -108,
+    38
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 7473391
+  },
+  {
+   "id": "w109-s38",
+   "url": "data/basemap/w109-s38.pmtiles",
+   "bounds": [
+    -109.06,
+    38,
+    -108,
+    39
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 7171928
+  },
+  {
+   "id": "w109-s39",
+   "url": "data/basemap/w109-s39.pmtiles",
+   "bounds": [
+    -109.06,
+    39,
+    -108,
+    40
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 9319453
+  },
+  {
+   "id": "w109-s40",
+   "url": "data/basemap/w109-s40.pmtiles",
+   "bounds": [
+    -109.06,
+    40,
+    -108,
+    41.01
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 2518085
+  },
+  {
+   "id": "w108-s37",
+   "url": "data/basemap/w108-s37.pmtiles",
+   "bounds": [
+    -108,
+    36.99,
+    -107,
+    38
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 9205071
+  },
+  {
+   "id": "w108-s38",
+   "url": "data/basemap/w108-s38.pmtiles",
+   "bounds": [
+    -108,
+    38,
+    -107,
+    39
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 9900366
+  },
+  {
+   "id": "w108-s39",
+   "url": "data/basemap/w108-s39.pmtiles",
+   "bounds": [
+    -108,
+    39,
+    -107,
+    40
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 15653590
+  },
+  {
+   "id": "w108-s40",
+   "url": "data/basemap/w108-s40.pmtiles",
+   "bounds": [
+    -108,
+    40,
+    -107,
+    41.01
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 6395343
+  },
+  {
+   "id": "w107-s37",
+   "url": "data/basemap/w107-s37.pmtiles",
+   "bounds": [
+    -107,
+    36.99,
+    -106,
+    38
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 10363143
+  },
+  {
+   "id": "w107-s38",
+   "url": "data/basemap/w107-s38.pmtiles",
+   "bounds": [
+    -107,
+    38,
+    -106,
+    39
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 11547115
+  },
+  {
+   "id": "w107-s39",
+   "url": "data/basemap/w107-s39.pmtiles",
+   "bounds": [
+    -107,
+    39,
+    -106,
+    40
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 12629656
+  },
+  {
+   "id": "w107-s40",
+   "url": "data/basemap/w107-s40.pmtiles",
+   "bounds": [
+    -107,
+    40,
+    -106,
+    41.01
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 7951758
+  },
+  {
+   "id": "w106-s37",
+   "url": "data/basemap/w106-s37.pmtiles",
+   "bounds": [
+    -106,
+    36.99,
+    -105.05,
+    38
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 7403970
+  },
+  {
+   "id": "w106-s38",
+   "url": "data/basemap/w106-s38.pmtiles",
+   "bounds": [
+    -106,
+    38,
+    -105.05,
+    39
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 8097892
+  },
+  {
+   "id": "w106-s39",
+   "url": "data/basemap/w106-s39.pmtiles",
+   "bounds": [
+    -106,
+    39,
+    -105.05,
+    40
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 17618640
+  },
+  {
+   "id": "w106-s40",
+   "url": "data/basemap/w106-s40.pmtiles",
+   "bounds": [
+    -106,
+    40,
+    -105.05,
+    41.01
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 14542705
+  },
+  {
+   "id": "w105-s37",
+   "url": "data/basemap/w105-s37.pmtiles",
+   "bounds": [
+    -105.05,
+    36.99,
+    -104.85,
+    39
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 4360867
+  },
+  {
+   "id": "w105-s39",
+   "url": "data/basemap/w105-s39.pmtiles",
+   "bounds": [
+    -105.05,
+    39,
+    -104.85,
+    41.01
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 20410426
+  },
+  {
+   "id": "w104-s37",
+   "url": "data/basemap/w104-s37.pmtiles",
+   "bounds": [
+    -104.85,
+    36.99,
+    -103.5,
+    39
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 15445521
+  },
+  {
+   "id": "w104-s39",
+   "url": "data/basemap/w104-s39.pmtiles",
+   "bounds": [
+    -104.85,
+    39,
+    -103.5,
+    41.01
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 20906327
+  },
+  {
+   "id": "w103-s37",
+   "url": "data/basemap/w103-s37.pmtiles",
+   "bounds": [
+    -103.5,
+    36.99,
+    -102.04,
+    41.01
+   ],
+   "minzoom": 12,
+   "maxzoom": 14,
+   "bytes": 22014215
+  }
+ ],
+ "bytes": 267006715,
+ "sources": [
+  {
+   "name": "Protomaps daily build",
+   "url": "https://build.protomaps.com/20261104.pmtiles",
+   "version": "2026-11-04",
+   "dataAsOf": "2026-11-04T04:00:00Z",
+   "license": "ODbL-1.0 (OpenStreetMap data); Protomaps basemap tiles schema v4",
+   "attribution": "<a href=\"https://www.openstreetmap.org/copyright\">&copy; OpenStreetMap contributors</a>, <a href=\"https://protomaps.com\">Protomaps</a>"
+  }
+ ],
+ "processing": {
+  "script": "pipeline/basemap/extract_basemap.py",
+  "config": "pipeline/basemap/config.yaml",
+  "processedAt": "2026-11-06T00:11:25+00:00"
+ },
+ "limitations": [
+  "OpenStreetMap is volunteer-mapped; trail presence, names and winter usability are not guaranteed.",
+  "Snapshot of one build date; it does not update itself."
+ ]
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "incident.schema.json",
+  "title": "Avalanche incident (GeoJSON Feature)",
+  "description": "One reported avalanche accident in data/incidents/incidents.geojson, written only by pipeline/incidents/import_incidents.py from an authorized source file. Observed history, never a hazard rating; absence of incidents never implies low risk.",
+  "type": "object",
+  "required": ["type", "id", "geometry", "properties"],
+  "properties": {
+    "type": {"const": "Feature"},
+    "id": {"type": "string"},
+    "geometry": {
+      "description": "Point at the published coordinates, or null when the source gives none. Coordinates are never geocoded or inferred from a place description.",
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "required": ["type", "coordinates"],
+          "properties": {
+            "type": {"const": "Point"},
+            "coordinates": {
+              "type": "array",
+              "description": "[lon, lat], WGS84.",
+              "prefixItems": [
+                {"type": "number", "minimum": -180, "maximum": 180},
+                {"type": "number", "minimum": -90, "maximum": 90}
+              ],
+              "minItems": 2,
+              "maxItems": 2
+            }
+          }
+        }
+      ]
+    },
+    "properties": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "upstreamId", "source", "sourceUrl", "date", "season", "place", "state", "position",
+                   "activity", "caught", "buried", "injured", "killed", "reportStatus", "summary", "verifiedFacts"],
+      "properties": {
+        "id": {"type": "string", "description": "Stable internal id: <source>:<upstreamId>, or <source>:<date>:<hash> when the source has no event id."},
+        "upstreamId": {"type": ["string", "null"], "description": "Source event id as published (for example a CAIC report UUID); null when the source has none."},
+        "source": {"type": "string", "minLength": 1},
+        "sourceUrl": {"type": ["string", "null"], "format": "uri", "description": "Official report page for this incident, when known."},
+        "date": {"type": "string", "format": "date", "description": "Local calendar date of the accident (America/Denver) as reported."},
+        "season": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{4}$", "description": "Avalanche year, October 1 to September 30, e.g. 2024-2025."},
+        "place": {"type": ["string", "null"], "maxLength": 300, "description": "Place name as reported (untrusted text; escape when rendering)."},
+        "state": {"type": ["string", "null"], "pattern": "^[A-Z]{2}$"},
+        "position": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["meaning", "uncertaintyM", "note"],
+          "properties": {
+            "meaning": {"enum": ["accident_site", "burial_site", "release_area", "approximate_report_location", "unknown", "none"],
+                        "description": "What the point represents according to the source; 'unknown' when the source does not say; 'none' when geometry is null."},
+            "uncertaintyM": {"type": ["number", "null"], "minimum": 0, "description": "Horizontal uncertainty in metres if the source states one; null if not stated."},
+            "note": {"type": ["string", "null"], "maxLength": 500}
+          }
+        },
+        "activity": {"type": ["string", "null"], "maxLength": 100, "description": "Activity or travel mode, source wording kept."},
+        "caught": {"type": ["integer", "null"], "minimum": 0},
+        "buried": {"type": ["integer", "null"], "minimum": 0},
+        "injured": {"type": ["integer", "null"], "minimum": 0},
+        "killed": {"type": ["integer", "null"], "minimum": 0},
+        "reportStatus": {"enum": ["preliminary", "final", "unknown"]},
+        "summary": {"type": ["string", "null"], "maxLength": 4000, "description": "Source summary text, only with permission to reproduce it (untrusted; escape when rendering)."},
+        "verifiedFacts": {"type": "array", "maxItems": 20, "items": {"type": "string", "maxLength": 500},
+                          "description": "Short factual statements checked against the official report."}
+      }
+    }
+  }
+}

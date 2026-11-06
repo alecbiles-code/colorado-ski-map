@@ -1,0 +1,38 @@
+# Lane notes: app-review
+
+Static review of the app (no browser could launch: launchd bootstrap error 141). Every fix below was found by reading, then checked with node where possible. Checks live in `work/app-review/` (not shipped): `validate-style.mjs` (full style plus every available overlay, manifest rebuilt from current metas, style spec 24.10.0), `check-avy.mjs` (tap inspection against the real avalanche numeric archive through pmtiles 4.5.0 range reads), `check-avy-legend.mjs`, `check-filters.mjs`, `check-races.mjs` (concurrent setups on a fake map that throws on duplicate ids like MapLibre), `check-sw.mjs`, `mvt-props.mjs` (basemap tile contents), `dump-tiles.mjs`.
+
+## 1. Defects fixed
+
+1. `app/map/terrain.js`: `OffscreenCanvas` is missing before iOS Safari 16.4, so Tier 1 slope, aspect and the inspector failed on iOS 16.0 to 16.3. DOM canvas fallback, `toBlob` fallback for PNG encoding.
+2. `app/map/terrain.js`: DEM and slope grids are cached promises shared by every tile and tap, but were started with the abort signal of whichever map tile asked first. MapLibre cancelling that tile rejected the shared promise for other tiles and taps, which fired source errors and marked the layer "Failed". Shared work no longer takes a signal (ponytail note: cancelled tiles still finish their DEM fetches).
+3. `app/map/terrain.js`, legend in `app/layers/terrain.js`: MapLibre requests raster tiles at `round(mapZoom + log2(512 / tileSize))` (checked in the bundle), so Tier 1 pixels are 29 m at map zoom 11, 15 m at 12, 7.3 m from 13. The legend said 29 m at 12 and the panel said "zoom in" at 11 while shading drew. `SLOPE_MIN_MAPZOOM` is now 11; source minzooms are unchanged.
+4. `app/map/tiles.js`, `app/map/map.js`: a missing DEM tile was served as a 1x1 PNG, which breaks MapLibre's DEM border backfill ("dem dimension mismatch"). The DEM set is now `raster-dem` and a missing tile throws `status: 404`, MapLibre's quiet missing-tile path.
+5. `app/layers/avalanche-model.js`: coverage filters used `['get', 'id']`, but the pipeline puts `pilot-extent` and `truncation-band` in the top-level GeoJSON id. The extent outline matched nothing and both features drew as "runout incomplete". Filters now use `properties.role`; verified one feature each.
+6. `app/layers/avalanche-model.js`, `app/ui/inspector.js`: `numeric.variables` is a list of `{name, ...}`, not an object; labels came out as "0", "1". The `flags` bit field was shown as a number; it now lists the set flags from the meta `bits` (including "inside the boundary truncation band"). Verified against the real archive at three pilot points and one outside point. The `avy-num` archive is no longer re-registered (header re-fetched) on every tap.
+7. Lead items: PRA wording now comes from `meta.model.pra.method` (AutoATES v2.0, slope, wind shelter, canopy cover) plus the meta limitation on uncalibrated published defaults; runout names the software, version and alpha angle from the meta; legend swatches come from `meta.legend.items`. Every opaque pixel in sampled z12 and z13 PRA and runout tiles matches a legend colour. The truncation band is drawn (dashed, labelled "runout incomplete") and the legend gives its width from `truncationBand.widthM` (2.5 km).
+8. `app/ui/app.css`: the global `details > summary { min-height: 44px }` also hit MapLibre 5's compact attribution, which is a `details`/`summary`; the 24 px icon tiled (the two "i" buttons in the screenshot). Scoped to `.sheet-body`.
+9. `app/ui/app.css`: the dark square in the screenshot is the empty `#coords` button before the map's `load` event; it also sat under MapLibre's initially expanded attribution. Hidden while empty and moved above the scale bar.
+10. Labels (lead item 3): not glyphs. The screenshot is at zoom 11.2 (1 mi = about 62 px), where contour labels (12+), stream labels (13+) and Berthoud Falls (`min_zoom` 13) are correctly hidden. The basemap extract has no peak POIs around Berthoud, US 40 has no `name`, and lake names exist only as `pois` of kind `water`, which the generated `pois` filter skips. Added a lake-name layer in `style.js` and turned the app's own peaks, passes, trailheads and huts layer on by default (2.5 MB, 237 KB gzipped) because it is the only source of peak and pass names. Product default: lead to confirm.
+11. Concurrency: toggling both SAR layers, or PRA and runout, within one GeoJSON fetch threw "Layer ... already exists" and marked the second layer failed; `setupTier2` could add `t2-slope` twice. Reproduced on HEAD with `check-races.mjs`, fixed with checks after the awaits. Layer init now runs in parallel and boot no longer waits for it, so a shared-link selection does not wait for the places download.
+12. `app/layers/forecast.js`: CAIC zone colours were computed once; a zone that expired while the app stayed open kept its rating colour. Re-evaluated every minute (only matters once the feed is enabled).
+13. `app/ui/sheet.js`: pointer capture on `pointerdown` retargets a tap's click from the handle to the header, so tapping the handle could do nothing; after a drag a click that did reach the handle stepped a second time. Capture now starts on movement and a drag swallows its click.
+14. `app/ui/explore.js`, `app/ui/saved.js`, `app/main.js`: "Show on map" for a route called `fitBounds`, then `select()` whose `flyTo` cancelled it. Routes now pass `bbox` and `setSelection` fits them. The Explore layer toggles set `aria-pressed` and their label from the pre-toggle state; fixed.
+15. `app/ui/sources.js`: Sources and Methods named AWS Terrain Tiles as Tier 1 (default is Mapterhorn); now `DEM.name`. SNODAS resolution rendered "[object Object] m".
+16. `app/ui/offline.js`: "Update" kept the old package's source timestamps and file list, so "Data as of" was wrong; recomputed for every non-resume download.
+17. `sw.js`: network-first data had no deadline; on a weak signal the page aborts at 15 s and retries, and never sees the cached copy. A cached copy is now served after 4 s without an answer; `cache.put` failures are caught.
+18. `app/main.js`: the map no longer waits for the manifest and metas; a failed save shows a toast. `app/ui/app.css`: search clear button 40 to 44 px.
+19. Config (brief item 5): provider endpoints moved to `CONFIG.providers.{caic.api, nws, openMeteo, snotel}` and the SAR app and repo links to `CONFIG.sar`; generated URLs are byte-identical (provider tests unchanged and green).
+
+## 2. Open items
+
+1. `decodeNumericTile` in `app/lib/terrain-math.js` (terrain lane) uses `DecompressionStream`, which needs iOS 16.4. Tier 2 inspection falls back to Tier 1 and model values show "unavailable" on 16.0 to 16.3. Terrain lane to decide.
+2. Sources and Methods links `docs/SOURCES.md`, `METHODS.md`, `COVERAGE.md`, `VERIFICATION.md`, which do not exist yet.
+3. Avalanche numeric variable labels are raw names (`praContinuous`, `zDelta`); the meta has no `label`. Avalanche lane could add labels.
+4. The Conditions view supports a route line (`place.line`) but nothing in the app passes one, so route-aware CAIC zones are unused.
+5. Sheet handle and coordinates chip are under 44 px tall; left as designed.
+6. Contract note: none needed.
+
+## 3. Only a real browser can settle
+
+Glyph and label rendering after the fixes; attribution and coordinates layout at 375 px and in landscape; Terrarium decode accuracy through Safari's canvas (colour management); WebP decode on iOS; pointer capture and click targeting on iOS; `<a download>` and the file picker in standalone mode; service worker update and offline cold start; Mapterhorn download-archive range reads with CORS from the Pages origin; the `skt://` protocol under MapLibre 5 for raster-dem, 3D and contours; memory with slope on while panning.

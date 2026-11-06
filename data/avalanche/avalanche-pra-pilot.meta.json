@@ -1,0 +1,1056 @@
+{
+  "id": "avalanche-pra-pilot",
+  "kind": "avalanche-pra-display",
+  "title": "Potential release areas (experimental model)",
+  "label": "Experimental terrain model",
+  "region": "pilot",
+  "url": "./data/avalanche/avalanche-pra-pilot.pmtiles",
+  "bytes": 4717962,
+  "sha256": "746bd48d94220706f52babdb7944d201dd7cef4e025887c6395126280d21b2a9",
+  "processedAt": "2026-11-06T02:11:18Z",
+  "sources": [
+    {
+      "name": "USGS 3DEP 1/3 arc-second DEM via pipeline/terrain pilot grid",
+      "detail": "USGS 3DEP 1/3 arc-second DEM (n40w106 20260630, n40w107 20260708), bilinear to the pilot grid by pipeline/terrain",
+      "landingPage": "https://www.usgs.gov/3d-elevation-program",
+      "license": "Public domain (USGS)",
+      "attribution": "U.S. Geological Survey, 3D Elevation Program"
+    },
+    {
+      "name": "USFS NLCD Percent Tree Canopy CONUS v2025-6, year 2025",
+      "url": "https://data.fs.usda.gov/geodata/rastergateway/treecanopycover/docs/v2025-6/nlcd_tcc_conus_2025_v2025-6_wgs84.zip",
+      "landingPage": "https://data.fs.usda.gov/geodata/rastergateway/treecanopycover/",
+      "license": "Public domain (\"can be used without additional permissions or fees\", product metadata)",
+      "attribution": "USDA Forest Service. 2026. USFS NLCD Percent Tree Canopy CONUS v2025-6. Salt Lake City, UT."
+    },
+    {
+      "name": "AvaFrame com4FlowPy 2.2b1 (Flow-Py)",
+      "url": "https://pypi.org/project/avaframe/2.2b1/",
+      "license": "EUPL-1.2",
+      "attribution": "D'Amboise et al. 2022, GMD 15:2423, doi:10.5194/gmd-15-2423-2022; AvaFrame"
+    },
+    {
+      "name": "AutoATES v2.0 PRA method (reimplemented, no code copied)",
+      "url": "https://github.com/AutoATES/AutoATES-v2.0",
+      "license": "GPL-3.0 (software)",
+      "attribution": "Toft et al. 2024, NHESS 24:1779, doi:10.5194/nhess-24-1779-2024; Veitinger et al. 2016, NHESS 16:2211"
+    }
+  ],
+  "model": {
+    "pra": {
+      "method": "AutoATES v2.0 fuzzy logic (slope, wind shelter, canopy cover)",
+      "parameters": {
+        "wind_radius_m": 60,
+        "wind_direction_deg": 0,
+        "wind_tolerance_deg": 180,
+        "wind_probability": 0.5,
+        "slope_cauchy": [
+          11,
+          4,
+          43
+        ],
+        "wind_cauchy": [
+          3,
+          10,
+          3
+        ],
+        "forest_cauchy": [
+          40,
+          3.5,
+          -15
+        ],
+        "threshold": 0.15,
+        "sieve_min_cells": 4,
+        "sieve_connectivity": 8,
+        "sensitivity_threshold": 0.25
+      }
+    },
+    "runout": {
+      "software": "AvaFrame com4FlowPy",
+      "version": "2.2b1",
+      "engine": "numba",
+      "parameters": {
+        "alpha_deg": 25,
+        "exponent": 8,
+        "flux_threshold": 0.0003,
+        "max_z_m": 270,
+        "forest": false,
+        "output_files": "zDelta|cellCounts|travelLengthMax|fpTravelAngleMax|flux",
+        "tile_size_m": 15000,
+        "tile_overlap_m": 5000,
+        "max_chunks": 10,
+        "sensitivity_alpha_deg": [
+          23,
+          27
+        ]
+      }
+    }
+  },
+  "processing": {
+    "scripts": [
+      "pipeline/avalanche/prep_inputs.py",
+      "pipeline/avalanche/pra.py",
+      "pipeline/avalanche/runout.py",
+      "pipeline/avalanche/avy_checks.py",
+      "pipeline/avalanche/avy_products.py"
+    ],
+    "config": "pipeline/avalanche/config.yaml",
+    "runtimeSeconds": {
+      "primary": 494.0,
+      "alpha23": 695.2,
+      "alpha27": 368.3,
+      "pra_threshold": 417.2
+    }
+  },
+  "analysisGrid": {
+    "crs": "EPSG:26913",
+    "resM": 10,
+    "bounds": [
+      414110,
+      4381320,
+      447020,
+      4419360
+    ]
+  },
+  "units": {
+    "praContinuous": "dimensionless fuzzy membership 0-1",
+    "zDelta": "m",
+    "angles": "degrees",
+    "lengths": "m",
+    "areas": "km2",
+    "canopy": "percent tree canopy cover"
+  },
+  "bbox": [
+    -106.005031,
+    39.577291,
+    -105.616902,
+    39.922685
+  ],
+  "coverage": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -106.000064,
+          39.577291
+        ],
+        [
+          -105.976118,
+          39.577495
+        ],
+        [
+          -105.952171,
+          39.577694
+        ],
+        [
+          -105.928225,
+          39.577887
+        ],
+        [
+          -105.904278,
+          39.578076
+        ],
+        [
+          -105.880331,
+          39.57826
+        ],
+        [
+          -105.856384,
+          39.578439
+        ],
+        [
+          -105.832437,
+          39.578613
+        ],
+        [
+          -105.808489,
+          39.578782
+        ],
+        [
+          -105.784541,
+          39.578946
+        ],
+        [
+          -105.760593,
+          39.579106
+        ],
+        [
+          -105.736645,
+          39.57926
+        ],
+        [
+          -105.712697,
+          39.579409
+        ],
+        [
+          -105.688749,
+          39.579554
+        ],
+        [
+          -105.6648,
+          39.579693
+        ],
+        [
+          -105.640851,
+          39.579828
+        ],
+        [
+          -105.616902,
+          39.579957
+        ],
+        [
+          -105.617062,
+          39.597996
+        ],
+        [
+          -105.617222,
+          39.616035
+        ],
+        [
+          -105.617382,
+          39.634073
+        ],
+        [
+          -105.617543,
+          39.652112
+        ],
+        [
+          -105.617703,
+          39.670151
+        ],
+        [
+          -105.617864,
+          39.688189
+        ],
+        [
+          -105.618025,
+          39.706228
+        ],
+        [
+          -105.618186,
+          39.724266
+        ],
+        [
+          -105.618347,
+          39.742304
+        ],
+        [
+          -105.618509,
+          39.760343
+        ],
+        [
+          -105.61867,
+          39.778381
+        ],
+        [
+          -105.618832,
+          39.796419
+        ],
+        [
+          -105.618993,
+          39.814457
+        ],
+        [
+          -105.619155,
+          39.832495
+        ],
+        [
+          -105.619317,
+          39.850533
+        ],
+        [
+          -105.619479,
+          39.868571
+        ],
+        [
+          -105.619642,
+          39.886609
+        ],
+        [
+          -105.619804,
+          39.904647
+        ],
+        [
+          -105.619967,
+          39.922685
+        ],
+        [
+          -105.644035,
+          39.922554
+        ],
+        [
+          -105.668103,
+          39.922417
+        ],
+        [
+          -105.69217,
+          39.922276
+        ],
+        [
+          -105.716238,
+          39.92213
+        ],
+        [
+          -105.740305,
+          39.921979
+        ],
+        [
+          -105.764372,
+          39.921823
+        ],
+        [
+          -105.788439,
+          39.921662
+        ],
+        [
+          -105.812506,
+          39.921495
+        ],
+        [
+          -105.836572,
+          39.921324
+        ],
+        [
+          -105.860638,
+          39.921148
+        ],
+        [
+          -105.884704,
+          39.920967
+        ],
+        [
+          -105.90877,
+          39.920781
+        ],
+        [
+          -105.932836,
+          39.92059
+        ],
+        [
+          -105.956901,
+          39.920394
+        ],
+        [
+          -105.980966,
+          39.920193
+        ],
+        [
+          -106.005031,
+          39.919987
+        ],
+        [
+          -106.004768,
+          39.90195
+        ],
+        [
+          -106.004504,
+          39.883914
+        ],
+        [
+          -106.004241,
+          39.865878
+        ],
+        [
+          -106.003978,
+          39.847842
+        ],
+        [
+          -106.003716,
+          39.829806
+        ],
+        [
+          -106.003453,
+          39.811769
+        ],
+        [
+          -106.003191,
+          39.793733
+        ],
+        [
+          -106.002929,
+          39.775696
+        ],
+        [
+          -106.002668,
+          39.75766
+        ],
+        [
+          -106.002406,
+          39.739623
+        ],
+        [
+          -106.002145,
+          39.721587
+        ],
+        [
+          -106.001884,
+          39.70355
+        ],
+        [
+          -106.001623,
+          39.685513
+        ],
+        [
+          -106.001363,
+          39.667476
+        ],
+        [
+          -106.001102,
+          39.649439
+        ],
+        [
+          -106.000842,
+          39.631402
+        ],
+        [
+          -106.000583,
+          39.613365
+        ],
+        [
+          -106.000323,
+          39.595328
+        ],
+        [
+          -106.000064,
+          39.577291
+        ]
+      ]
+    ]
+  },
+  "truncationBand": {
+    "widthM": 2500,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -106.000064,
+            39.577291
+          ],
+          [
+            -105.976118,
+            39.577495
+          ],
+          [
+            -105.952171,
+            39.577694
+          ],
+          [
+            -105.928225,
+            39.577887
+          ],
+          [
+            -105.904278,
+            39.578076
+          ],
+          [
+            -105.880331,
+            39.57826
+          ],
+          [
+            -105.856384,
+            39.578439
+          ],
+          [
+            -105.832437,
+            39.578613
+          ],
+          [
+            -105.808489,
+            39.578782
+          ],
+          [
+            -105.784541,
+            39.578946
+          ],
+          [
+            -105.760593,
+            39.579106
+          ],
+          [
+            -105.736645,
+            39.57926
+          ],
+          [
+            -105.712697,
+            39.579409
+          ],
+          [
+            -105.688749,
+            39.579554
+          ],
+          [
+            -105.6648,
+            39.579693
+          ],
+          [
+            -105.640851,
+            39.579828
+          ],
+          [
+            -105.616902,
+            39.579957
+          ],
+          [
+            -105.617062,
+            39.597996
+          ],
+          [
+            -105.617222,
+            39.616035
+          ],
+          [
+            -105.617382,
+            39.634073
+          ],
+          [
+            -105.617543,
+            39.652112
+          ],
+          [
+            -105.617703,
+            39.670151
+          ],
+          [
+            -105.617864,
+            39.688189
+          ],
+          [
+            -105.618025,
+            39.706228
+          ],
+          [
+            -105.618186,
+            39.724266
+          ],
+          [
+            -105.618347,
+            39.742304
+          ],
+          [
+            -105.618509,
+            39.760343
+          ],
+          [
+            -105.61867,
+            39.778381
+          ],
+          [
+            -105.618832,
+            39.796419
+          ],
+          [
+            -105.618993,
+            39.814457
+          ],
+          [
+            -105.619155,
+            39.832495
+          ],
+          [
+            -105.619317,
+            39.850533
+          ],
+          [
+            -105.619479,
+            39.868571
+          ],
+          [
+            -105.619642,
+            39.886609
+          ],
+          [
+            -105.619804,
+            39.904647
+          ],
+          [
+            -105.619967,
+            39.922685
+          ],
+          [
+            -105.644035,
+            39.922554
+          ],
+          [
+            -105.668103,
+            39.922417
+          ],
+          [
+            -105.69217,
+            39.922276
+          ],
+          [
+            -105.716238,
+            39.92213
+          ],
+          [
+            -105.740305,
+            39.921979
+          ],
+          [
+            -105.764372,
+            39.921823
+          ],
+          [
+            -105.788439,
+            39.921662
+          ],
+          [
+            -105.812506,
+            39.921495
+          ],
+          [
+            -105.836572,
+            39.921324
+          ],
+          [
+            -105.860638,
+            39.921148
+          ],
+          [
+            -105.884704,
+            39.920967
+          ],
+          [
+            -105.90877,
+            39.920781
+          ],
+          [
+            -105.932836,
+            39.92059
+          ],
+          [
+            -105.956901,
+            39.920394
+          ],
+          [
+            -105.980966,
+            39.920193
+          ],
+          [
+            -106.005031,
+            39.919987
+          ],
+          [
+            -106.004768,
+            39.90195
+          ],
+          [
+            -106.004504,
+            39.883914
+          ],
+          [
+            -106.004241,
+            39.865878
+          ],
+          [
+            -106.003978,
+            39.847842
+          ],
+          [
+            -106.003716,
+            39.829806
+          ],
+          [
+            -106.003453,
+            39.811769
+          ],
+          [
+            -106.003191,
+            39.793733
+          ],
+          [
+            -106.002929,
+            39.775696
+          ],
+          [
+            -106.002668,
+            39.75766
+          ],
+          [
+            -106.002406,
+            39.739623
+          ],
+          [
+            -106.002145,
+            39.721587
+          ],
+          [
+            -106.001884,
+            39.70355
+          ],
+          [
+            -106.001623,
+            39.685513
+          ],
+          [
+            -106.001363,
+            39.667476
+          ],
+          [
+            -106.001102,
+            39.649439
+          ],
+          [
+            -106.000842,
+            39.631402
+          ],
+          [
+            -106.000583,
+            39.613365
+          ],
+          [
+            -106.000323,
+            39.595328
+          ],
+          [
+            -106.000064,
+            39.577291
+          ]
+        ],
+        [
+          [
+            -105.971273,
+            39.600061
+          ],
+          [
+            -105.971533,
+            39.618665
+          ],
+          [
+            -105.971793,
+            39.637269
+          ],
+          [
+            -105.972054,
+            39.655872
+          ],
+          [
+            -105.972315,
+            39.674476
+          ],
+          [
+            -105.972576,
+            39.693079
+          ],
+          [
+            -105.972837,
+            39.711683
+          ],
+          [
+            -105.973098,
+            39.730286
+          ],
+          [
+            -105.97336,
+            39.74889
+          ],
+          [
+            -105.973622,
+            39.767493
+          ],
+          [
+            -105.973884,
+            39.786096
+          ],
+          [
+            -105.974147,
+            39.8047
+          ],
+          [
+            -105.974409,
+            39.823303
+          ],
+          [
+            -105.974672,
+            39.841906
+          ],
+          [
+            -105.974935,
+            39.860509
+          ],
+          [
+            -105.975199,
+            39.879112
+          ],
+          [
+            -105.975462,
+            39.897715
+          ],
+          [
+            -105.950352,
+            39.897923
+          ],
+          [
+            -105.925241,
+            39.898126
+          ],
+          [
+            -105.90013,
+            39.898324
+          ],
+          [
+            -105.875019,
+            39.898516
+          ],
+          [
+            -105.849907,
+            39.898703
+          ],
+          [
+            -105.824795,
+            39.898884
+          ],
+          [
+            -105.799683,
+            39.89906
+          ],
+          [
+            -105.774571,
+            39.899231
+          ],
+          [
+            -105.749459,
+            39.899396
+          ],
+          [
+            -105.724346,
+            39.899555
+          ],
+          [
+            -105.699233,
+            39.899709
+          ],
+          [
+            -105.67412,
+            39.899858
+          ],
+          [
+            -105.649007,
+            39.900001
+          ],
+          [
+            -105.648832,
+            39.881397
+          ],
+          [
+            -105.648657,
+            39.862792
+          ],
+          [
+            -105.648481,
+            39.844188
+          ],
+          [
+            -105.648306,
+            39.825583
+          ],
+          [
+            -105.648132,
+            39.806979
+          ],
+          [
+            -105.647957,
+            39.788374
+          ],
+          [
+            -105.647783,
+            39.769769
+          ],
+          [
+            -105.647608,
+            39.751164
+          ],
+          [
+            -105.647434,
+            39.73256
+          ],
+          [
+            -105.64726,
+            39.713955
+          ],
+          [
+            -105.647086,
+            39.69535
+          ],
+          [
+            -105.646913,
+            39.676745
+          ],
+          [
+            -105.646739,
+            39.658139
+          ],
+          [
+            -105.646566,
+            39.639534
+          ],
+          [
+            -105.646393,
+            39.620929
+          ],
+          [
+            -105.64622,
+            39.602324
+          ],
+          [
+            -105.671225,
+            39.602182
+          ],
+          [
+            -105.69623,
+            39.602035
+          ],
+          [
+            -105.721235,
+            39.601882
+          ],
+          [
+            -105.74624,
+            39.601724
+          ],
+          [
+            -105.771245,
+            39.601561
+          ],
+          [
+            -105.796249,
+            39.601392
+          ],
+          [
+            -105.821253,
+            39.601218
+          ],
+          [
+            -105.846257,
+            39.601039
+          ],
+          [
+            -105.871261,
+            39.600854
+          ],
+          [
+            -105.896264,
+            39.600664
+          ],
+          [
+            -105.921267,
+            39.600468
+          ],
+          [
+            -105.94627,
+            39.600267
+          ],
+          [
+            -105.971273,
+            39.600061
+          ]
+        ]
+      ]
+    }
+  },
+  "coverageFile": "./data/avalanche/avalanche-coverage-pilot.geojson",
+  "limitations": [
+    "Experimental terrain modeling. Not an avalanche hazard map, not an ATES rating, not a forecast; it says nothing about current snowpack, stability, or whether any slope is safe.",
+    "Absence of modeled release or runout does not mean terrain is safe or free of avalanche exposure. Start zones smaller than about 20-30 m (cornices, gullies, cliff bands, convex rolls), avalanches larger than the alpha angle allows, and release outside the pilot can reach unshaded terrain.",
+    "Parameters are published defaults: PRA from AutoATES v2.0 (two western Canada test areas), runout from the Flow-Py v1.0 regional example (Austria). None is calibrated or validated for Colorado.",
+    "PRA is a fuzzy terrain-suitability membership from slope, wind shelter and canopy cover; it is not a release probability.",
+    "Flow-Py solves no time-dependent equations. zDelta is an energy-line height (a geometric intensity proxy), not a speed, depth, pressure or arrival time; cell counts are numbers of modeled paths, not reach probabilities.",
+    "Forest enters only the PRA (canopy cover). The runout ignores forest friction, so modeled runout into forest is likely too long. Canopy is 2025 NLCD Tree Canopy Cover at 30 m; standing dead trees and recent disturbance are poorly represented.",
+    "Bare-earth 10 m DEM resampled from USGS 3DEP 1/3 arc-second; snow surface, cornices and small terrain features are not represented.",
+    "Inside the truncation band near the pilot edge the runout is incomplete (paths from outside the pilot are missing and paths leaving it are cut)."
+  ],
+  "methods": "docs/methods/avalanche-model.md",
+  "classes": [
+    {
+      "code": 1,
+      "min": 0.15,
+      "max": 0.3,
+      "label": "PRA 0.15-0.30",
+      "color": "#f4a6d7"
+    },
+    {
+      "code": 2,
+      "min": 0.3,
+      "max": 0.5,
+      "label": "PRA 0.30-0.50",
+      "color": "#d6589f"
+    },
+    {
+      "code": 3,
+      "min": 0.5,
+      "max": null,
+      "label": "PRA >= 0.50",
+      "color": "#8e0f6b"
+    }
+  ],
+  "classField": "continuous PRA of primary release cells",
+  "praStats": {
+    "parameters": {
+      "wind_radius_m": 60,
+      "wind_direction_deg": 0,
+      "wind_tolerance_deg": 180,
+      "wind_probability": 0.5,
+      "slope_cauchy": [
+        11,
+        4,
+        43
+      ],
+      "wind_cauchy": [
+        3,
+        10,
+        3
+      ],
+      "forest_cauchy": [
+        40,
+        3.5,
+        -15
+      ],
+      "threshold": 0.15,
+      "sieve_min_cells": 4,
+      "sieve_connectivity": 8,
+      "sensitivity_threshold": 0.25
+    },
+    "windshelter_nan_cells": 0,
+    "continuous_nan_cells": 0,
+    "primary": {
+      "threshold": 0.15,
+      "release_cells": 2096961,
+      "release_km2": 209.6961,
+      "patches": 10213,
+      "unknown_cells": 0,
+      "release_fraction": 0.16750275821545615
+    },
+    "sens_threshold": {
+      "threshold": 0.25,
+      "release_cells": 1645336,
+      "release_km2": 164.5336,
+      "patches": 9325,
+      "unknown_cells": 0,
+      "release_fraction": 0.1314274887283005
+    }
+  },
+  "tileCount": 1931,
+  "minzoom": 9,
+  "maxzoom": 15,
+  "tileType": "png",
+  "tileSize": 256,
+  "tileFormat": "png (paletted, class code 0 transparent)",
+  "resampling": "nearest at maxzoom; lower zooms take the maximum class of 2 x 2 child pixels; display with raster-resampling nearest",
+  "legend": {
+    "items": [
+      {
+        "label": "PRA 0.15-0.30",
+        "color": "#f4a6d7"
+      },
+      {
+        "label": "PRA 0.30-0.50",
+        "color": "#d6589f"
+      },
+      {
+        "label": "PRA >= 0.50",
+        "color": "#8e0f6b"
+      }
+    ]
+  }
+}

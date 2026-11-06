@@ -1,0 +1,70 @@
+/* Conditions view. Mobile first, uses the shell tokens from app.css. Danger colors follow the North American
+   Public Avalanche Danger Scale, always paired with the number and word (never color alone). */
+.cx { display: flex; flex-direction: column; gap: 0; max-width: 720px; margin: 0 auto; overflow-wrap: anywhere; }
+.cx-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 10px; }
+.cx-place { margin: 0; font-size: 14px; color: var(--muted); min-width: 0; }
+.cx-place strong { color: var(--text); font-size: 15px; }
+.cx-h { margin: 0 0 8px; font-size: 17px; }
+.cx h4 { margin: 12px 0 6px; font-size: 15px; }
+.cx-fine { font-size: 13px; line-height: 1.4; margin: 8px 0 0; }
+.cx-pre { white-space: pre-line; }
+.cx-official { margin: 12px 0 4px; min-height: 48px; text-align: center; font-size: 16px; }
+
+/* Avalanche */
+.cx-avy { border-width: 2px; }
+.cx-zone { padding: 8px 0; border-top: 1px solid var(--line); }
+.cx-zone:first-of-type { border-top: 0; }
+.cx-zone-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.cx-times { margin: 6px 0; font-size: 14px; }
+.cx-danger { display: inline-block; min-width: 2.5em; padding: 4px 10px; border-radius: 8px; font-weight: 800; font-size: 15px; border: 2px solid transparent; }
+.cx-danger.d1 { background: #50b848; color: #0b1f08; }
+.cx-danger.d2 { background: #fff200; color: #1f1d00; }
+.cx-danger.d3 { background: #f7941e; color: #2a1500; }
+.cx-danger.d4 { background: #ed1c24; color: #fff; }
+.cx-danger.d5 { background: #231f20; color: #fff; border-color: #fff; }
+.cx-product .cx-danger { font-size: 13px; padding: 2px 8px; }
+
+/* Tables and rows */
+.cx-table { width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; margin: 8px 0; }
+.cx-table th, .cx-table td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: top; overflow-wrap: anywhere; }
+.cx-table thead th { color: var(--muted); font-weight: 600; font-size: 13px; }
+.cx-table tbody th { font-weight: 600; }
+.cx-next th:first-child { width: 42%; }
+.cx-now-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 8px 0; }
+.cx-now { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+.cx-now h4 { margin: 0 0 4px; }
+.cx-now .kv { grid-template-columns: minmax(88px, auto) 1fr; font-size: 15px; }
+.cx-rows, .cx-list, .cx-stations { list-style: none; margin: 0; padding: 0; }
+.cx-row { display: grid; grid-template-columns: 4.4em 4.2em minmax(0, 1fr) minmax(0, 1fr); gap: 2px 8px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.cx-row .cx-t { font-weight: 700; }
+.cx-row .cx-sub { grid-column: 1 / -1; font-size: 13px; }
+.cx-row.cx-dayrow { grid-template-columns: 6.2em minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); }
+.cx-far { opacity: .85; border-left: 3px dashed var(--line); padding-left: 6px; }
+.cx-day { position: sticky; top: -12px; background: var(--surface-2); padding: 6px 0; margin: 8px 0 0; z-index: 1; }
+.cx-list li { padding: 6px 0; border-bottom: 1px solid var(--line); }
+.cx-alert { margin: 8px 0; }
+.cx-details > summary { font-size: 16px; }
+
+/* SNOTEL */
+.cx-st { border-bottom: 1px solid var(--line); }
+.cx-st-btn { width: 100%; min-height: 48px; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 8px 4px; background: none; border: 0; text-align: left; cursor: pointer; }
+.cx-st-btn[aria-expanded="true"] { background: var(--surface); border-radius: 10px; }
+.cx-st-name { font-weight: 700; }
+.cx-station { padding: 4px 0 12px; }
+.cx-fig { margin: 10px 0 0; }
+.cx-fig figcaption { font-size: 13px; color: var(--muted); margin-bottom: 2px; }
+.cx-chart { width: 100%; height: auto; display: block; background: var(--surface); border-radius: 8px; }
+.cx-chart .cx-line { fill: none; stroke: var(--accent); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.cx-chart .cx-dot { fill: var(--accent); }
+.cx-chart .cx-ax { fill: var(--muted); font-size: 10px; }
+
+/* Place-card summary */
+.cx-summary { margin: 4px 0; font-size: 14px; display: flex; flex-wrap: wrap; gap: 2px 10px; }
+.cx-summary > * + *::before { content: "\00b7"; margin-right: 10px; color: var(--muted); }
+
+@media (min-width: 560px) {
+  .cx-now-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx * { transition: none !important; animation: none !important; }
+}

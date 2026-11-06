@@ -1,0 +1,48 @@
+{
+ "id": "snotel-stations",
+ "title": "NRCS SNOTEL and SNOLITE stations, Colorado",
+ "retrievedAt": "2026-11-06T00:19:06Z",
+ "processedAt": "2026-11-06T00:19:16Z",
+ "featureCount": 122,
+ "byNetwork": {
+  "SNTL": 118,
+  "SNTLT": 4
+ },
+ "dataTimeZoneOffsetsHours": [
+  -8.0
+ ],
+ "coverage": {
+  "bbox": [
+   -108.38313,
+   37.01877,
+   -105.06766,
+   40.8879
+  ]
+ },
+ "crs": "EPSG:4326",
+ "units": {
+  "elevationM": "m (converted from AWDB feet x 0.3048)",
+  "elements.*.unit": "AWDB storedUnitCode, as returned"
+ },
+ "sources": [
+  {
+   "name": "USDA NRCS National Water and Climate Center, Air and Water Database (AWDB) REST API",
+   "url": "https://wcc.sc.egov.usda.gov/awdbRestApi/services/v1/stations?stationTriplets=*:CO:SNTL,*:CO:SNTLT&activeOnly=true&returnStationElements=true&durations=DAILY,HOURLY&elements=SNWD,WTEQ,PREC,PRCPSA,TOBS,TMAX,TMIN,TAVG,SNDN,RHUM,WSPDV,WSPDX,WDIRV,SWINV",
+   "docs": "https://wcc.sc.egov.usda.gov/awdbRestApi/swagger-ui/index.html",
+   "license": "data.gov lists AWDB with license https://www.usa.gov/government-works (U.S. Government work)",
+   "attribution": "USDA NRCS National Water and Climate Center"
+  }
+ ],
+ "processing": {
+  "script": "pipeline/snow/snotel_stations.py",
+  "config": "pipeline/snow/config.yaml"
+ },
+ "limitations": [
+  "Active stations only, as listed by AWDB on the retrieval date.",
+  "AWDB gives elevation in feet and does not state its vertical datum or accuracy.",
+  "dataTimeZoneOffsetHours is the fixed UTC offset of the station's hourly timestamps (no daylight time). For every Colorado station it is -8; see docs/methods/snow-sar-incidents.md for the check.",
+  "A station measures one point in a clearing. The nearest station is not necessarily representative of alpine, wind-loaded or differently aspected terrain.",
+  "Elements list what the station is configured to report; a listed element can still be missing or suspect on any given day."
+ ],
+ "byteSize": 142668
+}

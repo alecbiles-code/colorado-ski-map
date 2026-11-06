@@ -1,0 +1,291 @@
+# Routes and places pipeline configuration. Every path, URL, tag rule and
+# tolerance used by the scripts lives here.
+
+paths:
+  # Heavy downloads, caches and interim products (not committed).
+  work_dir: /Users/bci-spatialecon/firstmate/data/colorado-ski-map-build/work/routes
+  # Repository root that receives the small deliverable files.
+  repo_dir: /Users/bci-spatialecon/.treehouse/colorado-ski-map-655926/1/colorado-ski-map
+  duckdb_extension_dir: duckdb_ext          # relative to work_dir
+  duckdb_temp_dir: duckdb_tmp               # relative to work_dir
+  duckdb_memory_limit: 8GB
+
+sources:
+  osm:
+    # Geofabrik dated extract; update the date stamp to refresh.
+    url: https://download.geofabrik.de/north-america/us/colorado-261103.osm.pbf
+    file: raw/osm/colorado-261103.osm.pbf
+    data_timestamp: "2026-11-03T21:24:23Z"
+    landing: https://download.geofabrik.de/north-america/us/colorado.html
+    license: ODbL-1.0
+    attribution: "(c) OpenStreetMap contributors, ODbL"
+    terms_url: https://www.openstreetmap.org/copyright
+  openskidata:
+    # Terms (openskidata.org, read 2026-11-06): automated download at most
+    # once per day; hosted vector tiles may not be used.
+    metadata_url: https://tiles.openskimap.org/metadata.json
+    ski_areas_url: https://tiles.openskimap.org/geojson/ski_areas.geojson
+    runs_url: https://tiles.openskimap.org/geojson/runs.geojson
+    ski_areas_file: raw/openskidata/ski_areas.geojson
+    runs_file: raw/openskidata/runs.geojson
+    metadata_file: raw/openskidata/metadata.json
+    region_code: US-CO
+    license: ODbL-1.0
+    attribution: "Data from OpenSkiData / OpenSkiMap.org, (c) OpenStreetMap contributors (ODbL), Skimap.org, Who's On First, (c) Mapterhorn"
+    terms_url: https://openskidata.org/
+  usfs_trails:
+    # USDA Forest Service EDW TrailNFS_Publish. Federal data; metadata
+    # accconst None, useconst is a warranty disclaimer only.
+    query_url: https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_TrailNFSPublish_01/MapServer/0/query
+    metadata_url: https://data.fs.usda.gov/geodata/edw/edw_resources/meta/S_USA.TrailNFS_Publish.xml
+    file: raw/usfs/trailnfs_winter_co.geojson
+    # Only segments with a source-recorded nonmotorized winter use.
+    where: "allowed_snow_use LIKE '%1%' OR allowed_snow_use LIKE '%2%' OR (xcountry_ski_managed IS NOT NULL AND xcountry_ski_managed <> 'N/A') OR (snowshoe_managed IS NOT NULL AND snowshoe_managed <> 'N/A')"
+    out_fields: trail_cn,trail_no,trail_name,bmp,emp,admin_org,managing_org,allowed_snow_use,snow_motorized,xcountry_ski_managed,xcountry_ski_accpt,snowshoe_managed,snowshoe_accpt,trail_class
+    page_size: 1000
+    license: Public domain (U.S. federal government work)
+    attribution: "USDA Forest Service, EDW TrailNFS_Publish"
+  gnis:
+    url: https://prd-tnm.s3.amazonaws.com/StagedProducts/GeographicNames/DomesticNames/DomesticNames_CO_Text.zip
+    file: raw/gnis/x/Text/DomesticNames_CO.txt
+    published: "2026-11-02"
+    license: Public domain (USGS); acknowledgment of USGS appreciated
+    attribution: "U.S. Geological Survey, Geographic Names Information System"
+    summit_classes: [Summit]
+    pass_classes: [Gap]
+    match_radius_m: 300
+  blm_sma:
+    # BLM Surface Management Agency, national limited-scale service: one
+    # dissolved multipolygon per agency per state. Metadata othConsts: "None,
+    # these data are considered public domain."
+    query_url: https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer/1/query
+    url: https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer/1/query
+    metadata_url: https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer/1/metadata
+    where: "ADMIN_ST = 'CO' AND ADMIN_AGENCY_CODE NOT IN ('PVT', 'UND')"
+    out_fields: ADMIN_DEPT_CODE,ADMIN_AGENCY_CODE,ADMIN_ST
+    max_allowable_offset_deg: 0.0003   # server-side generalisation, about 30 m
+    page_size: 50
+    file: raw/blm/sma_co.geojson
+    published: "2026-09-22 (metadata pubDate; metadata date 2026-09-25)"
+    license: Public domain (BLM metadata othConsts)
+    attribution: "Bureau of Land Management, Surface Management Agency (SMA)"
+    agency_names: {BLM: Bureau of Land Management, USFS: U.S. Forest Service, NPS: National Park Service, FWS: U.S. Fish and Wildlife Service, USBR: Bureau of Reclamation, BIA: Bureau of Indian Affairs, DOD: Department of Defense, OTHFE: Other federal, ST: State, LG: Local government}
+  dem:
+    # Contract Tier 1 DEM (ARCHITECTURE 3.3.1). Fallback provider, if ever
+    # needed: AWS Terrain Tiles https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png
+    # (256 px, November 2017 pre-lidar render, 5.6 to 8.5 m RMSE vs current 3DEP).
+    name: Mapterhorn terrain tiles (Terrarium-encoded WebP, 512 px), zoom 13
+    url: https://tiles.mapterhorn.com/{z}/{x}/{y}.webp
+    url_template: https://tiles.mapterhorn.com/{z}/{x}/{y}.webp
+    zoom: 13
+    tile_size: 512
+    cache_dir: cache/mapterhorn   # relative to work_dir
+    # The endpoint returns 403 to the default urllib User-Agent; send an identifying one.
+    user_agent: "skintrack-co-pipeline/1.0 (personal non-commercial Colorado ski map; routes preprocessing)"
+    upstream: "Mapterhorn build from USGS 3DEP 1 m where available, USGS 3DEP 1/3 arc-second and Copernicus GLO-30 (per-tile source not stated)"
+    license: "Terrain data: open-data sources listed at https://mapterhorn.com/attribution (USGS 3DEP public domain; Copernicus GLO-30 free and open licence)"
+    attribution: "© Mapterhorn"
+    terms_url: https://mapterhorn.com/attribution/
+    accuracy_note: "docs/sources/map-routes.md section 5.5: Mapterhorn minus current 3DEP RMSE 1.4 to 1.9 m near Berthoud Pass"
+    sample_spacing_m: 7.5   # about one z13 512 px pixel at 39 N
+    max_workers: 4
+    retries: 4
+    max_tiles: 6000   # guard against an accidental statewide download
+
+colorado_bbox: [-109.0603, 36.9925, -102.0415, 41.0034]
+
+osm_rules:
+  # Ways and relations become ski route features only from these tags.
+  census_key_patterns: ["piste:%", "ski%", "snowshoe%", "snowmobile", "winter%", "backcountry", "route", "landuse", "natural", "mountain_pass", "highway", "tourism", "amenity", "shelter_type", "site", "aerialway", "seasonal"]
+  winter_access_values: ["yes", designated, permissive, official]  # quoted: YAML reads bare yes as true
+  hut_tourism: [alpine_hut, wilderness_hut]
+  hut_shelter_types: [basic_hut]
+  parking_max_distance_m: 250
+
+simplify:
+  # Douglas-Peucker tolerance in degrees (about 3 m north-south at 39 N).
+  tolerance_deg: 0.00003
+  coordinate_decimals: 5
+
+outputs:
+  routes: data/routes/routes.geojson
+  ski_areas: data/routes/ski-areas.geojson
+  places: data/places/places.geojson
+  search: data/places/search.json
+  regions: data/coverage/regions.geojson
+  land: data/land/land-status.geojson
+  max_file_bytes: 25000000
+
+# App-defined reporting regions. Hand-drawn approximations from named
+# landmarks, NOT official boundaries and NOT CAIC forecast zones. Polygons are
+# applied in this priority order; overlaps resolve to the earlier region and
+# the published polygons are differenced so they do not overlap. Anything in
+# Colorado left over is "other".
+regions:
+  - id: front-range
+    name: Front Range
+    note: "Mummy Range and RMNP east and divide, Indian Peaks, James Peak, Berthoud, Jones and Loveland passes, Grays/Torreys, Mount Evans/Blue Sky, Guanella and Kenosha, Pikes Peak."
+    polygon: [[-105.86, 40.48], [-105.62, 40.70], [-105.30, 40.70], [-105.30, 39.50], [-104.98, 38.95], [-104.98, 38.60], [-105.40, 38.60], [-105.75, 39.30], [-105.93, 39.47], [-105.84, 39.62], [-105.875, 39.660], [-105.93, 39.675], [-105.93, 39.80], [-105.86, 39.95], [-105.85, 40.15], [-105.90, 40.30], [-105.86, 40.48]]
+  - id: summit-tenmile
+    name: Summit / Tenmile
+    note: "Keystone, Arapahoe Basin side, Montezuma, Tenmile Range, Vail Pass recreation area, Breckenridge, Hoosier and Fremont passes, and the Mosquito Range."
+    polygon: [[-106.08, 39.64], [-105.93, 39.675], [-105.875, 39.660], [-105.84, 39.62], [-105.93, 39.47], [-105.95, 39.30], [-106.05, 39.15], [-106.25, 39.15], [-106.25, 39.33], [-106.27, 39.45], [-106.25, 39.56], [-106.17, 39.60], [-106.08, 39.64]]
+  - id: vail-eagle-gore
+    name: Vail / Eagle / Gore
+    note: "Gore Range, Vail and Beaver Creek backcountry, Holy Cross Wilderness, Camp Hale and Tennessee Pass."
+    polygon: [[-106.08, 40.00], [-106.08, 39.64], [-106.17, 39.60], [-106.25, 39.56], [-106.27, 39.45], [-106.25, 39.33], [-106.75, 39.33], [-107.05, 39.60], [-107.05, 39.80], [-106.60, 40.05], [-106.10, 40.05], [-106.08, 40.00]]
+  - id: sawatch
+    name: Sawatch
+    note: "Leadville, Mount Elbert, Independence Pass east side and crest, Collegiate Peaks, Cottonwood Pass, Monarch and Marshall passes."
+    polygon: [[-106.25, 39.33], [-106.25, 39.15], [-106.10, 39.00], [-106.05, 38.50], [-106.15, 38.30], [-106.45, 38.30], [-106.55, 38.70], [-106.60, 38.90], [-106.58, 39.15], [-106.75, 39.33], [-106.25, 39.33]]
+  - id: elk
+    name: Elk Mountains
+    note: "Aspen, Maroon Bells, Marble, Crested Butte, Gothic, Kebler Pass and the West Elk Mountains, Sunlight."
+    polygon: [[-106.75, 39.33], [-106.58, 39.15], [-106.60, 38.90], [-106.55, 38.70], [-107.00, 38.60], [-107.50, 38.70], [-107.50, 39.30], [-107.45, 39.50], [-107.05, 39.60], [-106.75, 39.33]]
+  - id: san-juans
+    name: San Juans
+    note: "Red Mountain, Coal Bank, Molas, Lizard Head and Wolf Creek passes, Ouray, Silverton, Telluride, Lake City, Creede, La Plata Mountains, Cumbres Pass."
+    polygon: [[-108.30, 38.15], [-107.60, 38.25], [-107.00, 38.20], [-106.40, 37.90], [-106.15, 37.40], [-106.20, 36.9925], [-108.30, 36.9925], [-108.30, 38.15]]
+  - id: northern
+    name: "Northern: Park Range / Rabbit Ears / Cameron Pass / Never Summer / Flat Tops"
+    note: "Steamboat, Buffalo and Rabbit Ears passes, Mount Zirkel, Cameron Pass, Never Summer Mountains, and the Flat Tops (grouped here as CAIC groups Steamboat and Flat Tops)."
+    polygon: [[-107.70, 41.0034], [-105.55, 41.0034], [-105.62, 40.70], [-105.86, 40.48], [-105.90, 40.30], [-105.85, 40.15], [-106.10, 40.05], [-106.60, 40.05], [-107.05, 39.80], [-107.70, 39.75], [-107.70, 41.0034]]
+  - id: sangre-de-cristo
+    name: Sangre de Cristo / Wet Mountains / Spanish Peaks
+    note: "Added because it is a distinct mountain region with backcountry skiing (Crestones, Blanca, Cuchara, Spanish Peaks) that fits no named region."
+    polygon: [[-106.10, 38.45], [-105.40, 38.45], [-104.95, 38.05], [-104.85, 37.50], [-104.85, 36.9925], [-105.75, 36.9925], [-105.55, 37.40], [-105.75, 37.80], [-106.05, 38.30], [-106.10, 38.45]]
+  - id: grand-mesa
+    name: Grand Mesa
+    note: "Added because Grand Mesa is a distinct, well-used winter touring area (Skyway, Mesa Lakes, Powderhorn) and its own CAIC zone; it fits no named region."
+    polygon: [[-108.40, 39.25], [-107.60, 39.25], [-107.60, 38.85], [-108.40, 38.85], [-108.40, 39.25]]
+other_region:
+  id: other
+  name: Other Colorado
+  note: "Remainder of the Colorado bounding box (plains, parks, plateaus, lower foothills)."
+
+# Anchor points used by the self-check: [lon, lat, expected region id].
+region_anchors:
+  - [-105.615, 40.255, front-range]     # Longs Peak
+  - [-105.777, 39.798, front-range]     # Berthoud Pass
+  - [-105.879, 39.663, front-range]     # Loveland Pass
+  - [-105.900, 39.670, front-range]     # Loveland ski area (east of the divide)
+  - [-105.872, 39.642, summit-tenmile]  # Arapahoe Basin base
+  - [-105.643, 39.588, front-range]     # Mount Evans
+  - [-106.106, 39.397, summit-tenmile]  # Quandary Peak
+  - [-106.217, 39.530, summit-tenmile]  # Vail Pass
+  - [-106.481, 39.467, vail-eagle-gore] # Mount of the Holy Cross
+  - [-106.445, 39.118, sawatch]         # Mount Elbert
+  - [-106.564, 39.108, sawatch]         # Independence Pass
+  - [-106.989, 39.071, elk]             # Maroon Peak area
+  - [-107.720, 37.900, san-juans]       # Red Mountain Pass
+  - [-106.800, 37.480, san-juans]       # Wolf Creek Pass
+  - [-106.620, 40.380, northern]        # Rabbit Ears Pass
+  - [-105.870, 40.520, northern]        # Cameron Pass
+  - [-105.585, 37.967, sangre-de-cristo] # Crestone Peak
+  - [-108.000, 39.050, grand-mesa]      # Grand Mesa
+  - [-104.990, 39.740, other]           # Denver
+
+# Lift-served context: route candidates within these distances of operating
+# downhill ski areas or lifts are counted as resort terrain, not backcountry.
+# Abandoned ski areas (for example Berthoud Pass) do not count.
+resort_context:
+  polygon_buffer_m: 500
+  point_buffer_m: 3000
+  point_statuses: [operating, proposed]
+  lift_buffer_m: 1000
+  lift_exclude_values: [pylon, station, goods, zip_line]
+
+# Plausible elevation range for Colorado features; source values outside it
+# are kept as eleRaw and elevationM is left null.
+elevation_range_m: [1000, 4410]
+metric_crs: "EPSG:26913"
+
+# Product descriptions copied into each *.meta.json.
+products:
+  routes:
+    id: routes
+    title: Colorado ski routes (descents, skin/tour routes, winter approaches, touring areas)
+    license: "ODbL-1.0 (derived database of OpenStreetMap; share-alike applies to the data)"
+    attribution: "(c) OpenStreetMap contributors (ODbL); USDA Forest Service; elevation © Mapterhorn"
+    sources: [osm, usfs_trails, openskidata, dem]
+    steps:
+      - "OSM ways with piste:type, ski/ski:nordic/snowshoe access tags, or membership in route=piste/ski relations (relation piste tags fill ways that lack their own)."
+      - "Tag rules in classify.py assign ski_descent, ascent_skin, approach or touring_area; every feature carries classBasis. Ways without a winter or ski tag are never included."
+      - "Candidates inside lift-served context (within 500 m of an operating downhill ski-area polygon, 3 km of an operating or proposed ski-area point without polygon, or 1 km of a lift) are excluded and counted; abandoned ski areas do not count as lift-served."
+      - "USFS TrailNFS segments with nonmotorized winter use (snowshoe or cross-country ski allowed or managed) added as approach."
+      - "Geometry simplified with Douglas-Peucker (ST_SimplifyPreserveTopology) at the configured tolerance; coordinates rounded."
+      - "lengthM is the geodesic length of the unsimplified source geometry. dem* fields sample the Mapterhorn DEM (z13) along the unsimplified line at 7.5 m spacing; aspect is degrees clockwise from true north (Web Mercator grid north is true north)."
+      - "OpenSkiData runs were used only as a cross-check of OSM ski-touring counts (same OSM origin, unstable ids); they are not duplicated here."
+    units: {lengthM: metres, demGainM: metres, demLossM: metres, demMinElevM: "metres (Mapterhorn; NAVD88 where the source is USGS 3DEP)", demMaxElevM: metres, demMeanAspectDeg: "degrees clockwise from true north, downslope direction", demAspectResultant: "0..1 circular resultant length (1 = all samples share one aspect)"}
+    limitations:
+      - "OSM tags do not say whether a ski-touring way is the up track or the descent. ascent_skin is the default for undirected tour routes; ski_descent is used for downhill pistes outside lift-served context and for tour ways whose source name names a descent feature (couloir, face, chute, bowl, gully, glade). See classBasis."
+      - "approach means a source tag records winter or ski use on that way. It does not mean the route is open, plowed, signed, legal to park at, or safe."
+      - "Route presence or absence says nothing about avalanche hazard. DEM metrics describe terrain shape only."
+      - "Coverage is sparse and uneven; see docs/coverage-routes.md. Absence of a line is not absence of a route."
+      - "DEM metrics come from Mapterhorn z13 tiles (512 px, about 7.4 m pixels at 39 N), built from USGS 3DEP 1 m where available, 3DEP 1/3 arc-second and Copernicus GLO-30; which source fills a given tile is not stated. docs/sources/map-routes.md section 5.5 measured Mapterhorn minus current 3DEP RMSE 1.4 to 1.9 m near Berthoud Pass. Gain and loss are raw sums of sampled steps without smoothing, so they include DEM noise; short lines and sharp features are smoothed by bilinear sampling."
+  ski_areas:
+    id: ski-areas
+    title: Colorado ski areas (lift-served and nordic, including abandoned)
+    license: "ODbL-1.0 (derived database of OpenStreetMap; share-alike applies to the data)"
+    attribution: "Data from OpenSkiData / OpenSkiMap.org, (c) OpenStreetMap contributors (ODbL), Skimap.org, Who's On First, (c) Mapterhorn"
+    sources: [openskidata, osm]
+    steps:
+      - "OpenSkiData ski_areas export filtered to places iso3166_2 = US-CO."
+      - "Features without an OpenStreetMap or Skimap.org source id are skipped because OpenSkiData's own ids are content hashes that change daily."
+    limitations:
+      - "Polygons come from OSM landuse=winter_sports where mapped; many ski areas are points only. Boundaries are approximate and are not permit or closure boundaries."
+      - "status is OpenSkiData's (operating, abandoned, proposed, never_opened, disused); abandoned areas are former resorts and today are backcountry or private land."
+  places:
+    id: places
+    title: Colorado peaks, passes, trailheads, trailhead parking and huts
+    license: "ODbL-1.0 (derived database of OpenStreetMap; share-alike applies to the data)"
+    attribution: "(c) OpenStreetMap contributors (ODbL); U.S. Geological Survey GNIS"
+    sources: [osm, gnis, dem]
+    steps:
+      - "OSM nodes and way centroids: natural=peak, mountain_pass=yes or natural=saddle, highway=trailhead, tourism=alpine_hut or wilderness_hut or shelter_type=basic_hut, amenity=parking within the configured distance of a trailhead (access private/no/customers excluded)."
+      - "Unnamed peaks and passes are skipped unless a GNIS Summit/Gap lies within the match radius, in which case the GNIS name is used (nameSource)."
+      - "Each OSM peak and pass is matched to the nearest GNIS Summit or Gap within the match radius (gnisId, gnisName, gnisNameMatch, gnisDistanceM). GNIS Summits and Gaps with no OSM counterpart are added with elevationM null."
+      - "Huts inside lift-served context are excluded (they are on-mountain resort lodges tagged as huts)."
+      - "Peaks with no source elevation get demElevationM, a bilinear Mapterhorn z13 sample at the point. elevationM stays the source value and stays null when the source has none."
+    units: {elevationM: "metres (source ele tag)", demElevationM: "metres (Mapterhorn z13 bilinear sample; NAVD88 where the source is USGS 3DEP)", gnisDistanceM: metres}
+    limitations:
+      - "elevationM is the source ele tag; values outside the plausible Colorado range are not converted and are kept only as eleRaw. The current GNIS Domestic Names release carries no elevations."
+      - "demElevationM (peaks without a source elevation only) is a terrain-model sample at the mapped point, not a surveyed summit height. It is usually a few metres low on sharp summits, and more where the point is misplaced."
+      - "Trailheads and parking are not winter-access claims: plowing, seasonal closures, fees and legal parking are unknown."
+      - "OSM parking mapped as multipolygon relations is not included."
+  regions:
+    id: regions
+    title: App-defined Colorado reporting regions
+    license: Project-authored polygons; no third-party data
+    attribution: Skintrack CO
+    sources: []
+    steps:
+      - "Hand-drawn approximate polygons from named landmarks (config.yaml), applied in priority order; each published polygon is its configured polygon minus higher-priority regions, clipped to the Colorado bounding box. 'other' is the remainder."
+    limitations:
+      - "These are app-defined approximations for reporting and filtering only. They are not official, land-management or CAIC forecast-zone boundaries, and must not be used to choose a forecast."
+      - "The Colorado outline is approximated by its bounding box."
+  land:
+    id: land-status
+    script: pipeline/routes/land.py
+    title: Colorado land manager (surface management agency), simplified
+    license: Public domain (BLM SMA)
+    attribution: "Bureau of Land Management, Surface Management Agency (SMA)"
+    sources: [blm_sma]
+    steps:
+      - "BLM SMA limited-scale layer queried for ADMIN_ST = CO, private and unknown excluded (no polygon means private or unknown), server-side generalisation at max_allowable_offset_deg."
+      - "ST_MakeValid repairs self-intersections introduced by generalisation (polygonal parts kept); coordinates rounded; one feature per managing agency."
+    limitations:
+      - "Managing agency is not current access, legal parking, closure status or permission to cross. Private inholdings smaller than the generalisation tolerance are not visible; boundaries are approximate (about 30 m)."
+      - "State land (ST) includes State Land Board trust land, much of which is closed to public recreation without a lease or permit."
+      - "SMA describes surface administrative jurisdiction, not ownership detail (per BLM)."
+  search:
+    id: search
+    title: Place and route search index
+    license: "ODbL-1.0 (derived database of OpenStreetMap; share-alike applies to the data)"
+    attribution: "(c) OpenStreetMap contributors (ODbL); OpenSkiData / OpenSkiMap.org, Skimap.org; USDA Forest Service; U.S. Geological Survey GNIS"
+    format: JSON (columnar fields + rows)
+    sources: [osm, gnis, openskidata, usfs_trails]
+    steps:
+      - "Every named feature from places, ski-areas and routes; lon/lat is the label point (point on surface for lines and polygons)."
+    limitations:
+      - "Names are as published by each source; duplicates across sources (for example an OSM trail and the USFS segment of the same trail) are not merged."
